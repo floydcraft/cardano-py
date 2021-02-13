@@ -5,11 +5,11 @@ steps:
     args: ['build',
            '--build-arg', 'VERSION=$_VERSION',
            '--cache-from', 'floydcraft/cardano-node-iohk:latest',
-           '-t', 'floydcraft/cardano-node-iohk:$COMMIT_SHA',
-           '-t', 'floydcraft/cardano-node-iohk:$_VERSION',
-           '-t', 'floydcraft/cardano-node-iohk:latest',
+           '-t', 'us.gcr.io/floydcraft/cardano-node-iohk:$COMMIT_SHA',
+           '-t', 'us.gcr.io/floydcraft/cardano-node-iohk:$_VERSION',
+           '-t', 'us.gcr.io/floydcraft/cardano-node-iohk:latest',
            'cardano-node-iohk']
-images: ['floydcraft/cardano-node-iohk']
+images: ['us.gcr.io/floydcraft/cardano-node-iohk']
 timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'
