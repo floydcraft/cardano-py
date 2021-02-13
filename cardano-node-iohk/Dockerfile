@@ -24,4 +24,26 @@ RUN apt-get update \
     && ghc --version \
     && ghcup install cabal
 
+FROM stage1 as stage2
+
+ENV APP=/opt/cardano-node \
+    LANG=C.UTF-8 \
+    USER=root \
+    PATH=$HOME/scripts:/root/.cabal/bin:/root/.ghcup/bin:$PATH
+
+ARG VERSION_ARG=1.25.1
+
+ADD files .
+
+RUN git clone --depth 1 --branch $VERSION_ARG https://github.com/input-output-hk/cardano-node.git \
+  && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \
+  && cd cardano-node \
+  && echo "package cardano-crypto-praos" > cabal.project.local \
+  && echo "   flags: -external-libsodium-vrf" >> cabal.project.local \
+  && chmod +x /scripts/cabal-build-all.sh \
+  && bash /scripts/cabal-build-all.sh \
+  && cardano-node --version
+  # && apt-get -y remove libpq-dev build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ && apt-get -y purge && apt-get -y clean && apt-get -y autoremove \
+
+
 ENTRYPOINT []
