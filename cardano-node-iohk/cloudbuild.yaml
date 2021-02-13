@@ -4,12 +4,12 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
            '--build-arg', 'VERSION=$_VERSION',
-           '--cache-from', 'us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION:latest',
-           '-t', 'us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION:$COMMIT_SHA',
-           '-t', 'us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION:latest',
+           '--cache-from', 'floydcraft/cardano-node-iohk:latest',
+           '-t', 'floydcraft/cardano-node-iohk:$COMMIT_SHA',
+           '-t', 'floydcraft/cardano-node-iohk:$_VERSION',
+           '-t', 'floydcraft/cardano-node-iohk:latest',
            'cardano-node-iohk']
-# global
-images: ['us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION']
+images: ['floydcraft/cardano-node-iohk']
 timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'
