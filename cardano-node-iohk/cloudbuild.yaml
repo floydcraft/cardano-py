@@ -1,0 +1,11 @@
+substitutions:
+  _VERSION: 1.25.1 # default value
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build',
+           '--build-arg', 'VERSION=$_VERSION',
+           '-t', 'us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION:$COMMIT_SHA',
+           '-t', 'us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION:latest',
+           'cardano-node-iohk']
+# global
+images: ['us.gcr.io/cardano-etl/cardano-node-iohk-$_VERSION']
