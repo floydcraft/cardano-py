@@ -39,11 +39,10 @@ RUN git clone --depth 1 --branch $VERSION_ARG https://github.com/input-output-hk
   && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \
   && cd cardano-node \
   && echo "package cardano-crypto-praos" > cabal.project.local \
-  && echo "   flags: -external-libsodium-vrf" >> cabal.project.local
-
-RUN chmod +x /scripts/cabal-build-all.sh \
-      && bash /scripts/cabal-build-all.sh \
-      && cardano-node --version
+  && echo "   flags: -external-libsodium-vrf" >> cabal.project.local \
+  && chmod +x /scripts/cabal-build-all.sh \
+  && bash /scripts/cabal-build-all.sh \
+  && cardano-node --version
   # && apt-get -y remove libpq-dev build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ && apt-get -y purge && apt-get -y clean && apt-get -y autoremove \
 
 FROM debian:buster-20210208-slim
