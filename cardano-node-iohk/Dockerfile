@@ -80,5 +80,5 @@ RUN apt-get update \
 
 #HEALTHCHECK --start-period=5m --interval=5m --timeout=100s CMD /home/guild/.scripts/healthcheck.sh
 
-EXPOSE 3001
+EXPOSE 3001 12798 12788
 ENTRYPOINT [ "scripts/entrypoint.sh" ]

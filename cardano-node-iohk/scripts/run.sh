@@ -20,15 +20,15 @@ fi
 if [[ "$OPTION2" == "pull" ]]; then
   docker pull floydcraft/cardano-node-iohk:latest
 elif [[ "$OPTION2" == "bash" ]]; then
-  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" --entrypoint bash floydcraft/cardano-node-iohk:latest
 else
-  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 floydcraft/cardano-node-iohk:latest
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" floydcraft/cardano-node-iohk:latest
 fi
 
 if [[ "$OPTION3" == "bash" ]]; then
-  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" --entrypoint bash floydcraft/cardano-node-iohk:latest
 else
-  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 floydcraft/cardano-node-iohk:latest
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" floydcraft/cardano-node-iohk:latest
 fi
 
 

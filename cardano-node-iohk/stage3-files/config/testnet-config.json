@@ -25,11 +25,11 @@
   "TraceDNSSubscription": true,
   "TraceErrorPolicy": true,
   "TraceForge": true,
-  "TraceHandshake": false,
+  "TraceHandshake": true,
   "TraceIpSubscription": true,
   "TraceLocalChainSyncProtocol": false,
   "TraceLocalErrorPolicy": true,
-  "TraceLocalHandshake": false,
+  "TraceLocalHandshake": true,
   "TraceLocalTxSubmissionProtocol": false,
   "TraceLocalTxSubmissionServer": false,
   "TraceMempool": true,
@@ -37,7 +37,7 @@
   "TraceTxInbound": false,
   "TraceTxOutbound": false,
   "TraceTxSubmissionProtocol": false,
-  "TracingVerbosity": "NormalVerbosity",
+  "TracingVerbosity": "MaximalVerbosity",
   "TurnOnLogMetrics": true,
   "TurnOnLogging": true,
   "defaultBackends": [
@@ -54,7 +54,7 @@
     "127.0.0.1",
     12798
   ],
-  "minSeverity": "Info",
+  "minSeverity": "Debug",
   "options": {
     "mapBackends": {
       "cardano.node.metrics": [
