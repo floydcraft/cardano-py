@@ -1,20 +1,38 @@
-#!/bin/sh
-set -e
-set -u
-set -o pipefail
+#!/bin/bash
+#set -e
+#set -u
+#set -o pipefail
 
-PARAM=$1
+OPTION1=$1
+OPTION2=$2
+OPTION3=$3
 
-if [[ "$PARAM" == "mainnet" ]]; then
-  docker run -it -v $PWD/storage:/storage --env CARDANO_NETWORK=mainnet -p 3001:3001 floydcraft/cardano-node-iohk:latest
-elif [[ "$PARAM" == "testnet" ]]; then
-  docker run -it -v $PWD/storage:/storage --env CARDANO_NETWORK=testnet -p 3001:3001 floydcraft/cardano-node-iohk:latest
-elif [[ "$PARAM" == "mainbash" ]]; then
-  docker run -it -v $PWD/storage:/storage --env CARDANO_NETWORK=mainnet -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
-elif [[ "$PARAM" == "testbash" ]]; then
-  docker run -it -v $PWD/storage:/storage --env CARDANO_NETWORK=testnet -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
+if [[ "$OPTION1" == "mainnet" ]]; then
+  echo "CARDANO_NETWORK=$OPTION1"
+elif [[ "$OPTION1" == "testnet" ]]; then
+  echo "CARDANO_NETWORK=$OPTION1"
+elif [[ "$OPTION1" == "staging" ]]; then
+  echo "CARDANO_NETWORK=$OPTION1"
 else
-  echo "please select a config to run: mainnet / testnet / mainbash / testbash"
+  echo "please select an option: mainnet / testnet / staging"
 fi
+
+if [[ "$OPTION2" == "pull" ]]; then
+  docker pull floydcraft/cardano-node-iohk:latest
+elif [[ "$OPTION2" == "bash" ]]; then
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
+else
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 floydcraft/cardano-node-iohk:latest
+fi
+
+if [[ "$OPTION3" == "bash" ]]; then
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 --entrypoint bash floydcraft/cardano-node-iohk:latest
+else
+  docker run -it -v $PWD/storage:/storage --env "CARDANO_NETWORK=$OPTION1" -p 3001:3001 floydcraft/cardano-node-iohk:latest
+fi
+
+
+
+
 
 

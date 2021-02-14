@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 set -u
-#set -o pipefail
+set -o pipefail
 
 if [[ "$CARDANO_NETWORK" == "mainnet" ]]; then
   cardano-node  run --config "/config/mainnet-config.json" \
