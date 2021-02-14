@@ -1,5 +1,5 @@
 substitutions:
-  _VERSION: 1.25.1 # default value
+  _VERSION: 1.25.1 # default value 
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['login', '--username=chbfiv', '--password=$$DOCKER_API_KEY']
