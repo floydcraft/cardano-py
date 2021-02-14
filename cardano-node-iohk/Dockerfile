@@ -1,3 +1,4 @@
+# https://docs.cardano.org/projects/cardano-node/en/latest/getting-started/install.html
 FROM debian:buster-20210208 as stage1
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -69,14 +70,13 @@ COPY --from=stage2 /opt/ /opt/
 
 ADD stage3-files .
 
-# apt-utils
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
-    && chmod +x scripts/entrypoint.sh
-#    && sudo rm -rf /usr/bin/apt*
+    && chmod +x scripts/entrypoint.sh \
+    && mkdir -p /storage/mainnet/sockets /storage/testnet/sockets /storage/staging/sockets
 
 #HEALTHCHECK --start-period=5m --interval=5m --timeout=100s CMD /home/guild/.scripts/healthcheck.sh
 
