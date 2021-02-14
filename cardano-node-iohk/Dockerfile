@@ -76,7 +76,7 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
     && chmod +x scripts/entrypoint.sh \
-    && mkdir -p /storage/mainnet/sockets /storage/testnet/sockets /storage/staging/sockets
+    && mkdir -p /storage/mainnet /storage/testnet
 
 #HEALTHCHECK --start-period=5m --interval=5m --timeout=100s CMD /home/guild/.scripts/healthcheck.sh
 
