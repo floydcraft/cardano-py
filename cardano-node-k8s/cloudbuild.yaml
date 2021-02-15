@@ -1,5 +1,3 @@
-substitutions:
-  _VERSION: 1.25.1 # default value
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
@@ -7,13 +5,11 @@ steps:
     secretEnv: ['DOCKER_API_KEY']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
-           '--build-arg', '_VERSION=$_VERSION',
-           '--cache-from', 'floydcraft/cardano-node-iohk:latest',
-           '-t', 'floydcraft/cardano-node-iohk:$COMMIT_SHA',
-           '-t', 'floydcraft/cardano-node-iohk:$_VERSION',
-           '-t', 'floydcraft/cardano-node-iohk:latest',
-           'cardano-node-iohk']
-images: ['floydcraft/cardano-node-iohk']
+           '--cache-from', 'floydcraft/cardano-node-k8s:latest',
+           '-t', 'floydcraft/cardano-node-k8s:$COMMIT_SHA',
+           '-t', 'floydcraft/cardano-node-k8s:latest',
+           'cardano-node-k8s']
+images: ['floydcraft/cardano-node-k8s']
 timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'

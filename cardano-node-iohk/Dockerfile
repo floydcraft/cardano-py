@@ -1,5 +1,7 @@
 # https://docs.cardano.org/projects/cardano-node/en/latest/getting-started/install.html
+# https://docs.cardano.org/projects/adrestia/en/latest/installation.html
 FROM debian:buster-20210208 as stage1
+LABEL maintainer="chbfiv@floydcraft.com"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -22,17 +24,18 @@ RUN apt-get update \
     && ghcup install cabal
 
 FROM stage1 as stage2
+LABEL maintainer="chbfiv@floydcraft.com"
 
 ENV APP=/opt/cardano-node \
     LANG=C.UTF-8 \
     USER=root \
     PATH=$HOME/scripts:/root/.cabal/bin:/root/.ghcup/bin:$PATH
 
-ARG VERSION_ARG=1.25.1
+ARG _VERSION=1.25.1
 
 ADD stage2-files .
 
-RUN git clone --depth 1 --branch $VERSION_ARG https://github.com/input-output-hk/cardano-node.git \
+RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/cardano-node.git \
   && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \
   && cd cardano-node \
   && echo "package cardano-crypto-praos" > cabal.project.local \
@@ -42,6 +45,7 @@ RUN git clone --depth 1 --branch $VERSION_ARG https://github.com/input-output-hk
   && cardano-node --version
 
 FROM debian:buster-20210208-slim
+LABEL maintainer="chbfiv@floydcraft.com"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
