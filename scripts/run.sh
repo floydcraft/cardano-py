@@ -3,7 +3,7 @@
 #set -u
 #set -o pipefail
 
-if [[ ("$1" == "slim") || ("$1" == "iohk") ]]; then
+if [[ ("$1" == "slim") || ("$1" == "iohk") || ("$1" == "iohk-slim") ]]; then
   CARDANO_NODE="$1"
 else
   printf "please select an option (cardano node): slim, iohk-slim, or iohk"
