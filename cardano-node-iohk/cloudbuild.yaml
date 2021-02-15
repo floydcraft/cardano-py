@@ -13,7 +13,10 @@ steps:
            '-t', 'floydcraft/cardano-node-iohk:$_VERSION',
            '-t', 'floydcraft/cardano-node-iohk:latest',
            'cardano-node-iohk']
-images: ['floydcraft/cardano-node-iohk']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['image', 'push', '--all-tags', 'floydcraft/cardano-node-iohk']
+  - name: 'gcr.io/cloud-builders/curl'
+    args: ['https://cloudbuild.googleapis.com/v1/projects/cardano-etl/triggers/cardano-node-iohk-slim-webhook:webhook?secret=$$CARDANO_ETL_WEBHOOK&key=$$CARDANO_ETL_API_KEY']
 timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'
@@ -21,3 +24,10 @@ availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
       env: 'DOCKER_API_KEY'
+    - versionName: projects/cardano-etl/secrets/cardano-etl-api-key/versions/1
+      env: 'CARDANO_ETL_API_KEY'
+    - versionName: projects/cardano-etl/secrets/cardano-etl-webhook/versions/1
+      env: 'CARDANO_ETL_WEBHOOK'
+
+
+
