@@ -16,7 +16,8 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['image', 'push', '--all-tags', 'floydcraft/cardano-node-iohk']
   - name: 'gcr.io/cloud-builders/curl'
-    args: ['https://cloudbuild.googleapis.com/v1/projects/cardano-etl/triggers/cardano-node-iohk-slim-webhook:webhook?secret=$$CARDANO_ETL_WEBHOOK&key=$$CARDANO_ETL_API_KEY']
+    entrypoint: 'bash'
+    args: ['-c' 'curl https://cloudbuild.googleapis.com/v1/projects/cardano-etl/triggers/cardano-node-iohk-slim-webhook:webhook?secret=$$CARDANO_ETL_WEBHOOK&key=$$CARDANO_ETL_API_KEY']
 timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'
