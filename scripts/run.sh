@@ -3,10 +3,10 @@
 #set -u
 #set -o pipefail
 
-if [[ ("$1" == "k8s") || ("$1" == "iohk") ]]; then
+if [[ ("$1" == "slim") || ("$1" == "iohk") ]]; then
   CARDANO_NODE="$1"
 else
-  printf "please select an option (cardano node): k8s or iohk "
+  printf "please select an option (cardano node): slim, iohk-slim, or iohk"
   exit 1
 fi
 
@@ -21,7 +21,7 @@ if [[ "$3" == "pull" ]]; then
   docker pull floydcraft/cardano-node-k8s:latest
 fi
 
-CARDANO_CONTAINER_ACTIVE="$( docker container inspect -f '{{.State.Running}}' "cardano_node_$CARDANO_NODE" )"
+CARDANO_CONTAINER_ACTIVE="$( docker container inspect -f '{{.State.Running}}' "cardano-node-$CARDANO_NODE" )"
 
 printf "CARDANO_NODE=$CARDANO_NODE\nCARDANO_NETWORK=$CARDANO_NETWORK\nCARDANO_CONTAINER_ACTIVE=$CARDANO_CONTAINER_ACTIVE\n"
 
