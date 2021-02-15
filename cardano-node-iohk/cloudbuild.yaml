@@ -16,7 +16,7 @@ steps:
            'cardano-node-iohk']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', '--all-tags', 'floydcraft/cardano-node-iohk']
+    args: ['image', 'push', 'floydcraft/cardano-node-iohk']
 
   - name: 'gcr.io/cloud-builders/curl'
     entrypoint: 'bash'
