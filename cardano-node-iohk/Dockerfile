@@ -43,7 +43,7 @@ RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/ca
   && chmod +x /scripts/cabal-build-all.sh \
   && bash /scripts/cabal-build-all.sh \
   && cardano-node --version \
-  && chmod +x scripts/entrypoint.sh \
+  && chmod +x /scripts/entrypoint.sh \
   && mkdir -p /storage/mainnet /storage/testnet
 
 EXPOSE 3001 12798 12788
