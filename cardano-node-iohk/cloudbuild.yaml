@@ -32,7 +32,7 @@ steps:
           echo "$dir failed" | tee -a ${failfile}
           cat ${logfile}
         fi
-        # Check if there is any failure.
+
         if [[ -s ${failfile} ]]; then
           echo
           echo "build failed:"
@@ -43,28 +43,28 @@ steps:
         echo "Build succeeded."
 
   - name: 'gcr.io/cloud-builders/gcloud'
-      entrypoint: 'bash'
-      args:
-        - '-c'
-        - |
-        - dir="cardano-node-slim"
-          echo "Building $dir ... "
-          logfile="$dir.log"
-          failfile="$dir.fail"
-          gcloud builds submit $dir --config=$dir/cloudbuild.xml > ${logfile} 2>&1
-          if [[ $? -ne 0 ]]; then
-          echo "$dir failed" | tee -a ${failfile}
-          cat ${logfile}
-          fi
-          # Check if there is any failure.
-          if [[ -s ${failfile} ]]; then
-          echo
-          echo "build failed:"
-          cat ${logfile}
-          echo "Exiting."
-          exit 1
-          fi
-          echo "Build succeeded."
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+      - dir="cardano-node-slim"
+        echo "Building $dir ... "
+        logfile="$dir.log"
+        failfile="$dir.fail"
+        gcloud builds submit $dir --config=$dir/cloudbuild.xml > ${logfile} 2>&1
+        if [[ $? -ne 0 ]]; then
+        echo "$dir failed" | tee -a ${failfile}
+        cat ${logfile}
+        fi
+
+        if [[ -s ${failfile} ]]; then
+        echo
+        echo "build failed:"
+        cat ${logfile}
+        echo "Exiting."
+        exit 1
+        fi
+        echo "Build succeeded."
 
 timeout: 8000s
 options:
