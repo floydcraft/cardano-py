@@ -20,7 +20,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/curl'
     entrypoint: 'bash'
-    args: ['-c' 'curl https://cloudbuild.googleapis.com/v1/projects/cardano-etl/triggers/cardano-node-iohk-slim-webhook:webhook?secret=$$CARDANO_ETL_WEBHOOK&key=$$CARDANO_ETL_API_KEY']
+    args: ['-c', 'curl https://cloudbuild.googleapis.com/v1/projects/cardano-etl/triggers/cardano-node-iohk-slim-webhook:webhook?secret=$$CARDANO_ETL_WEBHOOK&key=$$CARDANO_ETL_API_KEY']
     secretEnv: [ 'CARDANO_ETL_API_KEY', 'CARDANO_ETL_WEBHOOK' ]
 
 timeout: 3600s
