@@ -36,6 +36,7 @@ steps:
     args:
       - -c
       - |
+        git pull github master
         printf "BUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.txt
         git add cardano-node-slim.txt
         git commit -m "Build '$BUILD_ID' for commit $SHORT_SHA' completed"
