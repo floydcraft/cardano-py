@@ -18,18 +18,16 @@ else
 fi
 
 if [[ "$3" == "pull" ]]; then
-  docker pull floydcraft/cardano-node-k8s:latest
+  docker pull floydcraft/cardano-node-$CARDANO_NODE:latest
 fi
 
-CARDANO_CONTAINER_ACTIVE="$( docker container inspect -f '{{.State.Running}}' "cardano-node-$CARDANO_NODE" )"
+printf "CARDANO_NODE=$CARDANO_NODE\nCARDANO_NETWORK=$CARDANO_NETWORK\n"
 
-printf "CARDANO_NODE=$CARDANO_NODE\nCARDANO_NETWORK=$CARDANO_NETWORK\nCARDANO_CONTAINER_ACTIVE=$CARDANO_CONTAINER_ACTIVE\n"
-
-if [[ "$CARDANO_CONTAINER_ACTIVE" == "true" ]]; then
-  printf "active container found for: cardano_node_k8s\nattaching to the container\n"
+if [[ "$( docker container inspect -f '{{.State.Running}}' "cardano_node_$CARDANO_NODE" )" == "true" ]]; then
+  printf "ACTIVE CONTAINER found for: cardano_node_$CARDANO_NODE\nattaching to the container\n"
   docker exec -it "cardano_node_$CARDANO_NODE" bash
 else
-  printf "no active container found for: cardano_node_k8s\ncleaning containers and creating new container via run\n"
+  printf "NO ACTIVE CONTAINER found for: cardano_node_$CARDANO_NODE\ncleaning containers and creating new container via run\n"
   docker container rm "cardano_node_$CARDANO_NODE"
   docker run --name "cardano_node_$CARDANO_NODE" -it -v "$PWD/cardano-node-$CARDANO_NODE/storage:/storage" \
     --env "CARDANO_NETWORK=$CARDANO_NETWORK" --entrypoint bash "floydcraft/cardano-node-$CARDANO_NODE:latest"
