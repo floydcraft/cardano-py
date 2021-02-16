@@ -41,9 +41,9 @@ steps:
       - |
         CONTAINTER=cardano-node-iohk
         git pull github master
-        printf "CONTAINTER=$CONTAINTER\nBUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > $CONTAINTER.txt
-        git add $CONTAINTER.txt
-        git commit -m "$CONTAINTER BUILD:$BUILD_ID for COMMIT:$SHORT_SHA completed."
+        printf "CONTAINTER=$$CONTAINTER\nBUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > $$CONTAINTER.txt
+        git add $$CONTAINTER.txt
+        git commit -m "$$CONTAINTER BUILD:$BUILD_ID for COMMIT:$SHORT_SHA completed."
         git push github master
     volumes:
       - name: 'ssh'
