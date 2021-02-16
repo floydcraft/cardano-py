@@ -36,9 +36,9 @@ steps:
     args:
       - -c
       - |
-        echo "COMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.env
-        git add cardano-node-slim.env
-        git commit -m "Build completed for '$SHORT_SHA'"
+        printf "BUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.txt
+        git add cardano-node-slim.txt
+        git commit -m "Build '$BUILD_ID' for commit $SHORT_SHA' completed"
         git push github master
     volumes:
       - name: 'ssh'

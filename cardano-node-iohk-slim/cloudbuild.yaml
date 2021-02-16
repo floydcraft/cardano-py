@@ -5,6 +5,7 @@ steps:
     entrypoint: 'bash'
     args: ['-c', 'docker login --username=chbfiv --password=$$DOCKER_API_KEY']
     secretEnv: ['DOCKER_API_KEY']
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
            '--build-arg', '_VERSION=$_VERSION',
@@ -13,6 +14,36 @@ steps:
            '-t', 'floydcraft/cardano-node-iohk-slim:$_VERSION',
            '-t', 'floydcraft/cardano-node-iohk-slim:latest',
            'cardano-node-iohk-slim']
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        echo "$$FLOYDCRAFT_GITHUB" >> /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        echo "$$GITHUB_KNOWN_HOSTS" >> /root/.ssh/known_hosts
+        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
+        git config --global user.email "ci@floydcraft.com"
+        git config --global user.name "CI"
+    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        printf "BUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > cardano-node-iohk-slim.txt
+        git add cardano-node-iohk-slim.txt
+        git commit -m "Build '$BUILD_ID' for commit $SHORT_SHA' completed"
+        git push github master
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
 images: ['floydcraft/cardano-node-iohk-slim']
 timeout: 3600s
 options:
@@ -21,3 +52,7 @@ availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
       env: 'DOCKER_API_KEY'
+    - versionName: projects/cardano-etl/secrets/floydcraft-github/versions/1
+      env: 'FLOYDCRAFT_GITHUB'
+    - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
+      env: 'GITHUB_KNOWN_HOSTS'

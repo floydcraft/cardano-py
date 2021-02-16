@@ -18,53 +18,34 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['image', 'push', 'floydcraft/cardano-node-iohk']
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args:
-      - '-c'
+      - -c
       - |
-      - dir="cardano-node-iohk-slim"
-        echo "Building $dir ... "
-        logfile="$dir.log"
-        failfile="$dir.fail"
-        gcloud builds submit $dir --config=$dir/cloudbuild.xml > ${logfile} 2>&1
-        if [[ $? -ne 0 ]]; then
-          echo "$dir failed" | tee -a ${failfile}
-          cat ${logfile}
-        fi
+        echo "$$FLOYDCRAFT_GITHUB" >> /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        echo "$$GITHUB_KNOWN_HOSTS" >> /root/.ssh/known_hosts
+        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
+        git config --global user.email "ci@floydcraft.com"
+        git config --global user.name "CI"
+    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
 
-        if [[ -s ${failfile} ]]; then
-          echo
-          echo "build failed:"
-          cat ${logfile}
-          echo "Exiting."
-          exit 1
-        fi
-        echo "Build succeeded."
-
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args:
-      - '-c'
+      - -c
       - |
-      - dir="cardano-node-slim"
-        echo "Building $dir ... "
-        logfile="$dir.log"
-        failfile="$dir.fail"
-        gcloud builds submit $dir --config=$dir/cloudbuild.xml > ${logfile} 2>&1
-        if [[ $? -ne 0 ]]; then
-        echo "$dir failed" | tee -a ${failfile}
-        cat ${logfile}
-        fi
-
-        if [[ -s ${failfile} ]]; then
-        echo
-        echo "build failed:"
-        cat ${logfile}
-        echo "Exiting."
-        exit 1
-        fi
-        echo "Build succeeded."
+        printf "BUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > cardano-node-iohk.txt
+        git add cardano-node-iohk.txt
+        git commit -m "Build '$BUILD_ID' for commit $SHORT_SHA' completed"
+        git push github master
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
 
 timeout: 8000s
 options:
@@ -73,6 +54,9 @@ availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
       env: 'DOCKER_API_KEY'
-
+    - versionName: projects/cardano-etl/secrets/floydcraft-github/versions/1
+      env: 'FLOYDCRAFT_GITHUB'
+    - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
+      env: 'GITHUB_KNOWN_HOSTS'
 
 
