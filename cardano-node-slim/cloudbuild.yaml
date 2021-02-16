@@ -20,12 +20,16 @@ steps:
     args:
       - -c
       - |
-        $$GITHUB_AUTH
+        echo "$$FLOYDCRAFT_GITHUB" >> /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        echo "$$GITHUB_KNOWN_HOSTS" >> /root/.ssh/known_hosts
         echo "COMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.env
+        git config --global user.email "ci@floydcraft.com"
+        git config --global user.name "CI"
         git add cardano-node-slim.env
         git commit -m "Build completed for '$SHORT_SHA'"
         git push origin master
-    secretEnv: [ 'GITHUB_AUTH' ]
+    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
 #    volumes:
 #      - name: 'ssh'
 #        path: /root/.ssh
@@ -38,7 +42,9 @@ availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
       env: 'DOCKER_API_KEY'
-    - versionName: projects/cardano-etl/secrets/github-auth/versions/1
-      env: 'GITHUB_AUTH'
+    - versionName: projects/cardano-etl/secrets/floydcraft-github/versions/1
+      env: 'FLOYDCRAFT_GITHUB'
+    - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
+      env: 'GITHUB_KNOWN_HOSTS'
 
 
