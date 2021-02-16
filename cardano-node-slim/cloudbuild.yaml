@@ -28,7 +28,8 @@ steps:
         git config --global user.name "CI"
         git add cardano-node-slim.env
         git commit -m "Build completed for '$SHORT_SHA'"
-        git push origin master
+        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
+        git push github master
     secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
 #    volumes:
 #      - name: 'ssh'
