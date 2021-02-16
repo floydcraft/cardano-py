@@ -23,17 +23,23 @@ steps:
         echo "$$FLOYDCRAFT_GITHUB" >> /root/.ssh/id_rsa
         chmod 400 /root/.ssh/id_rsa
         echo "$$GITHUB_KNOWN_HOSTS" >> /root/.ssh/known_hosts
-        echo "COMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.env
+        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
         git config --global user.email "ci@floydcraft.com"
         git config --global user.name "CI"
+    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        echo "COMMIT_SHA=$COMMIT_SHA" > cardano-node-slim.env
         git add cardano-node-slim.env
         git commit -m "Build completed for '$SHORT_SHA'"
-        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
         git push github master
-    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
-#    volumes:
-#      - name: 'ssh'
-#        path: /root/.ssh
 
 images: ['floydcraft/cardano-node-slim']
 timeout: 3600s
