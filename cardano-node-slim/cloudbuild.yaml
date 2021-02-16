@@ -40,6 +40,9 @@ steps:
         git add cardano-node-slim.env
         git commit -m "Build completed for '$SHORT_SHA'"
         git push github master
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
 
 images: ['floydcraft/cardano-node-slim']
 timeout: 3600s
