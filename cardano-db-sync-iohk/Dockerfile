@@ -16,7 +16,7 @@ RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/ca
   && cd cardano-db-sync \
   && echo "package cardano-crypto-praos" > cabal.project.local \
   && echo "   flags: -external-libsodium-vrf" >> cabal.project.local \
-  && ./scripts/cabal-build-all.sh \
+  && bash /scripts/cabal-build-all.sh \
   && cardano-db-sync --version \
   && mkdir -p /storage/mainnet /storage/testnet \
   && apt-get update \
