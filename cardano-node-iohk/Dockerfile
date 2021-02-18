@@ -1,6 +1,6 @@
 # https://docs.cardano.org/projects/cardano-node/en/latest/getting-started/install.html
 # https://docs.cardano.org/projects/adrestia/en/latest/installation.html
-FROM floydcraft/cardano-node-iohk:latest
+FROM floydcraft/haskell:latest
 LABEL maintainer="chbfiv@floydcraft.com"
 
 ENV APP=/opt/cardano-node \
