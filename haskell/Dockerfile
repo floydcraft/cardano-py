@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     ENV=/etc/profile \
     USER=root
 
+ADD files .
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends apt-utils ca-certificates sed wget curl gnupg \
     libpq-dev python3 build-essential pkg-config \
@@ -22,8 +24,6 @@ RUN apt-get update \
     && ghcup set ghc $_VERSION \
     && ghc --version \
     && ghcup install cabal \
-    && chmod +x /scripts/cabal-build-all.sh \
-
-ADD files .
+    && chmod +x /scripts/cabal-build-all.sh 
 
 ENTRYPOINT []

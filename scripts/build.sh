@@ -4,13 +4,17 @@ set -u
 set -o pipefail
 
 if [[ ("$1" == "slim") || ("$1" == "iohk") || ("$1" == "iohk-slim") ]]; then
-  CARDANO_NODE="$1"
+  IMAGE="cardano-node-$1"
+elif [[ "$1" == "db-sync" ]]; then
+  IMAGE="cardano-$1"
+elif [[ "$1" == "haskell" ]]; then
+  IMAGE="$1"
 else
-  printf "please select an option (cardano node): slim, iohk-slim, or iohk"
+  printf "please select an option (cardano node): haskell, iohk, iohk-slim, db-sync, or slim"
   exit 1
 fi
 
 docker build \
-    --tag "floydcraft/cardano-node-$CARDANO_NODE:latest" \
-    "cardano-node-$CARDANO_NODE"
+    --tag "floydcraft/$IMAGE:latest" \
+    "$IMAGE"
 
