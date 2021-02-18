@@ -21,7 +21,8 @@ RUN apt-get update \
     && ghcup install ghc $_VERSION \
     && ghcup set ghc $_VERSION \
     && ghc --version \
-    && ghcup install cabal
+    && ghcup install cabal \
+    && chmod +x /scripts/cabal-build-all.sh \
 
 ADD files .
 
