@@ -17,8 +17,7 @@ RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/ca
   && cd cardano-node \
   && echo "package cardano-crypto-praos" > cabal.project.local \
   && echo "   flags: -external-libsodium-vrf" >> cabal.project.local \
-  && chmod +x /scripts/cabal-build-all.sh \
-  && bash /scripts/cabal-build-all.sh \
+  && ./scripts/cabal-build-all.sh \
   && cardano-node --version \
   && chmod +x /scripts/entrypoint.sh \
   && mkdir -p /storage/mainnet /storage/testnet
