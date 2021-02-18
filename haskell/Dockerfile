@@ -24,6 +24,6 @@ RUN apt-get update \
     && ghcup set ghc $_VERSION \
     && ghc --version \
     && ghcup install cabal \
-    && chmod +x /scripts/cabal-build-all.sh 
+    && chmod +x /scripts/cabal-build-all.sh
 
 ENTRYPOINT []

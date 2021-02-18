@@ -3,10 +3,14 @@
 #set -u
 #set -o pipefail
 
-if [[ ("$1" == "slim") || ("$1" == "iohk") || ("$1" == "iohk-slim") ]]; then
-  CARDANO_NODE="$1"
+if [[ "$1" == "haskell" ]]; then
+  IMAGE="$1"
+elif [[ "$1" == "db-sync-iohk" ]]; then
+  IMAGE="cardano-$1"
+elif [[ ("$1" == "slim") || ("$1" == "iohk") || ("$1" == "iohk-slim") ]]; then
+  IMAGE="cardano-node-$1"
 else
-  printf "please select an option (cardano node): slim, iohk-slim, or iohk"
+  printf "please select an option (cardano node): haskell, iohk, iohk-slim, db-sync-iohk, or slim"
   exit 1
 fi
 
@@ -18,19 +22,19 @@ else
 fi
 
 if [[ "$3" == "pull" ]]; then
-  docker pull floydcraft/cardano-node-$CARDANO_NODE:latest
+  docker pull floydcraft/$IMAGE:latest
 fi
 
-printf "CARDANO_NODE=$CARDANO_NODE\nCARDANO_NETWORK=$CARDANO_NETWORK\n"
+printf "IMAGE=$IMAGE\nCARDANO_NETWORK=$CARDANO_NETWORK\n"
 
-if [[ "$( docker container inspect -f '{{.State.Running}}' "cardano_node_$CARDANO_NODE" )" == "true" ]]; then
-  printf "ACTIVE CONTAINER found for: cardano_node_$CARDANO_NODE\nattaching to the container\n"
-  docker exec -it "cardano_node_$CARDANO_NODE" bash
+if [[ "$( docker container inspect -f '{{.State.Running}}' "$IMAGE" )" == "true" ]]; then
+  printf "ACTIVE CONTAINER found for: $IMAGE\nattaching to the container\n"
+  docker exec -it "$IMAGE" bash
 else
-  printf "NO ACTIVE CONTAINER found for: cardano_node_$CARDANO_NODE\ncleaning containers and creating new container via run\n"
-  docker container rm "cardano_node_$CARDANO_NODE"
-  docker run --name "cardano_node_$CARDANO_NODE" -it -v "$PWD/cardano-node-$CARDANO_NODE/storage:/storage" \
-    --env "CARDANO_NETWORK=$CARDANO_NETWORK" --entrypoint bash "floydcraft/cardano-node-$CARDANO_NODE:latest"
+  printf "NO ACTIVE CONTAINER found for: $IMAGE\ncleaning containers and creating new container via run\n"
+  docker container rm "$IMAGE"
+  docker run --name "$IMAGE" -it -v "$PWD/$IMAGE/storage:/storage" \
+    --env "CARDANO_NETWORK=$CARDANO_NETWORK" --entrypoint bash "floydcraft/$IMAGE:latest"
 fi
 
 

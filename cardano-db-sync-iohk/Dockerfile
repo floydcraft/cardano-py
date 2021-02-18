@@ -18,6 +18,9 @@ RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/ca
   && echo "   flags: -external-libsodium-vrf" >> cabal.project.local \
   && ./scripts/cabal-build-all.sh \
   && cardano-db-sync --version \
-  && mkdir -p /storage/mainnet /storage/testnet
+  && mkdir -p /storage/mainnet /storage/testnet \
+  && apt-get update \
+  && apt-get install -y libpq-dev libpq5 postgresql
 
-ENTRYPOINT [ ]
+EXPOSE 3001 12798 12788 5432
+ENTRYPOINT [ "scripts/entrypoint.sh" ]
