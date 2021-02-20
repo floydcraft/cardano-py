@@ -24,7 +24,7 @@ This repo provides and alternative which anyone can try in a few mins have a sta
 > NOTE: this section is works atm, but is still under development
 > Requires docker. Works on OSX and likely linux distributions
 
-1. Clone this repo and open terminal in the cloned folder
+1. Clone this repo and open terminal at the project root of `cardano-node-k8s`
 2. `chmod +x scripts/run.sh`
 3. `./scripts/run.sh slim testnet pull`
 - "slim" is my custom Cardano container I'm building for cardano-etl. See above for the different options
