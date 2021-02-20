@@ -21,7 +21,6 @@ COPY --from=floydcraft/cardano-node-iohk:latest /usr/lib/x86_64-linux-gnu/libgmp
 COPY --from=floydcraft/cardano-node-iohk:latest /usr/lib/x86_64-linux-gnu/liblz4.* /usr/lib/x86_64-linux-gnu/
 COPY --from=floydcraft/cardano-node-iohk:latest /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu/
 COPY --from=floydcraft/cardano-node-iohk:latest /opt/ /opt/
-COPY --from=floydcraft/cardano-node-iohk:latest /config/ /config/
 COPY --from=floydcraft/cardano-node-iohk:latest /scripts/entrypoint.sh /scripts/entrypoint.sh
 
 RUN apt-get update \
