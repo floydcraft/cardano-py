@@ -20,10 +20,10 @@ RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/ca
   && cardano-db-sync --version \
   && mkdir -p /storage/mainnet /storage/testnet \
   && apt-get update \
-  && apt-get install -y sudo libpq-dev libpq5 postgresql
-
-ADD cardano-db-sync/schema/ /schema/
-ADD cardano-db-sync/scripts/ /scripts/
+  && apt-get install -y sudo libpq-dev libpq5 postgresql \
+  && mkdir /schema \
+  && cp schema/* /schema \
+  && cp scripts/* /scripts
 
 EXPOSE 3001 12798 12788 5432
 ENTRYPOINT [ "scripts/entrypoint.sh" ]
