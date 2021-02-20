@@ -5,7 +5,9 @@ set -o pipefail
 
 export PGPASSFILE="/storage/$CARDANO_NETWORK.pgpass"
 
-pg_ctlcluster 11 main restart
+pg_ctlcluster 11 main start
+sudo -u postgres createuser --createdb --superuser root
+/scripts/postgresql-setup.sh --createdb
 
 if [[ "$CARDANO_NETWORK" == "mainnet" ]]; then
   cardano-db-sync \
