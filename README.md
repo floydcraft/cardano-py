@@ -1,3 +1,5 @@
+[![cardano-node-k8s Telegram](https://img.shields.io/badge/telegram-join%20chat-blue.svg)](http://bit.ly/cardano-node-k8s-telegram)
+
 ## Overview
 [Cardano Node k8s (Kubernetes)](https://github.com/floydcraft/cardano-node-k8s) is a simple and easy to use method to operate and extend Cardano Stakepools + DB Sync. Provides the foundation for [Cardano ETL](https://github.com/floydcraft/cardano-etl) which is a proposal for [Project Catalyst Fund3](https://cardano.ideascale.com/a/dtd/Cardano-ETL-Public-BigQuery-Data/334530-48088).
 
