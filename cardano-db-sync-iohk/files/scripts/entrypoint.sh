@@ -3,7 +3,7 @@ set -e
 set -u
 set -o pipefail
 
-export PGPASSFILE="/storage/$CARDANO_NETWORK.pgpass"
+export PGPASSFILE="/storage/config/$CARDANO_NETWORK.pgpass"
 
 pg_ctlcluster 11 main start
 sudo -u postgres createuser --createdb --superuser root
