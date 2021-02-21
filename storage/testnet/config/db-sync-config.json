@@ -2,9 +2,9 @@
   "EnableLogMetrics": false,
   "EnableLogging": true,
   "Protocol": "Cardano",
-  "NetworkName": "mainnet",
-  "NodeConfigFile": "mainnet-config.json",
-  "RequiresNetworkMagic": "RequiresNoMagic",
+  "NetworkName": "testnet",
+  "NodeConfigFile": "config.json",
+  "RequiresNetworkMagic": "RequiresMagic",
   "defaultBackends": [
     "KatipBK"
   ],

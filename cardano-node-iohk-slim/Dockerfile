@@ -28,8 +28,7 @@ RUN apt-get update \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
-    && chmod +x scripts/entrypoint.sh \
-    && mkdir -p /storage/mainnet /storage/testnet
+    && chmod +x scripts/entrypoint.sh
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "scripts/entrypoint.sh" ]
