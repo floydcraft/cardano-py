@@ -33,8 +33,11 @@ if [[ "$( docker container inspect -f '{{.State.Running}}' "$IMAGE" )" == "true"
 else
   printf "NO ACTIVE CONTAINER found for: $IMAGE\ncleaning containers and creating new container via run\n"
   docker container rm "$IMAGE"
-  docker run --name "$IMAGE" -it -v "$PWD/storage:/storage" \
-    --env "CARDANO_NETWORK=$CARDANO_NETWORK" --entrypoint bash "floydcraft/$IMAGE:latest"
+  docker run --name "$IMAGE" -it \
+    -v "$PWD/storage/$CARDANO_NETWORK:/storage" \
+    -v "$PWD/config/$CARDANO_NETWORK:/config" \
+    --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
+    --entrypoint bash "floydcraft/$IMAGE:latest"
 fi
 
 

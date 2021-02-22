@@ -1,5 +1,6 @@
 substitutions:
   _VERSION: 8.10.2 # default value
+  _CONTAINER: "haskell"
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
@@ -9,14 +10,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
            '--build-arg', '_VERSION=$_VERSION',
-           '--cache-from', 'floydcraft/haskell:latest',
-           '-t', 'floydcraft/haskell:$COMMIT_SHA',
-           '-t', 'floydcraft/haskell:$_VERSION',
-           '-t', 'floydcraft/haskell:latest',
-           'haskell']
+           '--cache-from', 'floydcraft/$_CONTAINER:latest',
+           '-t', 'floydcraft/$_CONTAINER:$COMMIT_SHA',
+           '-t', 'floydcraft/$_CONTAINER:$_VERSION',
+           '-t', 'floydcraft/$_CONTAINER:latest',
+           '$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', 'floydcraft/haskell']
+    args: ['image', 'push', 'floydcraft/$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
@@ -39,17 +40,16 @@ steps:
     args:
       - -c
       - |
-        CONTAINTER=haskell
         git pull github master
-        printf "CONTAINTER=$$CONTAINTER\nBUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > $$CONTAINTER.txt
-        git add $$CONTAINTER.txt
-        git commit -m "$$CONTAINTER BUILD:$BUILD_ID for COMMIT:$SHORT_SHA completed."
+        printf "CONTAINTER=$_CONTAINER\nBUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > $_CONTAINER.txt
+        git add $_CONTAINER.txt
+        git commit -m "$_CONTAINER BUILD:$BUILD_ID for COMMIT:$SHORT_SHA completed."
         git push github master
     volumes:
       - name: 'ssh'
         path: /root/.ssh
 
-timeout: 8000s
+timeout: 3600s
 options:
   machineType: 'N1_HIGHCPU_8'
 availableSecrets:
@@ -60,5 +60,3 @@ availableSecrets:
       env: 'FLOYDCRAFT_GITHUB'
     - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
       env: 'GITHUB_KNOWN_HOSTS'
-
-
