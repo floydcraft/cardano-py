@@ -3,6 +3,10 @@ set -e
 set -u
 set -o pipefail
 
+if [[ -f "/config/config.tar.gz" ]]; then
+  tar -xzvf /config/config.tar.gz -C /config
+fi
+
 cardano-node run --config "/config/config.json" \
   --topology "/config/topology.json" \
   --database-path "/storage/db" \
