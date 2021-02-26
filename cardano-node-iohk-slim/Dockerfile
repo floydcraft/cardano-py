@@ -22,7 +22,7 @@ COPY --from=floydcraft/cardano-node-iohk:latest /usr/lib/x86_64-linux-gnu/liblz4
 COPY --from=floydcraft/cardano-node-iohk:latest /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu/
 COPY --from=floydcraft/cardano-node-iohk:latest /opt/ /opt/
 COPY --from=floydcraft/cardano-node-iohk:latest /scripts/entrypoint.sh /scripts/entrypoint.sh
-COPY --from=floydcraft/cardano-node-iohk:latest /genesis/ .
+COPY --from=floydcraft/cardano-node-iohk:latest /genesis/ /genesis/
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
