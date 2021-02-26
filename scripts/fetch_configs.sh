@@ -3,7 +3,7 @@ set -e
 set -u
 set -o pipefail
 
-cd config
+cd cardano-node-iohk/files/config
 
 curl -L -o testnet/config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-config.json
 curl -L -o testnet/byron-genesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-byron-genesis.json

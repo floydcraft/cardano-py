@@ -35,7 +35,6 @@ else
   docker container rm "$IMAGE"
   docker run --name "$IMAGE" -it \
     -v "$PWD/storage/$CARDANO_NETWORK:/storage" \
-    -v "$PWD/config/$CARDANO_NETWORK:/config" \
     --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
     --entrypoint bash "floydcraft/$IMAGE:latest"
 fi
