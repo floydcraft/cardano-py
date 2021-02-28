@@ -9,7 +9,8 @@ ENV APP=/opt/cardano-db-node \
 
 ARG _VERSION=8.0.0
 
-ADD files .
+ADD ../config/ config/
+ADD scripts/ scripts/
 
 RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/cardano-db-sync.git \
   && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \

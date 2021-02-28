@@ -1,7 +1,7 @@
 {
   "Producers": [
     {
-      "addr": "relays-new.cardano-testnet.iohkdev.io",
+      "addr": "relay-statefulset-lb.cardano-testnet.svc.cluster.local",
       "port": 3001,
       "valency": 2
     }

@@ -21,7 +21,21 @@ else
   exit 1
 fi
 
-if [[ "$3" == "pull" ]]; then
+if [[ ("$3" == "producer") || ("$3" == "relay") ]]; then
+  CARDANO_NODE_TYPE="$3"
+else
+  printf "please select an option (cardano node type): producer or relay "
+  exit 1
+fi
+
+if [[ ("$4" == "green") || ("$4" == "blue") ]]; then
+  TARGET_ROLE="$4"
+else
+  printf "please select an option (target role): blue or green "
+  exit 1
+fi
+
+if [[ "$5" == "pull" ]]; then
   docker pull floydcraft/$IMAGE:latest
 fi
 
@@ -36,6 +50,8 @@ else
   docker run --name "$IMAGE" -it \
     -v "$PWD/storage/$CARDANO_NETWORK:/storage" \
     --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
+    --env "CARDANO_NODE_TYPE=$CARDANO_NODE_TYPE" \
+    --env "TARGET_ROLE=$TARGET_ROLE" \
     --entrypoint bash "floydcraft/$IMAGE:latest"
 fi
 

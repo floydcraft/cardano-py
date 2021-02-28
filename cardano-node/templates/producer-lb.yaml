@@ -1,14 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cardano-node-lb
+  name: producer-statefulset-lb
   namespace: {{ .Values.namespace | quote }}
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
 spec:
   type: ClusterIP
+  clusterIP: None
   selector:
-    app: cardano-node-deployment
+    app: producer-statefulset
+    targetRole: {{ .Values.releaseRole | quote }}
   ports:
     - port: 3001
       protocol: TCP

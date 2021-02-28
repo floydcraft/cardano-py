@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: producer-statefulset-{{ .Values.targetRole }}
+  labels:
+    app: producer-statefulset
+    targetRole: {{ .Values.targetRole }}
+  namespace: {{ .Values.namespace | quote }}
+spec:
+  serviceName: producer-statefulset-lb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-statefulset
+      targetRole: {{ .Values.targetRole }}
+  template:
+    metadata:
+      labels:
+        app: producer-statefulset
+        targetRole: {{ .Values.targetRole }}
+    spec:
+      containers:
+        - name: producer-container
+          image: floydcraft/cardano-node-slim:latest
+          env:
+            - name: CARDANO_NETWORK
+              value: {{ .Values.cardano.network }}
+            - name: CARDANO_NODE_TYPE
+              value: producer
+            - name: TARGET_ROLE
+              value: {{ .Values.targetRole }}
+          ports:
+            - containerPort: 3001
+            - containerPort: 12798
+            - containerPort: 12788
+          volumeMounts:
+              - mountPath: /storage
+                name: producer-pvc-{{ .Values.targetRole }}
+      nodeSelector:
+        pool: default
+  volumeClaimTemplates:
+    - metadata:
+        name: producer-pvc-{{ .Values.targetRole }}
+        labels:
+          targetRole: {{ .Values.targetRole }}
+        namespace: {{ .Values.namespace | quote }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

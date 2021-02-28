@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: relay-statefulset-lb
+  namespace: {{ .Values.namespace | quote }}
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: relay-statefulset
+    targetRole: {{ .Values.releaseRole | quote }}
+  ports:
+    - port: 3001
+      protocol: TCP
+      targetPort: 3001

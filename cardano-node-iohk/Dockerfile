@@ -10,7 +10,8 @@ ENV APP=/opt/cardano-node \
 
 ARG _VERSION=1.25.1
 
-ADD files .
+ADD ../config/ config/
+ADD scripts/ scripts/
 
 RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/cardano-node.git \
   && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \
