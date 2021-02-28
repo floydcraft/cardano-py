@@ -1,5 +1,5 @@
 # https://github.com/input-output-hk/cardano-db-sync/blob/master/doc/building-running.md
-FROM floydcraft/haskell:latest
+FROM floydcraft/cardano-node-config:latest
 LABEL maintainer="chbfiv@floydcraft.com"
 
 ENV APP=/opt/cardano-db-node \
@@ -9,8 +9,7 @@ ENV APP=/opt/cardano-db-node \
 
 ARG _VERSION=8.0.0
 
-ADD ../config/ config/
-ADD scripts/ scripts/
+ADD files/ .
 
 RUN git clone --depth 1 --branch $_VERSION https://github.com/input-output-hk/cardano-db-sync.git \
   && export BOOTSTRAP_HASKELL_NO_UPGRADE=1 \

@@ -1,0 +1,62 @@
+substitutions:
+  _VERSION: 0.1.0 # default value
+  _CONTAINER: "cardano-node-config"
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker login --username=chbfiv --password=$$DOCKER_API_KEY']
+    secretEnv: ['DOCKER_API_KEY']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build',
+           '--build-arg', '_VERSION=$_VERSION',
+           '--cache-from', 'floydcraft/$_CONTAINER:latest',
+           '-t', 'floydcraft/$_CONTAINER:$COMMIT_SHA',
+           '-t', 'floydcraft/$_CONTAINER:$_VERSION',
+           '-t', 'floydcraft/$_CONTAINER:latest',
+           '$_CONTAINER']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['image', 'push', 'floydcraft/$_CONTAINER']
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        echo "$$FLOYDCRAFT_GITHUB" >> /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        echo "$$GITHUB_KNOWN_HOSTS" >> /root/.ssh/known_hosts
+        git remote add github git@github.com:floydcraft/cardano-node-k8s.git
+        git config --global user.email "ci@floydcraft.com"
+        git config --global user.name "CI"
+    secretEnv: [ 'FLOYDCRAFT_GITHUB', 'GITHUB_KNOWN_HOSTS' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        git pull github master
+        printf "CONTAINTER=$_CONTAINER\nBUILD_ID=$BUILD_ID\nCOMMIT_SHA=$COMMIT_SHA" > $_CONTAINER.txt
+        git add $_CONTAINER.txt
+        git commit -m "$_CONTAINER BUILD:$BUILD_ID for COMMIT:$SHORT_SHA completed."
+        git push github master
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+timeout: 3600s
+options:
+  machineType: 'N1_HIGHCPU_8'
+availableSecrets:
+  secretManager:
+    - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
+      env: 'DOCKER_API_KEY'
+    - versionName: projects/cardano-etl/secrets/floydcraft-github/versions/1
+      env: 'FLOYDCRAFT_GITHUB'
+    - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
+      env: 'GITHUB_KNOWN_HOSTS'
