@@ -29,6 +29,8 @@ spec:
               value: relay
             - name: TARGET_ROLE
               value: {{ .Values.targetRole }}
+            - name: CARDANO_NODE_SOCKET_PATH
+              value: {{ printf "/storage/%s/node.socket" .Values.cardano.network | quote }}
           ports:
             - containerPort: 3001
             - containerPort: 12798
