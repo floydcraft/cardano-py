@@ -57,7 +57,7 @@ Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with
 
 ### (OPTIONAL) Build - Cardano Node
 - Complete "Install CardanoPy via Source" step.
-- `cardanopy build --tag cardano-node-slim:latest --dir cardano-node-slim.yaml`
+- `cardanopy build --tag cardano-node-slim:latest --dir cardano-node-slim`
 - Complete "Run - Cardano Node" step.
 
 
