@@ -53,6 +53,7 @@ else
     --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
     --env "CARDANO_NODE_TYPE=$CARDANO_NODE_TYPE" \
     --env "TARGET_ROLE=$TARGET_ROLE" \
+    --env "CARDANO_NODE_SOCKET_PATH=/storage/$CARDANO_NETWORK/node.socket" \
     --entrypoint bash "floydcraft/$IMAGE:latest"
 fi
 

@@ -1,12 +1,12 @@
 import click
 
-from cardanopy.cli.query_tip import query_tip
+from .commands.query import query
 
 @click.group()
-@click.version_option(version='1.6.1')
+@click.version_option(version='0.1.0')
 @click.pass_context
 def cli(ctx):
     pass
 
 # export
-cli.add_command(query_tip, "query_tip")
+cli.add_command(query)
