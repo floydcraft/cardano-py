@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='cardano',
+setup(name='cardanopy',
       version='0.1.0',
       description='Cardano CLI tools for python3',
       author='Bourke Floyd',
@@ -16,7 +16,7 @@ setup(name='cardano',
       ],
       entry_points={
           'console_scripts': [
-              'cardano=cardano.cli:cli',
+              'cardanopy=cardanopy.cli:cli',
           ],
       },
       project_urls={

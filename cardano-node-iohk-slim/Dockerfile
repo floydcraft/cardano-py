@@ -1,5 +1,5 @@
 ARG _VERSION=1.25.1
-FROM debian:buster-20210208-slim
+FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
 ARG DEBIAN_FRONTEND=noninteractive

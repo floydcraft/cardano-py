@@ -49,6 +49,7 @@ else
   docker container rm "$IMAGE"
   docker run --name "$IMAGE" -it \
     -v "$PWD/storage/$CARDANO_NETWORK:/storage" \
+    -v "$PWD/cardano-node-slim/files/cardanopy:/cardanopy" \
     --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
     --env "CARDANO_NODE_TYPE=$CARDANO_NODE_TYPE" \
     --env "TARGET_ROLE=$TARGET_ROLE" \
