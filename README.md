@@ -1,6 +1,6 @@
 [![cardano-py Telegram](https://img.shields.io/badge/telegram-join%20chat-blue.svg)](http://bit.ly/cardano-py-telegram)
 
-![CardanoPy](images/CardanoPyBlueSmall.png)
+<img src="images/CardanoPyBlueSmall.png" alt="CardanoPy" width="250" height="250">
 
 ## Overview
 [CardanoPy](https://github.com/floydcraft/cardano-py) is a simple and easy to use method to operate and extend Cardano Nodes (Relay and Producer) and DB Sync Nodes using a python CLI combined with docker. This project is a *Fund4* proposal for [Project Catalyst](https://cardano.ideascale.com/a/dtd/CardanoPy-5-min-extensible-node/341045-48088).
