@@ -1,4 +1,4 @@
-[![cardano-py Telegram](https://img.shields.io/badge/telegram-join%20chat-blue.svg)](http://bit.ly/cardano-py-telegram)
+[![cardano-py Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/FyDz4Xrt4x)
 
 <img src="images/CardanoPyBlueSmall.png" alt="CardanoPy" width="150" height="150">
 
