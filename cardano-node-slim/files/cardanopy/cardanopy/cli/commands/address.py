@@ -13,7 +13,7 @@ def address(ctx):
 @click.option('--verification-key-file', 'verification_key_file', required=True, type=str, help='Output filepath of the verification key.')
 @click.option('--signing-key-file', 'signing_key_file', required=True, type=str, help='Output filepath of the signing key.')
 def key_gen(key_type, verification_key_file, signing_key_file):
-    """Get the node's current tip (slot no, hash, block no)."""
+    """Create an address key pair."""
     subprocess.run(["cardano-cli",
                     "address",
                     "key-gen",
