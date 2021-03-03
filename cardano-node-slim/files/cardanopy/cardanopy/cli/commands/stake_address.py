@@ -12,7 +12,7 @@ def stake_address(ctx):
 def key_gen(verification_key_file, signing_key_file):
     """Create a stake address key pair"""
     subprocess.run(["cardano-cli",
-                    "address",
+                    "stake-address",
                     "key-gen",
                     "--verification-key-file", verification_key_file,
                     "--signing-key-file", signing_key_file
