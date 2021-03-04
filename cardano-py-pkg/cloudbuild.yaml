@@ -17,7 +17,7 @@ steps:
         cd cardano-py-pkg && \
         code_version=$(python -W ignore setup.py --version) && \
         pip_version=$(yolk -V cardanopy | cut -d" " -f2) && \
-        ([ "$code_version" != "$pip_version" ] && twine upload dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
+        ([ "$code_version" != "$pip_version" ] && twine upload ../dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
     secretEnv: [ 'PYPI_API_KEY' ]
 
 availableSecrets:
