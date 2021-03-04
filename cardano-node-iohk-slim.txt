@@ -1,3 +1,0 @@
-CONTAINTER=cardano-node-iohk-slim
-BUILD_ID=3cd9ea94-fa83-4edd-8720-7a9f091c378c
-COMMIT_SHA=e1a2e60fb084ed65eacde389e25ac71a918f8b2b
