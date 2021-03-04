@@ -4,10 +4,6 @@ steps:
   - name: 'us.gcr.io/$PROJECT_ID/python'
     args: ['cardano-py-pkg/setup.py', 'bdist_wheel', '--universal']
 
-  - name: 'us.gcr.io/$PROJECT_ID/python'
-    entrypoint: 'twine'
-    args: ['check', 'dist/*']
-
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args:
@@ -16,6 +12,13 @@ steps:
         printf "[pypi]\n  username = __token__\n  password = $$PYPI_API_KEY\n" >> /root/.pypirc
         chmod 400 /root
     secretEnv: [ 'PYPI_API_KEY' ]
+    volumes:
+      - name: 'root'
+        path: /root
+
+  - name: 'us.gcr.io/$PROJECT_ID/python'
+    entrypoint: 'twine'
+    args: ['check', 'dist/*']
     volumes:
       - name: 'root'
         path: /root
