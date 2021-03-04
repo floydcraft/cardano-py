@@ -14,7 +14,10 @@ steps:
     args:
       - -c
       - |
-        twine upload dist/* -u __token__ -p $$PYPI_API_KEY
+        cd cardano-py-pkg && \
+        code_version=$(python setup.py --version) && \
+        pip_version=$(yolk -V kondunite | cut -d" " -f2) && \
+        ([ "$code_version" != "$pip_version" ] && twine upload dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
     secretEnv: [ 'PYPI_API_KEY' ]
 
 availableSecrets:
