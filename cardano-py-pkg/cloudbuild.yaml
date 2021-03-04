@@ -7,7 +7,7 @@ steps:
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'twine'
-    args: ['check', 'dist/*']
+    args: ['check', 'cardano-py-pkg/dist/*']
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'bash'
