@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: producer-container
-          image: floydcraft/cardano-node-slim:latest
+          image: {{ .Values.cardanoImage }}
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardano.network }}
