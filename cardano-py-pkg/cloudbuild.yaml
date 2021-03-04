@@ -7,7 +7,7 @@ steps:
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'twine'
-    args: ['check', 'cardano-py-pkg/dist/*']
+    args: ['check', 'dist/*']
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'bash'
@@ -15,8 +15,8 @@ steps:
       - -c
       - |
         cd cardano-py-pkg && \
-        code_version=$(python setup.py --version) && \
-        pip_version=$(yolk -V kondunite | cut -d" " -f2) && \
+        code_version=$(python -W ignore setup.py --version) && \
+        pip_version=$(yolk -V cardanopy | cut -d" " -f2) && \
         ([ "$code_version" != "$pip_version" ] && twine upload dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
     secretEnv: [ 'PYPI_API_KEY' ]
 
