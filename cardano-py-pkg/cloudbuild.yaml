@@ -11,7 +11,7 @@ steps:
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'twine'
-    args: ['upload', 'dist/*', '-u', '__token__', '-p', '$$PYPI_API_KEY']
+    args: ['upload', 'dist/*', '-u', '__token__', '-p', '$$PYPI_API_KEY', '--verbose']
     secretEnv: [ 'PYPI_API_KEY' ]
 
 availableSecrets:
