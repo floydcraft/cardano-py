@@ -1,0 +1,33 @@
+substitutions:
+  _VERSION: 0.1.0 # default value
+steps:
+  - name: 'us.gcr.io/$PROJECT_ID/python'
+    args: ['setup.py', 'bdist_wheel', '--universal']
+
+  - name: 'us.gcr.io/$PROJECT_ID/python'
+    entrypoint: 'twine'
+    args: ['check', 'dist/*']
+
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        printf "[pypi]\n  username = __token__\n  password = $$PYPI_API_KEY\n" >> /root/.pypirc
+        chmod 400 /root
+    secretEnv: [ 'PYPI_API_KEY' ]
+    volumes:
+      - name: 'root'
+        path: /root
+
+  - name: 'us.gcr.io/$PROJECT_ID/python'
+    entrypoint: 'twine'
+    args: ['upload', 'dist/*']
+    volumes:
+      - name: 'root'
+        path: /root
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/cardano-etl/secrets/cardanopy-pypi-api-token/versions/1
+      env: 'PYPI_API_KEY'
