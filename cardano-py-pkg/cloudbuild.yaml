@@ -13,7 +13,8 @@ steps:
     args:
       - -c
       - |
-        printf "[pypi]\n  username = __token__\n  password = $$PYPI_API_KEY\n" >> /root/.pypirc
+        TWO_SPACES='  '
+        printf "[pypi]\n${TWO_SPACES}username = __token__\n${TWO_SPACES}password = $$PYPI_API_KEY\n" >> /root/.pypirc
         chmod 400 /root
         cat /root/.pypirc
     secretEnv: [ 'PYPI_API_KEY' ]
