@@ -1,0 +1,14 @@
+{
+  "Producers": [
+    {
+      "addr": "relay-statefulset-green-0.relay-statefulset-lb.cardano-mainnet.svc.cluster.local",
+      "port": 3001,
+      "valency": 1
+    },
+    {
+      "addr": "relay-statefulset-green-1.relay-statefulset-lb.cardano-mainnet.svc.cluster.local",
+      "port": 3001,
+      "valency": 1
+    }
+  ]
+}
