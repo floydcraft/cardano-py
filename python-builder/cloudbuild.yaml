@@ -1,0 +1,10 @@
+substitutions:
+  _VERSION: 0.1.0 # default value
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build',
+           '-t', 'us.gcr.io/$PROJECT_ID/python:$COMMIT_SHA',
+           '-t', 'us.gcr.io/$PROJECT_ID/python:$_VERSION',
+           '-t', 'us.gcr.io/$PROJECT_ID/python:latest',
+           'python-builder']
+images: ['us.gcr.io/$PROJECT_ID/python']
