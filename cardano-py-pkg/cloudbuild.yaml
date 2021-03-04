@@ -2,7 +2,7 @@ substitutions:
   _VERSION: 0.1.0 # default value
 steps:
   - name: 'us.gcr.io/$PROJECT_ID/python'
-    args: ['setup.py', 'bdist_wheel', '--universal']
+    args: ['cardano-py-pkg/setup.py', 'bdist_wheel', '--universal']
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'twine'
