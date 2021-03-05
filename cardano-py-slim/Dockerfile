@@ -1,4 +1,4 @@
-ARG _VERSION=0.1.2-dev6
+ARG _VERSION=0.1.2-dev7
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 

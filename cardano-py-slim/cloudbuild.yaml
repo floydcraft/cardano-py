@@ -1,5 +1,5 @@
 substitutions:
-  _VERSION: 0.1.2-dev6 # default value
+  _VERSION: 0.1.2-dev7 # default value
   _CONTAINER: "cardano-py-slim"
 steps:
   - name: 'gcr.io/cloud-builders/docker'
