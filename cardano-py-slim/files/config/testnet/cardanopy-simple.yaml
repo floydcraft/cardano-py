@@ -1,3 +1,4 @@
+apiVersion: v1
 nodes:
   relay-statefulset-0:
     config: "config.json"

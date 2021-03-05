@@ -1,3 +1,4 @@
+apiVersion: v1
 nodes:
   producer-statefulset-0:
     config: "config.json"
