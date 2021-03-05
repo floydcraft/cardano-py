@@ -33,4 +33,5 @@ RUN apt-get update \
     && python -m pip install cardanopy --no-cache-dir
 
 EXPOSE 3001 12798 12788
-ENTRYPOINT [ "scripts/entrypoint.sh" ]
+ENTRYPOINT [ "cardanopy" ]
+CMD [ "--help" ]
