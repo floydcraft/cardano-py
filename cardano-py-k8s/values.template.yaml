@@ -1,0 +1,5 @@
+buildId=BUILD_ID
+version=VERSION
+commitSha=COMMIT_SHA
+branchName=BRANCH_NAME
+cardanoImage=floydcraft/cardano-py-slim:COMMIT_SHA
