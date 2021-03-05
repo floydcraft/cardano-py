@@ -40,7 +40,7 @@ steps:
     args:
       - -c
       - |
-        sed "s/$BUILD_ID/$BUILD_ID/g" cardano-py-k8s/values.template.yaml | \
+        sed "s/BUILD_ID/$BUILD_ID/g" cardano-py-k8s/values.template.yaml | \
         sed "s/VERSION/$_VERSION/g" | \
         sed "s/BRANCH_NAME/$BRANCH_NAME/g" | \
         sed "s/COMMIT_SHA/$COMMIT_SHA/g" > cardano-py-k8s/values.yaml
