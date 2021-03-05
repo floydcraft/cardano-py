@@ -56,3 +56,7 @@ availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
       env: 'DOCKER_API_KEY'
+    - versionName: projects/cardano-etl/secrets/floydcraft-github/versions/1
+      env: 'FLOYDCRAFT_GITHUB'
+    - versionName: projects/cardano-etl/secrets/github-known-hosts/versions/1
+      env: 'GITHUB_KNOWN_HOSTS'
