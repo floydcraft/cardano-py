@@ -1,6 +1,6 @@
 import click
 
-@apply.command()
+@click.command()
 @click.argument('config', type=click.Path(exists=True))
 def apply(config):
     """Apply command"""

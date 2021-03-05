@@ -1,6 +1,6 @@
 import click
 
-@apply.command()
+@click.command()
 @click.option('-n', '--node', 'node', required=True, type=str, help='Node to run from config')
 @click.argument('config', type=click.Path(exists=True))
 def run(node, config):
