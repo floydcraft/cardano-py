@@ -1,3 +1,3 @@
-from cardanopy.cardanopy import cli
+from cardanopy.cardanopy import main
 
-cli()
+main()
