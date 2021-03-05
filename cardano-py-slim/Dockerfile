@@ -1,7 +1,7 @@
-ARG _VERSION=0.1.2-dev10
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
+ARG _VERSION=0.1.2-dev10
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV ENV=/etc/profile \
@@ -30,7 +30,7 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
     && chmod +x scripts/entrypoint.sh \
-    && python -m pip install cardanopy==${_VERSION} --no-cache-dir
+    && python -m pip install cardanopy==$_VERSION --no-cache-dir
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "cardanopy" ]
