@@ -1,10 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: producer-statefulset-{{ .Values.targetRole }}
+  name: producer-statefulset
   labels:
     app: producer-statefulset
-    targetRole: {{ .Values.targetRole }}
   namespace: {{ .Values.namespace | quote }}
 spec:
   serviceName: producer-statefulset-lb
@@ -12,25 +11,19 @@ spec:
   selector:
     matchLabels:
       app: producer-statefulset
-      targetRole: {{ .Values.targetRole }}
   template:
     metadata:
       labels:
         app: producer-statefulset
-        targetRole: {{ .Values.targetRole }}
     spec:
       containers:
         - name: producer-container
           image: {{ .Values.cardanoImage }}
-          command: ["cardanopy"]
-          args: ["run", "--node",  {{ printf "producer-statefulset-%s" .Values.targetRole | quote }}, "/config/cardanopy-pool.yaml"]
+#          command: ["cardanopy"]
+#          args: ["run", "--node",  {{ printf "producer-statefulset-%s" .Values.targetRole | quote }}, "/config/cardanopy-pool.yaml"]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardano.network }}
-            - name: CARDANO_NODE_TYPE
-              value: producer
-            - name: TARGET_ROLE
-              value: {{ .Values.targetRole }}
             - name: CARDANO_NODE_SOCKET_PATH
               value: {{ printf "/storage/%s/node.socket" .Values.cardano.network | quote }}
           ports:
@@ -39,14 +32,12 @@ spec:
             - containerPort: 12788
           volumeMounts:
               - mountPath: /storage
-                name: producer-pvc-{{ .Values.targetRole }}
+                name: producer-pvc
       nodeSelector:
         pool: default
   volumeClaimTemplates:
     - metadata:
-        name: producer-pvc-{{ .Values.targetRole }}
-        labels:
-          targetRole: {{ .Values.targetRole }}
+        name: producer-pvc
         namespace: {{ .Values.namespace | quote }}
       spec:
         accessModes:

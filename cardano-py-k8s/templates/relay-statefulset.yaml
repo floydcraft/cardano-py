@@ -1,10 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: relay-statefulset-{{ .Values.targetRole }}
+  name: relay-statefulset
   labels:
     app: relay-statefulset
-    targetRole: {{ .Values.targetRole }}
   namespace: {{ .Values.namespace | quote }}
 spec:
   serviceName: relay-statefulset-lb
@@ -12,25 +11,19 @@ spec:
   selector:
     matchLabels:
       app: relay-statefulset
-      targetRole: {{ .Values.targetRole }}
   template:
     metadata:
       labels:
         app: relay-statefulset
-        targetRole: {{ .Values.targetRole }}
     spec:
       containers:
         - name: relay-container
           image: {{ .Values.cardanoImage }}
-          command: [ "cardanopy" ]
-          args: [ "run", "--node",  { { printf "relay-statefulset-%s" .Values.targetRole | quote } }, "/config/cardanopy-pool.yaml" ]
+#          command: [ "cardanopy" ]
+#          args: [ "run", "--node",  { { printf "relay-statefulset-%s" .Values.targetRole | quote } }, "/config/cardanopy-pool.yaml" ]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardano.network }}
-            - name: CARDANO_NODE_TYPE
-              value: relay
-            - name: TARGET_ROLE
-              value: {{ .Values.targetRole }}
             - name: CARDANO_NODE_SOCKET_PATH
               value: {{ printf "/storage/%s/node.socket" .Values.cardano.network | quote }}
           ports:
@@ -39,14 +32,12 @@ spec:
             - containerPort: 12788
           volumeMounts:
               - mountPath: /storage
-                name: relay-pvc-{{ .Values.targetRole }}
+                name: relay-pvc
       nodeSelector:
         pool: default
   volumeClaimTemplates:
     - metadata:
-        name: relay-pvc-{{ .Values.targetRole }}
-        labels:
-          targetRole: {{ .Values.targetRole }}
+        name: relay-pvc
         namespace: {{ .Values.namespace | quote }}
       spec:
         accessModes:
