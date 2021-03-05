@@ -21,9 +21,6 @@ steps:
         ([ "$code_version" != "$pip_version" ] && twine upload ../dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
     secretEnv: [ 'PYPI_API_KEY' ]
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ 'alpha', 'builds', 'triggers', 'run', '--branch=$BRANCH_NAME', 'cardano-py-slim' ]
-
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
     args: ['-c', 'docker login --username=chbfiv --password=$$DOCKER_API_KEY']
