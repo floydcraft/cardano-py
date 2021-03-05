@@ -16,7 +16,7 @@ setup(name='cardanopy',
       ],
       entry_points={
           'console_scripts': [
-              'cardanopy=cardanopy.cli:cli',
+              'cardanopy=cardanopy:main',
           ],
       },
       project_urls={
