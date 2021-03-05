@@ -1,3 +1,7 @@
+__version__ = "0.1.2-dev2"
+__license__ = "Apache-2.0 License"
+__title__ = "cardanopy"
+
 import click
 
 from .apply import apply
@@ -5,7 +9,7 @@ from .run import run
 from .cli import cli
 
 @click.group()
-@click.version_option(version='0.1.0')
+@click.version_option(version=__version__)
 @click.pass_context
 def main(ctx):
     pass
