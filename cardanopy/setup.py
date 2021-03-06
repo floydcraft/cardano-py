@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name='cardanopy',
-      version='0.1.4-dev1',
+      version='0.1.3',
       description='Cardano CLI tools for python3',
       author='Bourke Floyd',
       author_email='chbfiv@floydcraft.com',
