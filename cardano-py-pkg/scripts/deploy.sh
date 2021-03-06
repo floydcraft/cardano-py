@@ -4,6 +4,6 @@ set -u
 set -o pipefail
 
 rm -rf dist build
-python setup.py bdist_wheel --universal
+python setup.py bdist
 twine check dist/*
 twine upload dist/* --skip-existing
