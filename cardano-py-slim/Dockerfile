@@ -1,7 +1,7 @@
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
-ARG _VERSION=0.1.2
+ARG _VERSION=0.1.3-dev1
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV ENV=/etc/profile \
