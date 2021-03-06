@@ -7,8 +7,8 @@ setup(name='cardanopy',
       description='Cardano CLI tools for python3',
       author='Bourke Floyd',
       author_email='chbfiv@floydcraft.com',
-      url='https://github.com/floydcraft/cardano-k8s',
-      packages=find_packages(include=['cardanopy', 'cardanopy.*']),
+      url='https://github.com/floydcraft/cardano-py',
+      packages=find_packages(),
       keywords='cardano,ada,cli',
       python_requires='>=3.5.3,<4',
       install_requires=[
@@ -20,8 +20,8 @@ setup(name='cardanopy',
           ],
       },
       project_urls={
-          'Bug Reports': 'https://github.com/floydcraft/cardano-k8s/issues',
-          'Chat': 'https://t.me/joinchat/VEVrGGFONwQWSGz_',
-          'Source': 'https://github.com/floydcraft/cardano-k8s',
+          'Bug Reports': 'https://github.com/floydcraft/cardano-py/issues',
+          'Chat': 'https://discord.gg/FyDz4Xrt4x',
+          'Source': 'https://github.com/floydcraft/cardano-py',
       }
 )
