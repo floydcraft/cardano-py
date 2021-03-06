@@ -30,7 +30,7 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
     && chmod +x scripts/entrypoint.sh \
-    && python -m pip install cardanopy==$_VERSION --no-cache-dir
+    && python -m pip3 install cardanopy==$_VERSION --no-cache-dir
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "cardanopy" ]
