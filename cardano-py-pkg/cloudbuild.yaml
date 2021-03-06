@@ -15,10 +15,7 @@ steps:
     args:
       - -c
       - |
-        cd cardano-py-pkg && \
-        code_version=$(python -W ignore setup.py --version) && \
-        pip_version=$(yolk -V cardanopy | cut -d" " -f2) && \
-        ([ "$code_version" != "$pip_version" ] && twine upload ../dist/* -u __token__ -p $$PYPI_API_KEY || echo "No new version")
+        twine upload dist/* --skip-existing -u __token__ -p $$PYPI_API_KEY
     secretEnv: [ 'PYPI_API_KEY' ]
 
   - name: 'gcr.io/cloud-builders/docker'
