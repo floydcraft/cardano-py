@@ -8,7 +8,7 @@ setup(name='cardanopy',
       author='Bourke Floyd',
       author_email='chbfiv@floydcraft.com',
       url='https://github.com/floydcraft/cardano-py',
-      packages=find_packages(),
+      packages=['cardanopy','cardanopy.cli'],
       keywords='cardano,ada,cli',
       python_requires='>=3.5.3,<4',
       install_requires=[
