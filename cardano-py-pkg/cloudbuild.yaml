@@ -4,7 +4,7 @@ substitutions:
   _CONTAINER: "cardano-py-slim"
 steps:
   - name: 'us.gcr.io/$PROJECT_ID/python'
-    args: ['cardano-py-pkg/setup.py', 'bdist_wheel', '--universal']
+    args: ['cardano-py-pkg/setup.py', 'sdist']
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
     entrypoint: 'twine'
