@@ -3,11 +3,13 @@
 from setuptools import setup, find_packages
 
 setup(name='cardanopy',
-      version='0.1.3',
+      version='0.1.3-dev3',
       description='Cardano CLI tools for python3',
       author='Bourke Floyd',
       author_email='chbfiv@floydcraft.com',
       url='https://github.com/floydcraft/cardano-py',
+      # package_dir={'cardanopy': '.'},
+      package_data={'cardanopy': ['templates/*']},
       packages=find_packages(),
       keywords='cardano,ada,cli',
       python_requires='>=3.5.3,<4',

@@ -1,0 +1,27 @@
+apiVersion: cardanopy.node.config/v1
+substitutions: # default values
+  _BLOCK_PRODUCER_ENABLED: False
+name: "relay-k8s"
+config: "config/config.json"
+databasePath: "storage/db"
+socketPath: "storage/node.socket"
+hostAddr: "0.0.0.0"
+port: 3001
+blockProducer:
+  enabled: $_BLOCK_PRODUCER_ENABLED
+  shelleyKesKey: "bp/kes.skey"
+  shelleyVrfKey: "bp/vrf.skey"
+  shelleyOperationalCertificate: "bp/node.cert"
+topology:
+  Producers:
+    - addr: "relay-statefulset-lb.cardano-testnet.svc.cluster.local"
+      port: 3001
+      valency: 2
+docker:
+  image: "floydcraft/cardano-py:latest"
+  volumes:
+    - "storage:storage"
+k8s:
+  namespace: "cardano-testnet"
+
+
