@@ -1,0 +1,27 @@
+apiVersion: cardanopy.node.config/v1
+substitutions: # default values
+  _POD_ORDINAL: 0
+name: "cardano-relay-$_POD_ORDINAL"
+image: "floydcraft/cardano-py:latest"
+config: "config/config.json"
+databasePath: "storage/db"
+socketPath: "storage/node.socket"
+hostAddr: "0.0.0.0"
+port: 3001
+topology:
+  Producers:
+    - addr: "producer-statefulset-0.producer-statefulset-lb.cardano-testnet.svc.cluster.local"
+      port: 3001
+      valency: 1
+    - addr: "relay-statefulset-$_POD_ORDINAL.relay-statefulset-lb.cardano-testnet.svc.cluster.local"
+      port: 3001
+      valency: 1
+    - addr: "relays-new.cardano-testnet.iohkdev.io"
+      port: 3001
+      valency: 2
+docker:
+  image: "floydcraft/cardano-py:latest"
+  volumes:
+    - "storage:storage"
+k8s:
+  namespace: "cardano-testnet"
