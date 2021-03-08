@@ -5,9 +5,10 @@ from cardanopy.cardanopy_config import CardanoPyConfig
 
 
 @click.command()
+@click.option('--pull', is_flag=True)
 @click.argument('target_config', type=str)
 @click.pass_context
-def run(ctx, target_config):
+def run(ctx, pull, target_config):
     """Docker Run command"""
 
     target_config = Path(target_config)
@@ -25,45 +26,58 @@ def run(ctx, target_config):
         ctx.fail(f"Failed to load '{target_config}'")
         return 1
 
-    try:
-        subprocess.run(["docker",
-                        "container",
-                        "rm", config.name])
-    except Exception as ex:
-        ctx.fail(f"EX1'. {type(ex).__name__} {ex.args}")
-        return 1
+    if pull:
+        try:
+            subprocess.run(["docker", "pull", config.name])
+        except Exception as ex:
+            ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
+            return 1
 
     try:
-        command = ["docker",
-                        "run",
-                        "--name", config.name,
-                        "-it",
-                        "--entrypoint", "/bin/bash",
-                        config.docker.image]
-        print(command)
-        subprocess.run(command)
+        result = subprocess.run(["docker",
+                        "ps",
+                        "-q",
+                        "-f", f"name={config.name}"],
+                        stdout=subprocess.PIPE).stdout.decode('utf-8')
+        print(f"container_running={result}")
+        container_running = len(result) > 0
     except Exception as ex:
-        ctx.fail(f"EX2'. {type(ex).__name__} {ex.args}")
+        ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
         return 1
 
+    if not container_running:
+        try:
+            result = subprocess.run(["docker",
+                                     "ps",
+                                     "-aq",
+                                     "-f", f"name={config.name}"],
+                                    stdout=subprocess.PIPE).stdout.decode('utf-8')
+            print(f"container_exited={result}")
+            container_exited = len(result) > 0
+        except Exception as ex:
+            ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
+            return 1
 
+        if container_exited:
+            try:
+                subprocess.run(["docker",
+                                "container",
+                                "rm", config.name])
+            except Exception as ex:
+                ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
+                return 1
 
-
-# if [[ "$2" == "pull" ]]; then
-#   docker pull floydcraft/$IMAGE:latest
-# fi
-#
-# printf "IMAGE=$IMAGE\nCARDANO_NETWORK=$CARDANO_NETWORK\n"
-#
-# if [[ "$( docker container inspect -f '{{.State.Running}}' "$IMAGE" )" == "true" ]]; then
-#   printf "ACTIVE CONTAINER found for: $IMAGE\nattaching to the container\n"
-#   docker exec -it "$IMAGE" bash
-# else
-#   printf "NO ACTIVE CONTAINER found for: $IMAGE\ncleaning containers and creating new container via run\n"
-#   docker container rm "$IMAGE"
-#   docker run --name "$IMAGE" -it \
-#     -v "$PWD/storage/$CARDANO_NETWORK:/storage" \
-#     --env "CARDANO_NETWORK=$CARDANO_NETWORK" \
-#     --env "CARDANO_NODE_SOCKET_PATH=/storage/$CARDANO_NETWORK/node.socket" \
-#     --entrypoint bash "floydcraft/$IMAGE:latest"
-# fi
+        try:
+            subprocess.run(["docker",
+                            "run",
+                            "--name", config.name,
+                            "-it",
+                            "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
+                            "--entrypoint", "/bin/bash",
+                            config.docker.image])
+        except Exception as ex:
+            ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
+            return 1
+    else:
+        ctx.fail(f"Docker container named '{config.name}' is currently running. Please stop/exit the container first.")
+        return 1
