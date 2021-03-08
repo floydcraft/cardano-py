@@ -62,3 +62,25 @@ class CardanoPyConfig(object):
         return self.target_config_yaml['socketPath']
 
     socketPath = property(get_socketPath)
+
+    def get_docker(self):
+        return DockerConfig(self.target_config_yaml['docker'])
+
+    docker = property(get_docker)
+
+
+class DockerConfig(object):
+    config = None
+
+    def __init__(self, config):
+        self.config = config
+
+    def get_image(self):
+        return self.config['image']
+
+    image = property(get_image)
+
+    def get_volumes(self):
+        return self.config['volumes']
+
+    volumes = property(get_volumes)

@@ -19,7 +19,7 @@ topology:
       port: 3001
       valency: 2
 docker:
-  image: "floydcraft/cardano-py:latest"
+  image: "floydcraft/cardano-py-slim:latest"
   volumes:
     - "storage:storage"
 k8s:

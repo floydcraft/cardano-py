@@ -1,9 +1,8 @@
 import click
 import subprocess
-import yaml
 from pathlib import Path
 from .cardanopy_config import CardanoPyConfig
-
+import os
 
 @click.command()
 @click.argument('target_config', type=str)
@@ -25,15 +24,18 @@ def run(ctx, target_config):
         ctx.fail(f"Failed to load '{target_config}'")
         return 1
 
+    os.putenv("CARDANO_NODE_SOCKET_PATH", config.socketPath)
+
     try:
-        subprocess.run(["cardano-node",
+        command = ["cardano-node",
                         "run",
-                        "--config", config.config,
-                        "--topology", config.topologyPath,
-                        "--database-path", config.databasePath,
-                        "--host-addr", config.hostAddr,
-                        "--port", config.port,
-                        "--socket-path", config.socketPath])
+                        "--config", f"'{config.config}'",
+                        "--topology", f"'{config.topologyPath}'",
+                        "--database-path", f"'{config.databasePath}'",
+                        "--host-addr", f"'{config.hostAddr}'",
+                        "--port", f"{config.port}",
+                        "--socket-path", f"'{config.socketPath}'"]
+        subprocess.run(command)
     except Exception as ex:
         ctx.fail(f"TODODO'. {type(ex).__name__} {ex.args}")
         return 1
