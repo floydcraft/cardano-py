@@ -43,7 +43,7 @@ steps:
            '$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', 'floydcraft/$_CONTAINER:$_VERSION']
+    args: ['image', 'push', '--all-tags', 'floydcraft/$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
