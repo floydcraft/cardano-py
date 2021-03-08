@@ -8,7 +8,7 @@ steps:
     args:
       - -c
       - |
-        cd cardanopy
+        cd cardano-py-pkg
         python setup.py sdist
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
@@ -16,7 +16,7 @@ steps:
     args:
       - -c
       - |
-        cd cardanopy
+        cd cardano-py-pkg
         twine check dist/*
 
   - name: 'us.gcr.io/$PROJECT_ID/python'
@@ -24,7 +24,7 @@ steps:
     args:
       - -c
       - |
-        cd cardanopy
+        cd cardano-py-pkg
         twine upload dist/* --skip-existing -u __token__ -p $$PYPI_API_KEY
     secretEnv: [ 'PYPI_API_KEY' ]
 
