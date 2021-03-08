@@ -4,9 +4,11 @@ __title__ = "cardanopy"
 
 import click
 
-from .apply import apply
 from .run import run
+from .create import create
 from .cli import cli
+from .docker import docker
+from .k8s import k8s
 
 @click.group()
 @click.version_option(version=__version__)
@@ -15,6 +17,8 @@ def main(ctx):
     pass
 
 # export
-main.add_command(apply)
 main.add_command(run)
+main.add_command(create)
 main.add_command(cli)
+main.add_command(docker)
+main.add_command(k8s)
