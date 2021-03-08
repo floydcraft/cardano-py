@@ -10,13 +10,13 @@ hostAddr: "0.0.0.0"
 port: 3001
 topology:
   Producers:
-    - addr: "producer-statefulset-0.producer-statefulset-lb.cardano-testnet.svc.cluster.local"
+    - addr: "producer-statefulset-0.producer-statefulset-lb.cardano-mainnet.svc.cluster.local"
       port: 3001
       valency: 1
-    - addr: "relay-statefulset-$_POD_ORDINAL.relay-statefulset-lb.cardano-testnet.svc.cluster.local"
+    - addr: "relay-statefulset-$_POD_ORDINAL.relay-statefulset-lb.cardano-mainnet.svc.cluster.local"
       port: 3001
       valency: 1
-    - addr: "relays-new.cardano-testnet.iohkdev.io"
+    - addr: "relays-new.cardano-mainnet.iohk.io"
       port: 3001
       valency: 2
 docker:
@@ -24,4 +24,4 @@ docker:
   volumes:
     - "storage:storage"
 k8s:
-  namespace: "cardano-testnet"
+  namespace: "cardano-mainnet"

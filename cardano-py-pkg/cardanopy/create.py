@@ -3,6 +3,8 @@ import string
 from pathlib import Path
 import os
 import shutil
+import json
+from .cardanopy_config import CardanoPyConfig
 
 _TEMPLATES_DIR = Path(__file__).parent.joinpath("templates").absolute()
 
@@ -50,6 +52,16 @@ def try_create_template(ctx, network: str, template: str, out_dir: str):
         except Exception as ex:
             ctx.fail(f"Failed to create. Unable to locate '{template}.yaml' to '{out_dir}'. {type(ex).__name__} {ex.args}")
             return 1
+
+        out_cardanopy_config_file = out_dir.joinpath('cardanopy.yaml')
+
+        config = CardanoPyConfig()
+        if not config.load(out_cardanopy_config_file):
+            ctx.fail(f"Failed to load '{out_cardanopy_config_file}'")
+            return 1
+
+        with open(out_dir.joinpath(config.topologyPath), "w") as file:
+            print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
         print(f"Created template '{template}' for network '{network}': '{out_dir}'")
     else:

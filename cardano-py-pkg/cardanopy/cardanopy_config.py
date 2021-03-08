@@ -33,6 +33,11 @@ class CardanoPyConfig(object):
 
     config = property(get_config)
 
+    def get_topologyPath(self):
+        return self.target_config_yaml['topologyPath']
+
+    topologyPath = property(get_topologyPath)
+
     def get_topology(self):
         return self.target_config_yaml['topology']
 

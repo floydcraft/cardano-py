@@ -8,7 +8,7 @@ hostAddr: "0.0.0.0"
 port: 3001
 topology:
   Producers:
-    - addr: "relays-new.cardano-testnet.iohkdev.io"
+    - addr: "relays-new.cardano-mainnet.iohk.io"
       port: 3001
       valency: 2
 docker:
@@ -16,4 +16,4 @@ docker:
   volumes:
     - "storage:storage"
 kubernetes:
-  namespace: "cardano-testnet"
+  namespace: "cardano-mainnet"

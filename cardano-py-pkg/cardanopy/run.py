@@ -29,7 +29,7 @@ def run(ctx, target_config):
         subprocess.run(["cardano-node",
                         "run",
                         "--config", config.config,
-                        "--topology", config.topology,
+                        "--topology", config.topologyPath,
                         "--database-path", config.databasePath,
                         "--host-addr", config.hostAddr,
                         "--port", config.port,
