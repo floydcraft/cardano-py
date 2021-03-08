@@ -46,10 +46,10 @@ steps:
     args: ['image', 'push', 'floydcraft/$_CONTAINER:latest']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', '--all-tags', 'floydcraft/$_CONTAINER:$COMMIT_SHA']
+    args: ['image', 'push', 'floydcraft/$_CONTAINER:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', '--all-tags', 'floydcraft/$_CONTAINER:$_VERSION']
+    args: ['image', 'push', 'floydcraft/$_CONTAINER:$_VERSION']
 
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
