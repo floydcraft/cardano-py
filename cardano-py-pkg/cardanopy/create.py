@@ -81,7 +81,7 @@ def try_create_template(ctx, network: str, template: str, dry_run: bool, out_dir
             with open(out_dir.joinpath(config.topologyPath), "w") as file:
                 print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
-            print(f"Created template '{template}' for network '{network}': '{out_dir}'")
+            print(f"Created cardano defaults from '{template}' template for network '{network}': '{out_dir}'")
     else:
         ctx.fail(f"Failed to create. Unable to locate template '{template}' for network '{network}'.")
         return 1
