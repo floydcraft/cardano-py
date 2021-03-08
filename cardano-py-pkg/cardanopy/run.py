@@ -29,12 +29,13 @@ def run(ctx, target_config):
     try:
         command = ["cardano-node",
                         "run",
-                        "--config", f"'{config.config}'",
-                        "--topology", f"'{config.topologyPath}'",
-                        "--database-path", f"'{config.databasePath}'",
-                        "--host-addr", f"'{config.hostAddr}'",
+                        "--config", config.config,
+                        "--topology", config.topologyPath,
+                        "--database-path", config.databasePath,
+                        "--host-addr", config.hostAddr,
                         "--port", f"{config.port}",
-                        "--socket-path", f"'{config.socketPath}'"]
+                        "--socket-path", config.socketPath]
+        print(command)
         subprocess.run(command)
     except Exception as ex:
         ctx.fail(f"TODODO'. {type(ex).__name__} {ex.args}")

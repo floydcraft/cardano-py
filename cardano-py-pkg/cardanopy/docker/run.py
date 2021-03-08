@@ -28,17 +28,23 @@ def run(ctx, target_config):
     try:
         subprocess.run(["docker",
                         "container",
-                        "rm", f"'{config.name}'"])
-        subprocess.run(["docker",
-                        "run",
-                        "--name", f"'{config.name}'",
-                        "-it",
-                        "--entrypoint", "'/bin/bash'",
-                        f"'{config.docker.image}'"])
+                        "rm", config.name])
     except Exception as ex:
-        ctx.fail(f"TODODO'. {type(ex).__name__} {ex.args}")
+        ctx.fail(f"EX1'. {type(ex).__name__} {ex.args}")
         return 1
 
+    try:
+        command = ["docker",
+                        "run",
+                        "--name", config.name,
+                        "-it",
+                        "--entrypoint", "/bin/bash",
+                        config.docker.image]
+        print(command)
+        subprocess.run(command)
+    except Exception as ex:
+        ctx.fail(f"EX2'. {type(ex).__name__} {ex.args}")
+        return 1
 
 
 
