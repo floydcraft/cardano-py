@@ -9,10 +9,13 @@ from .cardanopy_config import CardanoPyConfig
 _TEMPLATES_DIR = Path(__file__).parent.joinpath("templates").absolute()
 
 
-def try_create_template(ctx, network: str, template: str, out_dir: str):
+def try_create_template(ctx, network: str, template: str, dry_run: bool, out_dir: str):
     out_dir = Path(out_dir)
     network = network.lower()
     network_dir = _TEMPLATES_DIR.joinpath(network)
+
+    if dry_run:
+        print("#### DRY RUN - no mutable changes will be made. ####")
 
     if out_dir.exists():
         ctx.fail(f"Failed to create. Directory '{out_dir}' already exists.")
@@ -36,34 +39,49 @@ def try_create_template(ctx, network: str, template: str, out_dir: str):
             return 1
 
         try:
-            shutil.copytree(config_dir, out_dir.joinpath("config"))
+            output_config_dir = out_dir.joinpath("config")
+            if dry_run:
+                print(f"copy 'config' directory from '{config_dir}' to '{output_config_dir}'")
+            else:
+                shutil.copytree(config_dir, output_config_dir)
         except Exception as ex:
             ctx.fail(f"Failed to create. Unable to copy config to '{out_dir}'. {type(ex).__name__} {ex.args}")
             return 1
 
         try:
-            shutil.copytree(storage_dir, out_dir.joinpath("storage"))
+            output_storage_dir = out_dir.joinpath("storage")
+            if dry_run:
+                print(f"copy 'storage' directory from '{storage_dir}' to '{output_storage_dir}'")
+            else:
+                shutil.copytree(storage_dir, output_storage_dir)
         except Exception as ex:
             ctx.fail(f"Failed to create. Unable to copy storage to '{out_dir}'. {type(ex).__name__} {ex.args}")
             return 1
 
         try:
-            shutil.copyfile(template_yaml, out_dir.joinpath('cardanopy.yaml'))
+            output_template_yaml = out_dir.joinpath('cardanopy.yaml')
+            if dry_run:
+                print(f"copy 'cardanopy.yaml' file from '{template_yaml}' to '{output_template_yaml}'")
+            else:
+                shutil.copyfile(template_yaml, output_template_yaml)
         except Exception as ex:
             ctx.fail(f"Failed to create. Unable to locate '{template}.yaml' to '{out_dir}'. {type(ex).__name__} {ex.args}")
             return 1
 
         out_cardanopy_config_file = out_dir.joinpath('cardanopy.yaml')
 
-        config = CardanoPyConfig()
-        if not config.load(out_cardanopy_config_file):
-            ctx.fail(f"Failed to load '{out_cardanopy_config_file}'")
-            return 1
+        if dry_run:
+            print(f"generate 'topology.json' file from '{template_yaml}':topology to '{template_yaml}':topologyPath")
+        else:
+            config = CardanoPyConfig()
+            if not config.load(out_cardanopy_config_file):
+                ctx.fail(f"Failed to load '{out_cardanopy_config_file}'")
+                return 1
 
-        with open(out_dir.joinpath(config.topologyPath), "w") as file:
-            print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
+            with open(out_dir.joinpath(config.topologyPath), "w") as file:
+                print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
-        print(f"Created template '{template}' for network '{network}': '{out_dir}'")
+            print(f"Created template '{template}' for network '{network}': '{out_dir}'")
     else:
         ctx.fail(f"Failed to create. Unable to locate template '{template}' for network '{network}'.")
         return 1
@@ -73,8 +91,9 @@ def try_create_template(ctx, network: str, template: str, out_dir: str):
 @click.option('-t', '--template', 'template', required=True, type=str, help='template type to create.')
 @click.option('-n', '--network', 'network', default="testnet",
               type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('out_dir', type=click.Path(file_okay=False, dir_okay=True, exists=False))
 @click.pass_context
-def create(ctx, template, network, out_dir):
+def create(ctx, template, network, dry_run, out_dir):
     """Create command"""
-    try_create_template(ctx, network, template, out_dir)
+    try_create_template(ctx, network, template, dry_run, out_dir)

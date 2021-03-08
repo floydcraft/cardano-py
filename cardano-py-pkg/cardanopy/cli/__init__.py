@@ -7,6 +7,7 @@ from .stake_address import stake_address
 @click.group()
 @click.pass_context
 def cli(ctx):
+    """Cardano CLI command"""
     pass
 
 # export
