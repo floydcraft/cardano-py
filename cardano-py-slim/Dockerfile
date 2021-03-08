@@ -1,8 +1,10 @@
+ARG _CARDANO_NODE_VERSION=1.25.1
+FROM floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION as base
+
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
 ARG _VERSION=0.1.3-dev4
-ARG _CARDANO_NODE_VERSION=1.25.1
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -16,13 +18,13 @@ ENV ENV=/etc/profile \
 USER root
 WORKDIR /
 
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /root/.cabal/bin/* /usr/local/bin/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /lib/x86_64-linux-gnu/lib* /lib/x86_64-linux-gnu/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /lib64/ld-linux-x86-64* /lib64/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /usr/lib/x86_64-linux-gnu/libgmp.* /usr/lib/x86_64-linux-gnu/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /usr/lib/x86_64-linux-gnu/liblz4.* /usr/lib/x86_64-linux-gnu/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu/
-COPY --from="floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION" /opt/ /opt/
+COPY --from=base /root/.cabal/bin/* /usr/local/bin/
+COPY --from=base /lib/x86_64-linux-gnu/lib* /lib/x86_64-linux-gnu/
+COPY --from=base /lib64/ld-linux-x86-64* /lib64/
+COPY --from=base /usr/lib/x86_64-linux-gnu/libgmp.* /usr/lib/x86_64-linux-gnu/
+COPY --from=base /usr/lib/x86_64-linux-gnu/liblz4.* /usr/lib/x86_64-linux-gnu/
+COPY --from=base /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu/
+COPY --from=base /opt/ /opt/
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
