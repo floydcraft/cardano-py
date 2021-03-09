@@ -47,8 +47,7 @@ def run(ctx, dry_run, target_dir, config_filename):
         ctx.fail(f"Failed to generate '{target_dir}'")
         return 1
 
-    cardano_node_cmd = ["cd", f"{target_dir}", "&&",
-                        "cardano-node",
+    cardano_node_cmd = ["cardano-node",
                         "run",
                         "--config", config.config,
                         "--topology", config.topologyPath,
@@ -60,7 +59,7 @@ def run(ctx, dry_run, target_dir, config_filename):
         print(" ".join(cardano_node_cmd))
     else:
         try:
-            subprocess.run(cardano_node_cmd)
+            subprocess.run(cardano_node_cmd, cwd=target_dir)
         except Exception as ex:
             ctx.fail(f"Unknown exception: {ex} {type(ex).__name__} {ex.args}")
             return 1
@@ -74,18 +73,20 @@ def generate(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
             print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
         for dir_name, subdirList, fileList in os.walk(target_dir):
-            dir_path = target_dir.joinpath(dir_name)
+            dir_path = Path(dir_name)
             print(f'Found directory: {dir_path}')
             for file_name in fileList:
                 file_path = dir_path.joinpath(file_name)
                 print(f'Found file: {file_path}')
                 if ".template" in file_name:
                     try:
-                        output_template_yaml = file_path.joinpath(file_name.replace(".template", ""))
+                        output_template_yaml = dir_path.joinpath(file_name.replace(".template", ""))
                         if dry_run:
                             print(f"copy file from '{file_path}' to '{output_template_yaml}'")
                         else:
                             shutil.copyfile(file_path, output_template_yaml)
-                        return True
-                    except Exception:
+                    except Exception as ex:
+                        print(f"Unknown exception: {ex} {type(ex).__name__} {ex.args}")
                         return False
+
+    return True
