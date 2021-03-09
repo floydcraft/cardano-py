@@ -73,18 +73,19 @@ def generate(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
         with open(target_dir.joinpath(config.topologyPath), "w") as file:
             print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
-        for dirName, subdirList, fileList in os.walk(target_dir):
-            print(f'Found directory: {dirName}')
-            for fname in fileList:
-                print(f'Found file: {fname}')
-                if ".template" in fname:
+        for dir_name, subdirList, fileList in os.walk(target_dir):
+            dir_path = target_dir.joinpath(dir_name)
+            print(f'Found directory: {dir_path}')
+            for file_name in fileList:
+                file_path = dir_path.joinpath(file_name)
+                print(f'Found file: {file_path}')
+                if ".template" in file_name:
                     try:
-                        output_template_yaml = fname.replace(".template", "")
+                        output_template_yaml = file_path.joinpath(file_name.replace(".template", ""))
                         if dry_run:
-                            print(f"copy file from '{fname}' to '{output_template_yaml}'")
+                            print(f"copy file from '{file_path}' to '{output_template_yaml}'")
                         else:
-                            shutil.copyfile(fname, output_template_yaml)
-
+                            shutil.copyfile(file_path, output_template_yaml)
                         return True
                     except Exception:
                         return False
