@@ -4,7 +4,7 @@ FROM floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION as base
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
-ARG _VERSION=0.1.4
+ARG _VERSION=0.1.5-dev1
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -31,10 +31,8 @@ RUN apt-get update \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
-    && python -m pip install cardanopy==$_VERSION --no-cache-dir \
-    && cardanopy create --template basic --network testnet default-testnet \
-    && cardanopy create --template basic --network mainnet default-mainnet
+    && python -m pip install cardanopy==$_VERSION --no-cache-dir
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "cardanopy" ]
-CMD [ "run", "./default-testnet" ]
+CMD [ "--help" ]
