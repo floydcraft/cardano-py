@@ -7,7 +7,7 @@ datadir = Path(__file__).parent / 'cardanopy' / 'templates'
 files = ['templates/' + str(p.relative_to(datadir)) for p in datadir.rglob('*')]
 
 setup(name='cardanopy',
-      version='0.1.4-dev14',
+      version='0.1.4',
       description='Cardano CLI tools for python3',
       author='Bourke Floyd',
       author_email='chbfiv@floydcraft.com',
