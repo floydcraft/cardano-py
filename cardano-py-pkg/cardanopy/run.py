@@ -5,8 +5,8 @@ from .cardanopy_config import CardanoPyConfig
 import json
 
 @click.command()
-@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('-n', '--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
+@click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
 @click.argument('target_dir', type=str)
 @click.pass_context
 def run(ctx, dry_run, target_dir, config_filename):
@@ -43,7 +43,7 @@ def run(ctx, dry_run, target_dir, config_filename):
 
     generate_topology(dry_run, target_dir, config)
 
-    cardano_node_cmd = ["cd", target_dir, "&&",
+    cardano_node_cmd = ["cd", f"{target_dir}", "&&",
                         "cardano-node",
                         "run",
                         "--config", config.config,

@@ -5,25 +5,39 @@ from cardanopy.cardanopy_config import CardanoPyConfig
 
 
 @click.command()
-@click.option('-p', '--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
-@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('-b', '--bash', 'bash', is_flag=True, help="connect to the container via bash")
-@click.argument('target_config', type=str)
+@click.option('--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
+@click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('--bash', 'bash', is_flag=True, help="connect to the container via bash")
+@click.option('-d', '--daemon', 'daemon', is_flag=True, help="runs the container in the background")
+@click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
+@click.argument('target_dir', type=str)
 @click.pass_context
-def run(ctx, pull, dry_run, bash, target_config):
+def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
     """Docker Run helper command"""
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_config = Path(target_config)
+    target_dir = Path(target_dir)
+
+
+    if not target_dir.is_dir():
+        ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
+        return 1
+
+    if not target_dir.exists():
+        ctx.fail(f"Target directory '{target_dir}' does not exist.")
+        return 1
+
+    target_config = target_dir.joinpath(config_filename)
 
     if not target_config.is_file():
-        ctx.fail(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
+        ctx.fail(
+            f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
         return 1
 
     if not target_config.exists():
-        ctx.fail(f"Target config '{target_config}' does not exist.")
+        ctx.fail(f"Target file '{target_config}' does not exist.")
         return 1
 
     config = CardanoPyConfig()
@@ -81,6 +95,7 @@ def run(ctx, pull, dry_run, bash, target_config):
         docker_run_cmd = list(filter(None,["docker",
                             "run",
                             "--name", config.name,
+                            "-d" if daemon else None,
                             "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
                             "-it" if bash else None,
                             "--entrypoint" if bash else None,
