@@ -58,7 +58,7 @@ def run(ctx, dry_run, target_dir, config_filename):
         try:
             subprocess.run(cardano_node_cmd)
         except Exception as ex:
-            ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
+            ctx.fail(f"Unknown exception: {ex} {type(ex).__name__} {ex.args}")
             return 1
 
 
