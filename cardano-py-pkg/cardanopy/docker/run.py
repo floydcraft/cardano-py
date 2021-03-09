@@ -97,8 +97,8 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
                             "--name", config.name,
                             "-d" if daemon else None,
                             "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
+                            "-p", f"{config.port}:{config.port}",
                             "-it" if bash else None,
-                            "-p", f"{config.port}:{config.port}"
                             "--entrypoint" if bash else None,
                             "bin/bash" if bash else None,
                             config.docker.image]))
