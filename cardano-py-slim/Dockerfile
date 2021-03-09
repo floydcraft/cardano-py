@@ -37,4 +37,4 @@ RUN apt-get update \
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "cardanopy" ]
-CMD [ "run", "./default-testnet/cardanopy.yaml" ]
+CMD [ "run", "./default-testnet" ]
