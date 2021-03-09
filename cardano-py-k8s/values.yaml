@@ -1,5 +1,5 @@
-buildId: d80d3a98-757d-48e9-8147-afca02213456
-version: 0.1.4-dev6
-commitSha: bda44a38b4fd8bebb738f63395023e49b65c0ae0
+buildId: 035aaa83-ab25-4da6-8193-722186ed7e2c
+version: 0.1.4-dev7
+commitSha: ccbf9da898e0d5111d81ae0fc427de2a2b9baede
 branchName: master
-cardanoImage: floydcraft/cardano-py-slim:bda44a38b4fd8bebb738f63395023e49b65c0ae0
+cardanoImage: floydcraft/cardano-py-slim:ccbf9da898e0d5111d81ae0fc427de2a2b9baede
