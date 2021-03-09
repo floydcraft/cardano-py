@@ -28,6 +28,11 @@ class CardanoPyConfig(object):
 
     name = property(get_name)
 
+    def get_network(self):
+        return self.target_config_yaml['network']
+
+    network = property(get_network)
+
     def get_config(self):
         return self.target_config_yaml['config']
 

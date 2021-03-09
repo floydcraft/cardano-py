@@ -1,15 +1,19 @@
 import click
-import string
 from pathlib import Path
-import os
 import shutil
-import json
-from .cardanopy_config import CardanoPyConfig
 
 _TEMPLATES_DIR = Path(__file__).parent.joinpath("templates").absolute()
 
 
-def try_create_template(ctx, network: str, template: str, dry_run: bool, out_dir: str):
+@click.command()
+@click.option('-t', '--template', 'template', required=True, type=str, help='template type to create.')
+@click.option('-n', '--network', 'network', default="testnet",
+              type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.argument('out_dir', type=click.Path(file_okay=False, dir_okay=True, exists=False))
+@click.pass_context
+def create(ctx, template, network, dry_run, out_dir):
+    """Create command"""
     out_dir = Path(out_dir)
     network = network.lower()
     network_dir = _TEMPLATES_DIR.joinpath(network)
@@ -68,32 +72,8 @@ def try_create_template(ctx, network: str, template: str, dry_run: bool, out_dir
             ctx.fail(f"Failed to create. Unable to locate '{template}.yaml' to '{out_dir}'. {type(ex).__name__} {ex.args}")
             return 1
 
-        out_cardanopy_config_file = out_dir.joinpath('cardanopy.yaml')
-
-        if dry_run:
-            print(f"generate 'topology.json' file from '{template_yaml}':topology to '{template_yaml}':topologyPath")
-        else:
-            config = CardanoPyConfig()
-            if not config.load(out_cardanopy_config_file):
-                ctx.fail(f"Failed to load '{out_cardanopy_config_file}'")
-                return 1
-
-            with open(out_dir.joinpath(config.topologyPath), "w") as file:
-                print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
-
+        if not dry_run:
             print(f"Created cardano defaults from '{template}' template for network '{network}': '{out_dir}'")
     else:
         ctx.fail(f"Failed to create. Unable to locate template '{template}' for network '{network}'.")
         return 1
-
-
-@click.command()
-@click.option('-t', '--template', 'template', required=True, type=str, help='template type to create.')
-@click.option('-n', '--network', 'network', default="testnet",
-              type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
-@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.argument('out_dir', type=click.Path(file_okay=False, dir_okay=True, exists=False))
-@click.pass_context
-def create(ctx, template, network, dry_run, out_dir):
-    """Create command"""
-    try_create_template(ctx, network, template, dry_run, out_dir)
