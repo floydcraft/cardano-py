@@ -5,21 +5,17 @@ from cardanopy.cardanopy_config import CardanoPyConfig
 
 
 @click.command()
-@click.option('--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
 @click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('--bash', 'bash', is_flag=True, help="connect to the container via bash")
-@click.option('-d', '--daemon', 'daemon', is_flag=True, help="runs the container in the background")
 @click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
 @click.argument('target_dir', type=str)
 @click.pass_context
-def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
-    """Docker Run helper command"""
+def exec(ctx, dry_run, target_dir, config_filename):
+    """Docker Exec helper command"""
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
     target_dir = Path(target_dir)
-
 
     if not target_dir.is_dir():
         ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
@@ -45,17 +41,6 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
         ctx.fail(f"Failed to load '{target_config}'")
         return 1
 
-    if pull:
-        docker_pull_cmd = ["docker", "pull", config.docker.image]
-        if dry_run:
-            print(" ".join(docker_pull_cmd))
-        else:
-            try:
-                subprocess.run(docker_pull_cmd)
-            except Exception as ex:
-                ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
-                return 1
-
     try:
         result = subprocess.run(["docker",
                         "ps",
@@ -67,41 +52,12 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
         ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
         return 1
 
-    if not container_running:
-        try:
-            result = subprocess.run(["docker",
-                                     "ps",
-                                     "-aq",
-                                     "-f", f"name={config.name}"],
-                                    stdout=subprocess.PIPE).stdout.decode('utf-8')
-            container_exited = len(result) > 0
-        except Exception as ex:
-            ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
-            return 1
-
-        if container_exited:
-            docker_container_rm_cmd = ["docker",
-                                        "container",
-                                        "rm", config.name]
-            if dry_run:
-                print(" ".join(docker_container_rm_cmd))
-            else:
-                try:
-                    subprocess.run(docker_container_rm_cmd)
-                except Exception as ex:
-                    ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
-                    return 1
-
-        docker_run_cmd = list(filter(None,["docker",
-                            "run",
-                            "--name", config.name,
-                            "-d" if daemon else None,
-                            "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
-                            "-p", f"{config.port}:{config.port}",
-                            "-it" if bash else None,
-                            "--entrypoint" if bash else None,
-                            "bin/bash" if bash else None,
-                            config.docker.image]))
+    if container_running:
+        docker_run_cmd = ["docker",
+                          "exec",
+                          "-it",
+                          config.name,
+                          "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))
         else:
@@ -111,21 +67,5 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1
     else:
-
-        if bash:
-            docker_run_cmd = ["docker",
-                                "exec",
-                                "-it",
-                                config.name,
-                                "bin/bash"]
-            if dry_run:
-                print(" ".join(docker_run_cmd))
-            else:
-                try:
-                    subprocess.run(docker_run_cmd)
-                except Exception as ex:
-                    ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
-                    return 1
-        else:
-            ctx.fail(f"Docker container named '{config.name}' is currently running. Please stop/exit the container first.")
-            return 1
+        ctx.fail(f"Docker container named '{config.name}' is NOT currently running. Please 'run' the container first.")
+        return 1

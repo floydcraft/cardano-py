@@ -20,7 +20,6 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
 
     target_dir = Path(target_dir)
 
-
     if not target_dir.is_dir():
         ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
         return 1
@@ -111,5 +110,5 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1
     else:
-        ctx.fail(f"Docker container named '{config.name}' is currently running. Please stop/exit the container first.")
+        ctx.fail(f"Docker container named '{config.name}' is currently running. Please use 'exec' or stop/exit the container first.")
         return 1
