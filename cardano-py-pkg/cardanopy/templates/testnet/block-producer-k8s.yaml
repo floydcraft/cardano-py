@@ -1,4 +1,6 @@
 apiVersion: cardanopy.node.config/v1
+substitutions:
+  _BP_ENABLED: False
 name: "relay-k8s"
 network: "testnet"
 config: "config/config.json"
@@ -8,7 +10,7 @@ topologyPath: "config/topology.json"
 hostAddr: "0.0.0.0"
 port: 3001
 blockProducer:
-  enabled: False
+  enabled: $_BP_ENABLED
   shelleyKesKey: "bp/kes.skey"
   shelleyVrfKey: "bp/vrf.skey"
   shelleyOperationalCertificate: "bp/node.cert"

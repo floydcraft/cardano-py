@@ -1,5 +1,8 @@
 apiVersion: cardanopy.node.config/v1
-name: "cardano-relay-2"
+substitutions:
+  _POD_ORDINAL: 0
+  _TARGET_POD_ORDINAL: 1
+name: "cardano-relay-$_POD_ORDINAL"
 network: "testnet"
 config: "config/config.json"
 databasePath: "storage/db"
@@ -12,7 +15,7 @@ topology:
     - addr: "producer-statefulset-0.producer-statefulset-lb.cardano-testnet.svc.cluster.local"
       port: 3001
       valency: 1
-    - addr: "relay-statefulset-0.relay-statefulset-lb.cardano-testnet.svc.cluster.local"
+    - addr: "relay-statefulset-$_TARGET_POD_ORDINAL.relay-statefulset-lb.cardano-testnet.svc.cluster.local"
       port: 3001
       valency: 1
     - addr: "relays-new.cardano-testnet.iohkdev.io"

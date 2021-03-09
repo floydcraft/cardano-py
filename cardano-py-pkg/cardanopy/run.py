@@ -3,6 +3,8 @@ import subprocess
 from pathlib import Path
 from .cardanopy_config import CardanoPyConfig
 import json
+import os
+import shutil
 
 @click.command()
 @click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
@@ -41,7 +43,9 @@ def run(ctx, dry_run, target_dir, config_filename):
         ctx.fail(f"Failed to load '{target_config}'")
         return 1
 
-    generate_topology(dry_run, target_dir, config)
+    if not generate(dry_run, target_dir, config):
+        ctx.fail(f"Failed to generate '{target_dir}'")
+        return 1
 
     cardano_node_cmd = ["cd", f"{target_dir}", "&&",
                         "cardano-node",
@@ -62,9 +66,25 @@ def run(ctx, dry_run, target_dir, config_filename):
             return 1
 
 
-def generate_topology(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
+def generate(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
     if dry_run:
         print(f"generate 'topology.json' file config.topologyPath to `{config.topologyPath}'")
     else:
         with open(target_dir.joinpath(config.topologyPath), "w") as file:
             print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
+
+        for dirName, subdirList, fileList in os.walk(target_dir):
+            print(f'Found directory: {dirName}')
+            for fname in fileList:
+                print(f'Found file: {fname}')
+                if ".template" in fname:
+                    try:
+                        output_template_yaml = fname.replace(".template", "")
+                        if dry_run:
+                            print(f"copy file from '{fname}' to '{output_template_yaml}'")
+                        else:
+                            shutil.copyfile(fname, output_template_yaml)
+
+                        return True
+                    except Exception:
+                        return False

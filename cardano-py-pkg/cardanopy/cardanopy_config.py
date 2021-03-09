@@ -23,6 +23,11 @@ class CardanoPyConfig(object):
 
         return True
 
+    def get_substitutions(self):
+        return self.target_config_yaml['substitutions']
+
+    substitutions = property(get_substitutions)
+
     def get_name(self):
         return self.target_config_yaml['name']
 
