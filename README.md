@@ -10,9 +10,11 @@ Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with
 
 ## Solution
 *CardanoPy: 5 min extensible Cardano Nodes*
-- (4 mins) `pip3 install cardanopy`
-- (1 min) `cardanopy run cardano-node-slim:latest --network testnet pynode`
-- (0 secs) `cardanopy exec pynode query tip`
+- `pip3 install cardanopy`
+- `cardanopy create --template basic --network testnet bin/testnet-basic`
+- `cardanopy docker run --daemon bin/testnet-basic`
+
+> NOTE: `cardanopy docker exec bin/testnet-basic` can bbe used to connect to the container instance. bin/testnet-basic/cardanopy.yaml:name is used.
 
 ## Roadmap
 - (WIP) Core Docker Images (Dev + Slim) with CI/CD
