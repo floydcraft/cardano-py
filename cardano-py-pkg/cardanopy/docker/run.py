@@ -97,15 +97,18 @@ def run(ctx, pull, dry_run, bash, target_dir, config_filename, daemon):
                             "-d" if daemon else None,
                             "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
                             "-p", f"{config.port}:{config.port}",
+                            "-v", f"{target_dir.absolute()}:/app",
                             "-it" if bash else None,
                             "--entrypoint" if bash else None,
                             "bin/bash" if bash else None,
-                            config.docker.image]))
+                            config.docker.image,
+                            "run" if not bash else None,
+                            "/app" if not bash else None]))
         if dry_run:
-            print(" ".join(docker_run_cmd))
+            print(f"cd {target_dir} && " + " ".join(docker_run_cmd))
         else:
             try:
-                subprocess.run(docker_run_cmd)
+                subprocess.run(docker_run_cmd, cwd=target_dir)
             except Exception as ex:
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1
