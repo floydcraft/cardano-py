@@ -19,8 +19,7 @@ spec:
       containers:
         - name: relay-container
           image: {{ .Values.cardanoImage }}
-#          command: [ "cardanopy" ]
-#          args: [ "run", "--node",  { { printf "relay-statefulset-%s" .Values.targetRole | quote } }, "/config/cardanopy-pool.yaml" ]
+          args: ["run", "/app"]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardano.network }}

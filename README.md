@@ -12,16 +12,11 @@ Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with
 *CardanoPy: 5 min extensible Cardano Nodes*
 - `pip3 install cardanopy`
 - `cardanopy create --template basic --network testnet bin/testnet-basic`
-- `cardanopy docker run --daemon bin/testnet-basic`
-
-> NOTE: `cardanopy docker exec bin/testnet-basic` can bbe used to connect to the container instance. bin/testnet-basic/cardanopy.yaml:name is used.
+- `cardanopy docker run bin/testnet-basic`
+- `cardanopy cli query tip`
 
 ## Roadmap
-- (WIP) Core Docker Images (Dev + Slim) with CI/CD
 - (WIP) Kubernetes definitions for different deployments (relay, producer, relays, db sync, ...) (see `cardano-node`)
-- (WIP) cardanopy python CLI approach
-- (TODO) move 'run.sh' features into python CLI
-- (TODO) cardanopy wrapper for cardano-cli w/ easy of use improvements
 - (TODO) cardanopy etl feature for db-sync providers
 
 ## Core Docker Images on [dockerhub](https://hub.docker.com/u/floydcraft)
@@ -42,10 +37,14 @@ Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with
 ### Install CardanoPy
 - `pip3 install cardanopy`
 
+
+### Create - CardanoPy Config from templates (basic, bp-k8s, relay-k8s, ...)
+> NOTE: using testnet for example
+- `cardanopy create --template basic --network testnet bin/testnet-basic`
+
 ### Run - Cardano Node
-- Complete "Install CardanoPy" OR "Install CardanoPy via Source" step.
-- `cardanopy run cardano-node-slim:latest --network testnet pynode`
-- `cardanopy exec pynode query tip`
+- `cardanopy docker run bin/testnet-basic`
+- `cardanopy cli query tip`
 ```json
 {
     "blockNo": 351325,
@@ -53,44 +52,3 @@ Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with
     "slotNo": 352369
 }
 ```
-
-### (OPTIONAL) Install CardanoPy via Source
-- `git clone git@github.com:floydcraft/cardano-py.git`
-- `cd cardano-py`
-- `python3 setup.py install`
-
-### (OPTIONAL) Build - Cardano Node
-- Complete "Install CardanoPy via Source" step.
-- `cardanopy build --tag cardano-node-slim:latest --dir cardano-node-slim`
-- Complete "Run - Cardano Node" step.
-
-
-## Quickstarts (working pre-alpha)
-
-### Passive Cardano Stakepool
-> NOTE: this section is works atm, but is still under development
-> Requires docker. Works on OSX and likely linux distributions
-
-1. Clone this repo and open terminal at the project root of `cardano-node-k8s`
-2. `chmod +x scripts/run.sh`
-3. `./scripts/run.sh slim testnet relay blue pull`
-- "slim" is my custom Cardano container I'm building for cardano-etl. See above for the different options
-- "testnet" is the devnet for Cardano. Can also use "mainnet"
-- "relay" a simple type of cardano node
-- "blue" type of deployment for kubernetes (will be optional later)
-- "pull" will force a pull from docker hub "latest" tag. If you omit it will use a local image.
-
-4. Once in the container run `./scripts/entrypoint.sh`
-5. Congratulations! You should now see the Passive Cardano Node booting.
-
-### Cardano DB Sync
-> NOTE: This section is broken atm and is still WIP.
-
-1. Clone this repo and open terminal at the project root of `cardano-node-k8s`
-2. `chmod +x scripts/run.sh`
-3. `./scripts/run.sh slim testnet relay blue pull`
-4. Once in the container run `./scripts/entrypoint.sh`   
-5. Open an additional terminal at the project root of `cardano-py`
-6. `./scripts/run.sh db-sync-iohk testnet pull` (broken atm)
-7. Once in the container run `./scripts/entrypoint.sh`
-8. Congratulations! You should now see the Passive Cardano Node booting and have access to the Postgres SQL db syncing.

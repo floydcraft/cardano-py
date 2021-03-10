@@ -20,8 +20,24 @@ class CardanoPyConfig(object):
 
         with open(target_config_file, "r") as file:
             self.target_config_yaml = yaml.full_load(file.read())
+            return True
 
-        return True
+        return False
+
+    def set(self, property: str, value):
+        self.target_config_yaml[property] = value
+
+    def save(self, target_config_file: Path):
+
+        if not target_config_file.is_file():
+            print(f"Target config '{target_config_file}' is not a file. e.g., 'cardanopy.yaml'")
+            return False
+
+        with open(target_config_file, "w") as file:
+            yaml.dump(self.target_config_yaml, file)
+            return True
+
+        return False
 
     def get_substitutions(self):
         return self.target_config_yaml['substitutions']

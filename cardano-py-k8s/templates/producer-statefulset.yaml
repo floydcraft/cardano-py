@@ -19,8 +19,8 @@ spec:
       containers:
         - name: producer-container
           image: {{ .Values.cardanoImage }}
-#          command: ["cardanopy"]
-#          args: ["run", "--node",  {{ printf "producer-statefulset-%s" .Values.targetRole | quote }}, "/config/cardanopy-pool.yaml"]
+          command: ["cardanopy"]
+          args: ["run", "/app"]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardano.network }}

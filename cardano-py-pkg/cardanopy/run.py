@@ -74,10 +74,8 @@ def generate(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
 
         for dir_name, subdirList, fileList in os.walk(target_dir):
             dir_path = Path(dir_name)
-            print(f'Found directory: {dir_path}')
             for file_name in fileList:
                 file_path = dir_path.joinpath(file_name)
-                print(f'Found file: {file_path}')
                 if ".template" in file_name:
                     try:
                         output_template_yaml = dir_path.joinpath(file_name.replace(".template", ""))

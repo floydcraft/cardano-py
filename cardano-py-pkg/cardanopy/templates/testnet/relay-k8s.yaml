@@ -6,9 +6,9 @@ name: "cardano-relay-$_POD_ORDINAL"
 network: "testnet"
 root: "/app"
 config: "/app/config/config.json"
-databasePath: "/app/storage/db"
-socketPath: "/app/storage/node.socket"
 topologyPath: "/app/config/topology.json"
+databasePath: "/app/db"
+socketPath: "/app/node.socket"
 hostAddr: "0.0.0.0"
 port: 3001
 topology:

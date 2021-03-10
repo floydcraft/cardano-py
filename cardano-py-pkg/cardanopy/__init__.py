@@ -9,6 +9,7 @@ from .create import create
 from .cli import cli
 from .docker import docker
 from .k8s import k8s
+from .config import config
 
 @click.group()
 @click.version_option(version=__version__)
@@ -22,3 +23,4 @@ main.add_command(create)
 main.add_command(cli)
 main.add_command(docker)
 main.add_command(k8s)
+main.add_command(config)
