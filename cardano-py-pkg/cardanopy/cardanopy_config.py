@@ -33,6 +33,11 @@ class CardanoPyConfig(object):
 
     name = property(get_name)
 
+    def get_root(self):
+        return self.target_config_yaml['root']
+
+    root = property(get_root)
+
     def get_network(self):
         return self.target_config_yaml['network']
 
@@ -89,8 +94,3 @@ class DockerConfig(object):
         return self.config['image']
 
     image = property(get_image)
-
-    def get_volumes(self):
-        return self.config['volumes']
-
-    volumes = property(get_volumes)

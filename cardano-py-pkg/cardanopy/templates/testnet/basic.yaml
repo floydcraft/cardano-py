@@ -1,10 +1,11 @@
 apiVersion: cardanopy.node.config/v1
 name: "basic"
 network: "testnet"
-config: "config/config.json"
-databasePath: "storage/db"
-socketPath: "storage/node.socket"
-topologyPath: "config/topology.json"
+root: "/app"
+config: "/app/config/config.json"
+databasePath: "/app/storage/db"
+socketPath: "/app/storage/node.socket"
+topologyPath: "/app/config/topology.json"
 hostAddr: "0.0.0.0"
 port: 3001
 topology:
@@ -14,7 +15,5 @@ topology:
       valency: 2
 docker:
   image: "floydcraft/cardano-py-slim:latest"
-  volumes:
-    - "storage:storage"
 kubernetes:
   namespace: "cardano-testnet"

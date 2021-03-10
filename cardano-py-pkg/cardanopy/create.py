@@ -6,10 +6,10 @@ _TEMPLATES_DIR = Path(__file__).parent.joinpath("templates").absolute()
 
 
 @click.command()
-@click.option('--template', 'template', required=True, type=str, help='template type to create.')
-@click.option('--network', 'network', default="testnet",
+@click.option('-t', '--template', 'template', required=True, type=str, help='template type to create.')
+@click.option('-t', '--network', 'network', default="testnet",
               type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
-@click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('out_dir', type=click.Path(file_okay=False, dir_okay=True, exists=False))
 @click.pass_context
 def create(ctx, template, network, dry_run, out_dir):

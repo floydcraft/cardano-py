@@ -7,7 +7,7 @@ import os
 import shutil
 
 @click.command()
-@click.option('--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
 @click.argument('target_dir', type=str)
 @click.pass_context
