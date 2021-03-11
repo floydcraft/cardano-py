@@ -1,6 +1,5 @@
 import click
 import subprocess
-from pathlib import Path
 from cardanopy.cardanopy_config import CardanoPyConfig
 
 
@@ -15,34 +14,15 @@ def run(ctx, pull, dry_run, target_config_dir):
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_config_dir = Path(target_config_dir)
-
-    if target_config_dir.is_dir():
-        target_config = target_config_dir.joinpath("cardanopy.yaml")
-    else:
-        target_config = target_config_dir
-        target_config_dir = target_config_dir.parent
-
-    if not target_config_dir.exists():
-        ctx.fail(f"Target directory '{target_config_dir}' does not exist.")
-        return 1
-
-    if not target_config.is_file():
-        ctx.fail(
-            f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
-        return 1
-
-    if not target_config.exists():
-        ctx.fail(f"Target file '{target_config}' does not exist.")
-        return 1
-
-    config = CardanoPyConfig()
-    if not config.load(target_config):
-        ctx.fail(f"Failed to load '{target_config}'")
+    cardanopy_config = CardanoPyConfig()
+    try:
+        cardanopy_config.load(target_config_dir)
+    except ValueError as e:
+        ctx.fail(e.args)
         return 1
 
     if pull:
-        docker_pull_cmd = ["docker", "pull", config.docker.image]
+        docker_pull_cmd = ["docker", "pull", cardanopy_config.docker.image]
         if dry_run:
             print(" ".join(docker_pull_cmd))
         else:
@@ -56,7 +36,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         result = subprocess.run(["docker",
                         "ps",
                         "-q",
-                        "-f", f"name={config.name}"],
+                        "-f", f"name={cardanopy_config.name}"],
                         stdout=subprocess.PIPE).stdout.decode('utf-8')
         container_running = len(result) > 0
     except Exception as ex:
@@ -68,7 +48,7 @@ def run(ctx, pull, dry_run, target_config_dir):
             result = subprocess.run(["docker",
                                      "ps",
                                      "-aq",
-                                     "-f", f"name={config.name}"],
+                                     "-f", f"name={cardanopy_config.name}"],
                                     stdout=subprocess.PIPE).stdout.decode('utf-8')
             container_exited = len(result) > 0
         except Exception as ex:
@@ -78,7 +58,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         if container_exited:
             docker_container_rm_cmd = ["docker",
                                         "container",
-                                        "rm", config.name]
+                                        "rm", cardanopy_config.name]
             if dry_run:
                 print(" ".join(docker_container_rm_cmd))
             else:
@@ -90,20 +70,20 @@ def run(ctx, pull, dry_run, target_config_dir):
 
         docker_run_cmd = list(filter(None,["docker",
                             "run",
-                            "--name", config.name,
+                            "--name", cardanopy_config.name,
                             "-d",
-                            "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
-                            "--env", f"CARDANO_NETWORK={config.network}",
-                            "-p", f"{config.port}:{config.port}",
-                            "-v", f"{target_config_dir.absolute()}:{config.root}",
-                            config.docker.image,
+                            "--env", f"CARDANO_NODE_SOCKET_PATH={cardanopy_config.socketPath}",
+                            "--env", f"CARDANO_NETWORK={cardanopy_config.network}",
+                            "-p", f"{cardanopy_config.port}:{cardanopy_config.port}",
+                            "-v", f"{target_config_dir.absolute()}:{cardanopy_config.root}",
+                            cardanopy_config.docker.image,
                             "run",
                             "/app"]))
 
         docker_exec_cmd = ["docker",
                           "exec",
                           "-it",
-                          config.name,
+                          cardanopy_config.name,
                           "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))
@@ -119,7 +99,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         docker_run_cmd = ["docker",
                           "exec",
                           "-it",
-                          config.name,
+                          cardanopy_config.name,
                           "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))

@@ -3,41 +3,55 @@ from pathlib import Path
 
 
 class CardanoPyConfig(object):
-    def __init__(self):
-        pass
-
     target_config_yaml = None
 
-    def load(self, target_config_file: Path):
+    def load(self, target_config_dir: str):
+        target_config_dir = Path(target_config_dir)
 
-        if not target_config_file.is_file():
-            print(f"Target config '{target_config_file}' is not a file. e.g., 'cardanopy.yaml'")
-            return False
+        if target_config_dir.is_dir():
+            target_config = target_config_dir.joinpath("cardanopy.yaml")
+        else:
+            target_config = target_config_dir
+            target_config_dir = target_config_dir.parent
 
-        if not target_config_file.exists():
-            print(f"Target config '{target_config_file}' does not exist.")
-            return False
+        if not target_config.is_file():
+            raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
 
-        with open(target_config_file, "r") as file:
-            self.target_config_yaml = yaml.full_load(file.read())
-            return True
+        if not target_config.exists():
+            raise ValueError(f"Target file '{target_config}' does not exist.")
 
-        return False
+        try:
+            with open(target_config, "r") as file:
+                self.target_config_yaml = yaml.full_load(file.read())
+        except Exception as ex:
+            raise ValueError(f"Failed to create. Unable to copy config to '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
-    def set(self, property: str, value):
-        self.target_config_yaml[property] = value
+    def set(self, property_name: str, property_value):
+        self.target_config_yaml[property_name] = property_value
 
-    def save(self, target_config_file: Path):
+    def get(self, property_name: str):
+        return self.target_config_yaml[property_name]
 
-        if not target_config_file.is_file():
-            print(f"Target config '{target_config_file}' is not a file. e.g., 'cardanopy.yaml'")
-            return False
+    def save(self, target_config_dir: Path):
+        target_config_dir = Path(target_config_dir)
 
-        with open(target_config_file, "w") as file:
-            yaml.dump(self.target_config_yaml, file)
-            return True
+        if target_config_dir.is_dir():
+            target_config = target_config_dir.joinpath("cardanopy.yaml")
+        else:
+            target_config = target_config_dir
+            target_config_dir = target_config_dir.parent
 
-        return False
+        if not target_config.is_file():
+            raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
+
+        if not target_config.exists():
+            raise ValueError(f"Target file '{target_config}' does not exist.")
+
+        try:
+            with open(target_config, "w") as file:
+                yaml.dump(self.target_config_yaml, file)
+        except Exception as ex:
+            raise ValueError(f"Failed to create. Unable to copy config to '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
     def get_substitutions(self):
         return self.target_config_yaml['substitutions']

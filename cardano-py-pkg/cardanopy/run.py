@@ -6,6 +6,7 @@ import json
 import os
 import shutil
 
+
 @click.command()
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_config_dir', type=str)
@@ -16,44 +17,25 @@ def run(ctx, dry_run, target_config_dir):
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_config_dir = Path(target_config_dir)
-
-    if target_config_dir.is_dir():
-        target_config = target_config_dir.joinpath("cardanopy.yaml")
-    else:
-        target_config = target_config_dir
-        target_config_dir = target_config_dir.parent
-
-    if not target_config_dir.exists():
-        ctx.fail(f"Target directory '{target_config_dir}' does not exist.")
+    cardanopy_config = CardanoPyConfig()
+    try:
+        cardanopy_config.load(target_config_dir)
+    except ValueError as e:
+        ctx.fail(e.args)
         return 1
 
-    if not target_config.is_file():
-        ctx.fail(
-            f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
-        return 1
-
-    if not target_config.exists():
-        ctx.fail(f"Target file '{target_config}' does not exist.")
-        return 1
-
-    config = CardanoPyConfig()
-    if not config.load(target_config):
-        ctx.fail(f"Failed to load '{target_config}'")
-        return 1
-
-    if not generate(dry_run, target_config_dir, config):
+    if not generate(dry_run, target_config_dir, cardanopy_config):
         ctx.fail(f"Failed to generate '{target_config_dir}'")
         return 1
 
     cardano_node_cmd = ["cardano-node",
                         "run",
-                        "--config", config.config,
-                        "--topology", config.topologyPath,
-                        "--database-path", config.databasePath,
-                        "--host-addr", config.hostAddr,
-                        "--port", f"{config.port}",
-                        "--socket-path", config.socketPath]
+                        "--config", cardanopy_config.config,
+                        "--topology", cardanopy_config.topologyPath,
+                        "--database-path", cardanopy_config.databasePath,
+                        "--host-addr", cardanopy_config.hostAddr,
+                        "--port", f"{cardanopy_config.port}",
+                        "--socket-path", cardanopy_config.socketPath]
     if dry_run:
         print(" ".join(cardano_node_cmd))
     else:
