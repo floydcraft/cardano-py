@@ -14,12 +14,12 @@ setup(name='cardanopy',
       url='https://github.com/floydcraft/cardano-py',
       # package_dir={'cardanopy': '.'},
       package_data={'cardanopy': files},
-      packages=find_packages(),
+      packages=find_packages(exclude=['tests']),
       keywords='cardano,ada,cli',
       python_requires='>=3.5.3,<4',
       install_requires=[
-        'click~=7.0',
-        'pyyaml~=5.4'
+        'click~=7.1.2',
+        'pyyaml~=5.4.1'
       ],
       entry_points={
           'console_scripts': [

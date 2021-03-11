@@ -1,4 +1,0 @@
-# Ignore everything in this directory
-testnet
-# Except these files
-!.gitignore

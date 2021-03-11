@@ -7,26 +7,25 @@ from cardanopy.cardanopy_config import CardanoPyConfig
 @click.command()
 @click.option('-p', '--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
-@click.argument('target_dir', type=str)
+@click.argument('target_config_dir', type=str)
 @click.pass_context
-def run(ctx, pull, dry_run, target_dir, config_filename):
+def run(ctx, pull, dry_run, target_config_dir):
     """Docker Run helper command"""
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_dir = Path(target_dir)
+    target_config_dir = Path(target_config_dir)
 
-    if not target_dir.is_dir():
-        ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
+    if target_config_dir.is_dir():
+        target_config = target_config_dir.joinpath("cardanopy.yaml")
+    else:
+        target_config = target_config_dir
+        target_config_dir = target_config_dir.parent
+
+    if not target_config_dir.exists():
+        ctx.fail(f"Target directory '{target_config_dir}' does not exist.")
         return 1
-
-    if not target_dir.exists():
-        ctx.fail(f"Target directory '{target_dir}' does not exist.")
-        return 1
-
-    target_config = target_dir.joinpath(config_filename)
 
     if not target_config.is_file():
         ctx.fail(
@@ -96,7 +95,7 @@ def run(ctx, pull, dry_run, target_dir, config_filename):
                             "--env", f"CARDANO_NODE_SOCKET_PATH={config.socketPath}",
                             "--env", f"CARDANO_NETWORK={config.network}",
                             "-p", f"{config.port}:{config.port}",
-                            "-v", f"{target_dir.absolute()}:{config.root}",
+                            "-v", f"{target_config_dir.absolute()}:{config.root}",
                             config.docker.image,
                             "run",
                             "/app"]))
@@ -111,8 +110,8 @@ def run(ctx, pull, dry_run, target_dir, config_filename):
             print(" ".join(docker_exec_cmd))
         else:
             try:
-                subprocess.run(docker_run_cmd, cwd=target_dir)
-                subprocess.run(docker_exec_cmd, cwd=target_dir)
+                subprocess.run(docker_run_cmd, cwd=target_config_dir)
+                subprocess.run(docker_exec_cmd, cwd=target_config_dir)
             except Exception as ex:
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1

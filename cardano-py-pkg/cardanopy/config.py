@@ -5,27 +5,26 @@ from .cardanopy_config import CardanoPyConfig
 
 @click.command()
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
 @click.argument('property', type=str, required=True)
 @click.argument('value', type=str, required=True)
-@click.argument('target_dir', type=str)
+@click.argument('target_config_dir', type=str)
 @click.pass_context
-def config(ctx, dry_run, property, value, target_dir, config_filename):
+def config(ctx, dry_run, property, value, target_config_dir):
     """Config command"""
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_dir = Path(target_dir)
+    target_config_dir = Path(target_config_dir)
 
-    if not target_dir.is_dir():
-        ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
+    if target_config_dir.is_dir():
+        target_config = target_config_dir.joinpath("cardanopy.yaml")
+    else:
+        target_config = target_config_dir
+        target_config_dir = target_config_dir.parent
+
+    if not target_config_dir.exists():
+        ctx.fail(f"Target directory '{target_config_dir}' does not exist.")
         return 1
-
-    if not target_dir.exists():
-        ctx.fail(f"Target directory '{target_dir}' does not exist.")
-        return 1
-
-    target_config = target_dir.joinpath(config_filename)
 
     if not target_config.is_file():
         ctx.fail(

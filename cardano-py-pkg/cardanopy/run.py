@@ -8,26 +8,25 @@ import shutil
 
 @click.command()
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('--config-filename', 'config_filename', default='cardanopy.yaml', type=str, help="defaults to 'cardanopy.yaml'")
-@click.argument('target_dir', type=str)
+@click.argument('target_config_dir', type=str)
 @click.pass_context
-def run(ctx, dry_run, target_dir, config_filename):
+def run(ctx, dry_run, target_config_dir):
     """Run command"""
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
 
-    target_dir = Path(target_dir)
+    target_config_dir = Path(target_config_dir)
 
-    if not target_dir.is_dir():
-        ctx.fail(f"Target directory '{target_dir}' is not a directory. e.g., the directory that contains 'cardanopy.yaml'")
+    if target_config_dir.is_dir():
+        target_config = target_config_dir.joinpath("cardanopy.yaml")
+    else:
+        target_config = target_config_dir
+        target_config_dir = target_config_dir.parent
+
+    if not target_config_dir.exists():
+        ctx.fail(f"Target directory '{target_config_dir}' does not exist.")
         return 1
-
-    if not target_dir.exists():
-        ctx.fail(f"Target directory '{target_dir}' does not exist.")
-        return 1
-
-    target_config = target_dir.joinpath(config_filename)
 
     if not target_config.is_file():
         ctx.fail(
@@ -43,8 +42,8 @@ def run(ctx, dry_run, target_dir, config_filename):
         ctx.fail(f"Failed to load '{target_config}'")
         return 1
 
-    if not generate(dry_run, target_dir, config):
-        ctx.fail(f"Failed to generate '{target_dir}'")
+    if not generate(dry_run, target_config_dir, config):
+        ctx.fail(f"Failed to generate '{target_config_dir}'")
         return 1
 
     cardano_node_cmd = ["cardano-node",
@@ -59,20 +58,20 @@ def run(ctx, dry_run, target_dir, config_filename):
         print(" ".join(cardano_node_cmd))
     else:
         try:
-            subprocess.run(cardano_node_cmd, cwd=target_dir)
+            subprocess.run(cardano_node_cmd, cwd=target_config_dir)
         except Exception as ex:
             ctx.fail(f"Unknown exception: {ex} {type(ex).__name__} {ex.args}")
             return 1
 
 
-def generate(dry_run: bool, target_dir: Path, config: CardanoPyConfig):
+def generate(dry_run: bool, target_config_dir: Path, config: CardanoPyConfig):
     if dry_run:
         print(f"generate 'topology.json' file config.topologyPath to `{config.topologyPath}'")
     else:
-        with open(target_dir.joinpath(config.topologyPath), "w") as file:
+        with open(target_config_dir.joinpath(config.topologyPath), "w") as file:
             print(json.dumps(config.topology, sort_keys=True, indent=4), file=file)
 
-        for dir_name, subdirList, fileList in os.walk(target_dir):
+        for dir_name, subdirList, fileList in os.walk(target_config_dir):
             dir_path = Path(dir_name)
             for file_name in fileList:
                 file_path = dir_path.joinpath(file_name)
