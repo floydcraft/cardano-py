@@ -30,7 +30,7 @@ def run(ctx, dry_run, target_config_dir):
 
     cardano_node_cmd = ["cardano-node",
                         "run",
-                        "--config", cardanopy_config.config,
+                        "--config", cardanopy_config.configPath,
                         "--topology", cardanopy_config.topologyPath,
                         "--database-path", cardanopy_config.databasePath,
                         "--host-addr", cardanopy_config.hostAddr,

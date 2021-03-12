@@ -1,0 +1,78 @@
+{
+  "type" : "object",
+  "properties" : {
+    "apiVersion" : {
+      "description": "The api version of this cardanopy config",
+      "type" : "string"
+    },
+    "network" : {
+      "description": "The network for the Cardano node",
+      "type" : "string",
+      "enum": ["mainnet", "testnet"]
+    },
+    "configPath" : {
+      "description": "The config path for the Cardano node",
+      "type" : "string"
+    },
+    "topologyPath" : {
+      "description": "The topology config path for the Cardano node",
+      "type" : "string"
+    },
+    "databasePath" : {
+      "description": "The database path for the Cardano node",
+      "type" : "string"
+    },
+    "socketPath" : {
+      "description": "The socket path for the Cardano node",
+      "type" : "string"
+    },
+    "hostAddr" : {
+      "description": "The host address for the Cardano node",
+      "type" : "string"
+    },
+    "port" : {
+      "description": "The port for the Cardano node",
+      "type": "integer"
+    },
+    "docker": {
+       "type" : "object",
+        "properties" : {
+          "name" : {
+            "description": "The unique docker container name for the Cardano node",
+            "type" : "string"
+          },
+          "image" : {
+            "description": "The docker image that will be mounted into the node. Only used with `cardanopy docker` command.",
+            "type" : "string"
+          },
+          "rootVolume" : {
+            "description": "The docker volume that will be mounted into the node. Only used with `cardanopy docker` command.",
+            "type": "string"
+          }
+        }
+    },
+    "kubnernetes": {
+       "type" : "object",
+        "properties" : {
+          "namespace" : {
+            "description": "The kubernetes namespace. Only used with `cardanopy k8s` command.",
+            "type" : "string"
+          }
+        }
+    }
+  },
+  "required": [
+    "apiVersion",
+    "network",
+    "configPath",
+    "topologyPath",
+    "databasePath",
+    "socketPath",
+    "hostAddr",
+    "port"
+  ]
+}
+
+
+
+

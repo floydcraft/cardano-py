@@ -1,5 +1,6 @@
 import click
 import subprocess
+from pathlib import Path
 from cardanopy.cardanopy_config import CardanoPyConfig
 
 
@@ -13,6 +14,8 @@ def run(ctx, pull, dry_run, target_config_dir):
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
+
+    target_config_dir = Path(target_config_dir)
 
     cardanopy_config = CardanoPyConfig()
     try:
@@ -36,7 +39,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         result = subprocess.run(["docker",
                         "ps",
                         "-q",
-                        "-f", f"name={cardanopy_config.name}"],
+                        "-f", f"name={cardanopy_config.docker.name}"],
                         stdout=subprocess.PIPE).stdout.decode('utf-8')
         container_running = len(result) > 0
     except Exception as ex:
@@ -48,7 +51,7 @@ def run(ctx, pull, dry_run, target_config_dir):
             result = subprocess.run(["docker",
                                      "ps",
                                      "-aq",
-                                     "-f", f"name={cardanopy_config.name}"],
+                                     "-f", f"name={cardanopy_config.docker.name}"],
                                     stdout=subprocess.PIPE).stdout.decode('utf-8')
             container_exited = len(result) > 0
         except Exception as ex:
@@ -58,7 +61,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         if container_exited:
             docker_container_rm_cmd = ["docker",
                                         "container",
-                                        "rm", cardanopy_config.name]
+                                        "rm", cardanopy_config.docker.name]
             if dry_run:
                 print(" ".join(docker_container_rm_cmd))
             else:
@@ -70,12 +73,12 @@ def run(ctx, pull, dry_run, target_config_dir):
 
         docker_run_cmd = list(filter(None,["docker",
                             "run",
-                            "--name", cardanopy_config.name,
+                            "--name", cardanopy_config.docker.name,
                             "-d",
                             "--env", f"CARDANO_NODE_SOCKET_PATH={cardanopy_config.socketPath}",
                             "--env", f"CARDANO_NETWORK={cardanopy_config.network}",
                             "-p", f"{cardanopy_config.port}:{cardanopy_config.port}",
-                            "-v", f"{target_config_dir.absolute()}:{cardanopy_config.root}",
+                            "-v", f"{target_config_dir.absolute()}:{cardanopy_config.docker.rootVolume}",
                             cardanopy_config.docker.image,
                             "run",
                             "/app"]))
@@ -83,7 +86,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         docker_exec_cmd = ["docker",
                           "exec",
                           "-it",
-                          cardanopy_config.name,
+                          cardanopy_config.docker.name,
                           "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))
@@ -99,7 +102,7 @@ def run(ctx, pull, dry_run, target_config_dir):
         docker_run_cmd = ["docker",
                           "exec",
                           "-it",
-                          cardanopy_config.name,
+                          cardanopy_config.docker.name,
                           "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))

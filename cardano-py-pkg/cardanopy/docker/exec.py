@@ -24,7 +24,7 @@ def exec(ctx, dry_run, target_config_dir):
         result = subprocess.run(["docker",
                         "ps",
                         "-q",
-                        "-f", f"name={cardanopy_config.name}"],
+                        "-f", f"name={cardanopy_config.docker.name}"],
                         stdout=subprocess.PIPE).stdout.decode('utf-8')
         container_running = len(result) > 0
     except Exception as ex:
@@ -35,7 +35,7 @@ def exec(ctx, dry_run, target_config_dir):
         docker_run_cmd = ["docker",
                           "exec",
                           "-it",
-                          cardanopy_config.name,
+                          cardanopy_config.docker.name,
                           "bin/bash"]
         if dry_run:
             print(" ".join(docker_run_cmd))
@@ -46,5 +46,5 @@ def exec(ctx, dry_run, target_config_dir):
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1
     else:
-        ctx.fail(f"Docker container named '{cardanopy_config.name}' is NOT currently running. Please 'run' the container first.")
+        ctx.fail(f"Docker container named '{cardanopy_config.docker.name}' is NOT currently running. Please 'run' the container first.")
         return 1

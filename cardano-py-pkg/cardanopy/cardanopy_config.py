@@ -63,55 +63,45 @@ class CardanoPyConfig(object):
 
     substitutions = property(get_substitutions)
 
-    def get_name(self):
-        return self.target_config_yaml['name']
-
-    name = property(get_name)
-
-    def get_root(self):
-        return self.target_config_yaml['root']
-
-    root = property(get_root)
-
     def get_network(self):
         return self.target_config_yaml['network']
 
     network = property(get_network)
 
-    def get_config(self):
-        return self.target_config_yaml['config']
+    def get_config_path(self):
+        return self.target_config_yaml['configPath']
 
-    config = property(get_config)
+    configPath = property(get_config_path)
 
-    def get_topologyPath(self):
+    def get_topology_path(self):
         return self.target_config_yaml['topologyPath']
 
-    topologyPath = property(get_topologyPath)
+    topologyPath = property(get_topology_path)
 
     def get_topology(self):
         return self.target_config_yaml['topology']
 
     topology = property(get_topology)
 
-    def get_databasePath(self):
+    def get_database_path(self):
         return self.target_config_yaml['databasePath']
 
-    databasePath = property(get_databasePath)
+    databasePath = property(get_database_path)
 
-    def get_hostAddr(self):
+    def get_host_addr(self):
         return self.target_config_yaml['hostAddr']
 
-    hostAddr = property(get_hostAddr)
+    hostAddr = property(get_host_addr)
 
     def get_port(self):
         return self.target_config_yaml['port']
 
     port = property(get_port)
 
-    def get_socketPath(self):
+    def get_socket_path(self):
         return self.target_config_yaml['socketPath']
 
-    socketPath = property(get_socketPath)
+    socketPath = property(get_socket_path)
 
     def get_docker(self):
         return DockerConfig(self.target_config_yaml['docker'])
@@ -130,10 +120,20 @@ class DockerConfig(object):
     def __init__(self, config):
         self.config = config
 
+    def get_name(self):
+        return self.config['name']
+
+    name = property(get_name)
+
     def get_image(self):
         return self.config['image']
 
     image = property(get_image)
+
+    def get_root_volume(self):
+        return self.config['rootVolume']
+
+    rootVolume = property(get_root_volume)
 
 
 class KubernetesConfig(object):

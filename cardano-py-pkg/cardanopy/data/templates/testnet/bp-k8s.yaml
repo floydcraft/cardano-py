@@ -1,10 +1,8 @@
-apiVersion: cardanopy.node.config/v1
+apiVersion: cardanopy.node.config.v1
 substitutions:
   _BP_ENABLED: False
-name: "bp-k8s"
 network: "testnet"
-root: "/app"
-config: "/app/config/config.json"
+configPath: "/app/config/config.json"
 topologyPath: "/app/config/topology.json"
 databasePath: "/app/db"
 socketPath: "/app/node.socket"
@@ -21,7 +19,9 @@ topology:
       port: 3001
       valency: 2
 docker:
+  name: "bp-k8s"
   image: "floydcraft/cardano-py-slim:latest"
+  rootVolume: "/app"
 k8s:
   namespace: "cardano-testnet"
 
