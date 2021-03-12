@@ -3,8 +3,8 @@
 from setuptools import setup, find_packages
 from pathlib import Path
 
-datadir = Path(__file__).parent / 'cardanopy' / 'templates'
-files = ['templates/' + str(p.relative_to(datadir)) for p in datadir.rglob('*')]
+datadir = Path(__file__).parent / 'cardanopy' / 'data'
+files = ['data/' + str(p.relative_to(datadir)) for p in datadir.rglob('*')]
 
 setup(name='cardanopy',
       version='0.1.6-dev2',
@@ -19,7 +19,8 @@ setup(name='cardanopy',
       python_requires='>=3.5.3,<4',
       install_requires=[
         'click~=7.1.2',
-        'pyyaml~=5.4.1'
+        'pyyaml~=5.4.1',
+        'jsonschema~=3.2.0'
       ],
       entry_points={
           'console_scripts': [

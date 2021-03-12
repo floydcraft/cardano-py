@@ -12,7 +12,7 @@ class TestCreate(unittest.TestCase):
     def setUp(self):
         self.test_dir = Path(tempfile.mkdtemp())
         os.chdir(self.test_dir)
-        print(f"test_dir='{self.test_dir}'")
+        # print(f"test_dir='{self.test_dir}'")
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)

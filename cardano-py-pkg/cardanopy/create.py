@@ -21,7 +21,7 @@ class CreateCommand(object):
 
     @staticmethod
     def __get_templates_dir():
-        return Path(__file__).parent.joinpath("templates").absolute()
+        return Path(__file__).parent.joinpath("data/templates").absolute()
 
     @staticmethod
     def __get_network_dir(network: str):

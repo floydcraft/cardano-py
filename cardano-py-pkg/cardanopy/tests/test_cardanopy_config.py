@@ -18,7 +18,7 @@ class TestCreate(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     def test_basic_config(self):
-        file = Path(__file__).parent.joinpath("../templates").absolute() / "testnet/basic.yaml"
+        file = Path(__file__).parent.joinpath("../data/templates").absolute() / "testnet/basic.yaml"
         cardanopy_config = CardanoPyConfig()
         cardanopy_config.load(file)
 
@@ -53,3 +53,10 @@ class TestCreate(unittest.TestCase):
         self.assertEqual(cardanopy_config_v2.port, cardanopy_config.port)
         self.assertEqual(cardanopy_config_v2.docker.image, cardanopy_config.docker.image)
         self.assertEqual(cardanopy_config_v2.kubernetes.namespace, cardanopy_config.kubernetes.namespace)
+
+    def test_basic_config_subs(self):
+        file = Path(__file__).parent.joinpath("../data/templates").absolute() / "testnet/basic.yaml"
+        cardanopy_config = CardanoPyConfig()
+        cardanopy_config.load(file)
+
+        self.assertEqual(cardanopy_config.name, "basic")
