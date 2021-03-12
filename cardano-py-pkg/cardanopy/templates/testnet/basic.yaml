@@ -1,4 +1,4 @@
-apiVersion: cardanopy.node.config/v1
+apiVersion: "cardanopy.node.config/v1"
 name: "basic"
 network: "testnet"
 root: "/app"
