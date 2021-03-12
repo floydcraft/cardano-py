@@ -1,6 +1,7 @@
 import yaml
 from pathlib import Path
-
+import jsonschema
+import json
 
 class CardanoPyConfig(object):
     target_config_yaml = None
@@ -24,7 +25,20 @@ class CardanoPyConfig(object):
             with open(target_config, "r") as file:
                 self.target_config_yaml = yaml.full_load(file.read())
         except Exception as ex:
-            raise ValueError(f"Failed to create. Unable to copy config to '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to load config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+
+        schema_file = Path(__file__).parent.joinpath("data/schemas").absolute() / f"{self.apiVersion}.json"
+
+        try:
+            with open(schema_file, "r") as file:
+                schema = json.loads(file.read())
+        except Exception as ex:
+            raise ValueError(f"Failed to load schema. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+
+        try:
+            jsonschema.validate(instance=self.target_config_yaml, schema=schema)
+        except Exception as ex:
+            raise ValueError(f"Failed to validate config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
     def set(self, property_name: str, property_value):
         self.target_config_yaml[property_name] = property_value
@@ -46,12 +60,24 @@ class CardanoPyConfig(object):
         #
         # if not target_config.exists():
         #     raise ValueError(f"Target file '{target_config}' does not exist.")
+        schema_file = Path(__file__).parent.joinpath("data/schemas").absolute() / f"{self.apiVersion}.json"
+
+        try:
+            with open(schema_file, "r") as file:
+                schema = json.loads(file.read())
+        except Exception as ex:
+            raise ValueError(f"Failed to load schema. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+
+        try:
+            jsonschema.validate(instance=self.target_config_yaml, schema=schema)
+        except Exception as ex:
+            raise ValueError(f"Failed to validate config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
         try:
             with open(target_config, "w") as file:
                 yaml.dump(self.target_config_yaml, file)
         except Exception as ex:
-            raise ValueError(f"Failed to create. Unable to copy config to '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to save. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
     def get_api_version(self):
         return self.target_config_yaml['apiVersion']
