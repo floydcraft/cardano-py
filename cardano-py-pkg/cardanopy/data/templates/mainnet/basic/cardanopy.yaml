@@ -1,4 +1,6 @@
 apiVersion: "cardanopy.node.config.v1"
+substitutions:
+  _APP_NAME: "basic"
 network: "mainnet"
 configPath: "/app/config.json"
 topologyPath: "/app/topology.json"
