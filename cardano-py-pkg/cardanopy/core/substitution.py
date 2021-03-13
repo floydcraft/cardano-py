@@ -38,4 +38,4 @@ class Substitution(object):
                             raise ValueError(
                                 f"Failed to save generated config. '{output_config_file}'. {type(ex).__name__} {ex.args}")
 
-                        print(f"generated config '{output_config_file}' from '{file_path}'")
+                        print(f"generated config '{output_config_file}'")
