@@ -3,7 +3,8 @@
   "properties" : {
     "apiVersion" : {
       "description": "The api version of this cardanopy config",
-      "type" : "string"
+      "type" : "string",
+      "enum": ["cardanopy.node.config.v1"]
     },
     "network" : {
       "description": "The network for the Cardano node",
