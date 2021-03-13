@@ -1,6 +1,6 @@
 import click
-from core.cardanopy_config import CardanoPyConfig
-from core.substitution import Substitution
+from .core.cardanopy_config import CardanoPyConfig
+from .core.substitution import Substitution
 
 
 @click.command("generate")

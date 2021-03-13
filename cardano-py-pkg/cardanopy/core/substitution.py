@@ -1,5 +1,5 @@
 from pathlib import Path
-from core.cardanopy_config import CardanoPyConfig
+from .cardanopy_config import CardanoPyConfig
 import json
 import os
 
