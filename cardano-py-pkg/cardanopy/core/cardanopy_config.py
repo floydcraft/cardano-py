@@ -2,20 +2,14 @@ import yaml
 from pathlib import Path
 import jsonschema
 import json
-import copy
-from collections.abc import Sequence
 
 
 class CardanoPyConfig(object):
     config = None
     config_resolved = None
 
-    # @staticmethod
-    # def valid_sequence(obj):
-    #     return isinstance(obj, Sequence) and not isinstance(obj, (str, bytes, bytearray))
-    #
-    @staticmethod
-    def substitute(substitutions, config_str):
+    def substitute(self, config_str):
+        substitutions = self.config.get('substitutions')
         if not substitutions or not config_str:
             return config_str
 
@@ -45,12 +39,12 @@ class CardanoPyConfig(object):
             with open(target_config, "r") as file:
                 config_str = file.read()
                 self.config = yaml.full_load(config_str)
-                config_resolved_str = self.substitute(self.substitutions, config_str)
+                config_resolved_str = self.substitute(config_str)
                 self.config_resolved = yaml.full_load(config_resolved_str)
         except Exception as ex:
             raise ValueError(f"Failed to load config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
 
-        schema_file = Path(__file__).parent.joinpath("data/schemas").absolute() / f"{self.apiVersion}.json"
+        schema_file = Path(__file__).parent.joinpath("../data/schemas").absolute() / f"{self.apiVersion}.json"
 
         try:
             with open(schema_file, "r") as file:
@@ -84,7 +78,7 @@ class CardanoPyConfig(object):
         #
         # if not target_config.exists():
         #     raise ValueError(f"Target file '{target_config}' does not exist.")
-        schema_file = Path(__file__).parent.joinpath("data/schemas").absolute() / f"{self.apiVersion}.json"
+        schema_file = Path(__file__).parent.joinpath("../data/schemas").absolute() / f"{self.apiVersion}.json"
 
         try:
             with open(schema_file, "r") as file:
@@ -109,7 +103,7 @@ class CardanoPyConfig(object):
     apiVersion = property(get_api_version)
 
     def get_substitutions(self):
-        return self.config.get('substitutions')
+        return self.config_resolved.get('substitutions')
 
     substitutions = property(get_substitutions)
 
@@ -127,11 +121,6 @@ class CardanoPyConfig(object):
         return self.config_resolved.get('topologyPath')
 
     topologyPath = property(get_topology_path)
-
-    def get_topology(self):
-        return self.config_resolved.get('topology')
-
-    topology = property(get_topology)
 
     def get_database_path(self):
         return self.config_resolved.get('databasePath')

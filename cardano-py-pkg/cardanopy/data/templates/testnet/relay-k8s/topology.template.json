@@ -1,0 +1,19 @@
+{
+    "Producers": [
+        {
+            "addr": "producer-statefulset-0.producer-statefulset-lb.cardano-testnet.svc.cluster.local",
+            "port": 3001,
+            "valency": 1
+        },
+        {
+            "addr": "relay-statefulset-$_TARGET_POD_ORDINAL.relay-statefulset-lb.cardano-testnet.svc.cluster.local",
+            "port": 3001,
+            "valency": 1
+        },
+        {
+            "addr": "relays-new.cardano-testnet.iohkdev.io",
+            "port": 3001,
+            "valency": 2
+        }
+    ]
+}

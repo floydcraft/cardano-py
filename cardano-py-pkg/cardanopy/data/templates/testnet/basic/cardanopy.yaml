@@ -1,16 +1,11 @@
 apiVersion: "cardanopy.node.config.v1"
 network: "testnet"
-configPath: "/app/config/config.json"
-topologyPath: "/app/config/topology.json"
+configPath: "/app/config.json"
+topologyPath: "/app/topology.json"
 databasePath: "/app/db"
 socketPath: "/app/node.socket"
 hostAddr: "0.0.0.0"
 port: 3001
-topology:
-  Producers:
-    - addr: "relays-new.cardano-testnet.iohkdev.io"
-      port: 3001
-      valency: 2
 docker:
   name: "basic"
   image: "floydcraft/cardano-py-slim:latest"

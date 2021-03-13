@@ -1,5 +1,5 @@
 import unittest
-from ..cardanopy_config import CardanoPyConfig
+from core.cardanopy_config import CardanoPyConfig
 from pathlib import Path
 import tempfile
 import shutil
@@ -20,27 +20,27 @@ class TestCardanoPyConfig(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     def test_basic_config_validation(self):
-        config_file = Path(__file__).parent.joinpath("../data/templates").absolute() / "testnet/basic.yaml"
+        config_file = Path(__file__).parent.joinpath("../../data/templates").absolute() / "testnet/basic/cardanopy.yaml"
         with open(config_file, "r") as file:
             config = yaml.full_load(file.read())
 
         api_version = config["apiVersion"]
 
-        schema_file = Path(__file__).parent.joinpath("../data/schemas").absolute() / f"{api_version}.json"
+        schema_file = Path(__file__).parent.joinpath("../../data/schemas").absolute() / f"{api_version}.json"
         with open(schema_file, "r") as file:
             schema = json.loads(file.read())
 
         jsonschema.validate(instance=config, schema=schema)
 
     def test_basic_config(self):
-        file = Path(__file__).parent.joinpath("../data/templates").absolute() / "testnet/basic.yaml"
+        file = Path(__file__).parent.joinpath("../../data/templates").absolute() / "testnet/basic/cardanopy.yaml"
         cardanopy_config = CardanoPyConfig()
         cardanopy_config.load(file)
 
         self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
         self.assertEqual(cardanopy_config.network, "testnet")
-        self.assertEqual(cardanopy_config.configPath, "/app/config/config.json")
-        self.assertEqual(cardanopy_config.topologyPath, "/app/config/topology.json")
+        self.assertEqual(cardanopy_config.configPath, "/app/config.json")
+        self.assertEqual(cardanopy_config.topologyPath, "/app/topology.json")
         self.assertEqual(cardanopy_config.databasePath, "/app/db")
         self.assertEqual(cardanopy_config.socketPath, "/app/node.socket")
         self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")
@@ -70,15 +70,15 @@ class TestCardanoPyConfig(unittest.TestCase):
         self.assertEqual(cardanopy_config_v2.k8s.namespace, cardanopy_config.k8s.namespace)
 
     def test_basic_config_subs(self):
-        dir_path = Path(__file__).parent.joinpath("../data/templates").absolute()
+        dir_path = Path(__file__).parent.joinpath("../../data/templates").absolute()
         for file in dir_path.glob("*/*.yaml"):
             cardanopy_config = CardanoPyConfig()
             cardanopy_config.load(file)
 
             self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
             self.assertIsInstance(cardanopy_config.network, str)
-            self.assertEqual(cardanopy_config.configPath, "/app/config/config.json")
-            self.assertEqual(cardanopy_config.topologyPath, "/app/config/topology.json")
+            self.assertEqual(cardanopy_config.configPath, "/app/config.json")
+            self.assertEqual(cardanopy_config.topologyPath, "/app/topology.json")
             self.assertEqual(cardanopy_config.databasePath, "/app/db")
             self.assertEqual(cardanopy_config.socketPath, "/app/node.socket")
             self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")

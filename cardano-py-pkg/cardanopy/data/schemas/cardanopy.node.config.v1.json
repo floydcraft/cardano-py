@@ -34,6 +34,27 @@
       "description": "The port for the Cardano node",
       "type": "integer"
     },
+    "blockProducer": {
+       "type" : "object",
+        "properties" : {
+          "enabled" : {
+            "description": "If blocker producer params (shelleyKesKey, shelleyVrfKey, and shelleyOperationalCertificate) will be used for the Cardano node",
+            "type" : "boolean"
+          },
+          "shelleyKesKey" : {
+            "description": "The shelley KES key used for the Cardano node. (block producer only)",
+            "type" : "string"
+          },
+          "shelleyVrfKey" : {
+            "description": "The shelley VRF key used for the Cardano node. (block producer only)",
+            "type": "string"
+          },
+          "shelleyOperationalCertificate" : {
+            "description": "The shelley operational cert used for the Cardano node. (block producer only)",
+            "type": "string"
+          }
+        }
+    },
     "docker": {
        "type" : "object",
         "properties" : {

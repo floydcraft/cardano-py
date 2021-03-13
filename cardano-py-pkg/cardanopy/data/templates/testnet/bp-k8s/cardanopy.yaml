@@ -1,9 +1,9 @@
-apiVersion: "cardanopy.node.config.v1"
+apiVersion: cardanopy.node.config.v1
 substitutions:
   _BP_ENABLED: False
-network: "mainnet"
-configPath: "/app/config/config.json"
-topologyPath: "/app/config/topology.json"
+network: "testnet"
+configPath: "/app/config.json"
+topologyPath: "/app/topology.json"
 databasePath: "/app/db"
 socketPath: "/app/node.socket"
 hostAddr: "0.0.0.0"
@@ -13,16 +13,11 @@ blockProducer:
   shelleyKesKey: "bp/kes.skey"
   shelleyVrfKey: "bp/vrf.skey"
   shelleyOperationalCertificate: "bp/node.cert"
-topology:
-  Producers:
-    - addr: "relay-statefulset-lb.cardano-mainnet.svc.cluster.local"
-      port: 3001
-      valency: 2
 docker:
   name: "bp-k8s"
   image: "floydcraft/cardano-py-slim:latest"
   rootVolume: "/app"
 k8s:
-  namespace: "cardano-mainnet"
+  namespace: "cardano-testnet"
 
 

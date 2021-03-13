@@ -1,7 +1,7 @@
 import click
 import subprocess
 from pathlib import Path
-from cardanopy.cardanopy_config import CardanoPyConfig
+from core.cardanopy_config import CardanoPyConfig
 
 
 @click.command()

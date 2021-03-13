@@ -1,5 +1,5 @@
 import click
-from .cardanopy_config import CardanoPyConfig
+from core.cardanopy_config import CardanoPyConfig
 
 
 @click.command()
