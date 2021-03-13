@@ -15,5 +15,5 @@ docker:
   name: "basic"
   image: "floydcraft/cardano-py-slim:latest"
   rootVolume: "/app"
-kubernetes:
+k8s:
   namespace: "cardano-testnet"

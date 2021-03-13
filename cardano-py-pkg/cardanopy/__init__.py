@@ -17,10 +17,12 @@ from .config import config
 def main(ctx):
     pass
 
+
 # export
 main.add_command(run)
 main.add_command(create)
 main.add_command(cli)
 main.add_command(docker)
 main.add_command(k8s)
-main.add_command(config)
+# disable config cli for now (might remove)
+# main.add_command(config)

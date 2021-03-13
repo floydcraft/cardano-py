@@ -19,17 +19,16 @@ class TestDockerRun(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     def test_basic_cmd(self):
+        app_dir = str(self.test_dir.joinpath('test-app'))
         runner = CliRunner()
         create_result = runner.invoke(create, ['--template',
                                                     'basic',
                                                     '--network',
                                                     'testnet',
-                                                    'test-app'])
+                                                    app_dir])
         assert create_result.exit_code == 0
-
-        run_result = runner.invoke(run, ['--dry-run', 'test-app'])
+        run_result = runner.invoke(run, ['--dry-run', app_dir])
         assert run_result.exit_code == 0
-        print(run_result.output)
         assert "DRY RUN - no mutable changes will be made." in run_result.output
         assert "docker run --name basic -d --env CARDANO_NODE_SOCKET_PATH=/app/node.socket --env CARDANO_NETWORK=testnet -p 3001:3001" in run_result.output
         #  -v /private/var/folders/dj/qy6c5r217zxf4xf2rspds_km0000gn/T/tmpf9759ir0/test-app:/app
