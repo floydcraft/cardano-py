@@ -28,7 +28,7 @@ def key_gen_cmd(ctx, key_type, verification_key_file, signing_key_file):
                         "--signing-key-file", signing_key_file
                         ])
     except Exception as ex:
-        ctx.fail(f"cli:key_gen_cmd(key_type={key_type}, "
+        ctx.fail(f"cli:address_cmd:key_gen_cmd(key_type={key_type}, "
                  f"verification_key_file={verification_key_file}, "
                  f"signing_key_file='{signing_key_file}') failed: {type(ex).__name__} {ex.args}")
         return 1
@@ -61,7 +61,7 @@ def build_cmd(ctx, payment_verification_key_file, stake_verification_key_file, o
                         + ([] if out_file is None else ['--out-file', out_file])
                         + cardano_network_params)
     except Exception as ex:
-        ctx.fail(f"cli:build_cmd(payment_verification_key_file={payment_verification_key_file}, "
+        ctx.fail(f"cli:address_cmd:build_cmd(payment_verification_key_file={payment_verification_key_file}, "
                  f"stake_verification_key_file={stake_verification_key_file}, "
                  f"out_file='{out_file}') failed: {type(ex).__name__} {ex.args}")
         return 1

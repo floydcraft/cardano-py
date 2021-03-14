@@ -39,6 +39,6 @@ def tip_cmd(ctx, dry_run):
         else:
             subprocess.run(query_tip_cmd)
     except Exception as ex:
-        ctx.fail(f"cli:query:tip_cmd(dry_run={dry_run}) failed: {type(ex).__name__} {ex.args}")
+        ctx.fail(f"cli:query_cmd:tip_cmd(dry_run={dry_run}) failed: {type(ex).__name__} {ex.args}")
         return 1
 

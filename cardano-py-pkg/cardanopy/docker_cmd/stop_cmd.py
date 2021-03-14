@@ -25,5 +25,5 @@ def stop_cmd(ctx, dry_run, subs, target_config_dir_or_file):
         if DockerHelper.is_container_exited(cardanopy_config.docker.name, dry_run):
             DockerHelper.remove_container(cardanopy_config.docker.name, dry_run)
     except Exception as ex:
-        ctx.fail(f"docker:stop_cmd(dry_run={dry_run}, target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
+        ctx.fail(f"docker_cmd:stop_cmd(dry_run={dry_run}, target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
         return 1

@@ -23,6 +23,6 @@ def key_gen_cmd(ctx, verification_key_file, signing_key_file):
                         "--signing-key-file", signing_key_file
                         ])
     except Exception as ex:
-        ctx.fail(f"cli:query:tip_cmd(verification_key_file={verification_key_file}, "
+        ctx.fail(f"cli:stake_address_cmd:key_gen_cmd(verification_key_file={verification_key_file}, "
                  f"signing_key_file={signing_key_file}) failed: {type(ex).__name__} {ex.args}")
         return 1

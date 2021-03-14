@@ -49,7 +49,7 @@ def run_cmd(ctx, pull, stop, bash, dry_run, subs, target_config_dir_or_file):
         if not bash:
             DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
     except Exception as ex:
-        ctx.fail(f"docker:run_cmd(pull={pull}, "
+        ctx.fail(f"docker_cmd:run_cmd(pull={pull}, "
                  f"dry_run={dry_run}, "
                  f"target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
         return 1
