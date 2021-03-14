@@ -2,6 +2,8 @@
 
 <img src="images/CardanoPyBlueSmall.png" alt="CardanoPy" width="150" height="150">
 
+> NOTE: THIS IS A PRE-RELEASE of cardanopy (until it reaches 1.0 in 2 months or so; currently 0.1.6 as of Pi Day (3/14/2021), but already with some cool features)
+
 # Overview
 > NOTE: Please visit the Cardano Idealscale link and provide this project Kudos and/or provide feedback!
 
