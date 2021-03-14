@@ -1,6 +1,6 @@
 # https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/pypi-tools/examples/cleartext-cloudbuild.yaml
 substitutions:
-  _VERSION: 0.1.7-dev3 # default value
+  _VERSION: 0.1.7-dev4 # default value
   _CONTAINER: "cardano-py-slim"
 steps:
   - name: 'us.gcr.io/$PROJECT_ID/python'
