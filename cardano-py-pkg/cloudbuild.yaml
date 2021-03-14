@@ -84,7 +84,8 @@ steps:
     volumes:
       - name: 'ssh'
         path: /root/.ssh
-
+options:
+  machineType: 'N1_HIGHCPU_8'
 availableSecrets:
   secretManager:
     - versionName: projects/cardano-etl/secrets/cardanopy-pypi-api-token/versions/1
