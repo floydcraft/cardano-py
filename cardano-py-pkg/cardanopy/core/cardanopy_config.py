@@ -8,6 +8,38 @@ class CardanoPyConfig(object):
     config = None
     config_resolved = None
 
+    @staticmethod
+    def try_get_valid_config_dir(target_config_dir_or_file: Path):
+        if target_config_dir_or_file.is_dir():
+            target_config = target_config_dir_or_file.joinpath("cardanopy.yaml")
+            target_config_dir = target_config_dir_or_file
+        else:
+            target_config = target_config_dir_or_file
+            target_config_dir = target_config_dir_or_file.parent
+
+        if not target_config.is_file():
+            raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
+
+        if not target_config.exists():
+            raise ValueError(f"Target file '{target_config}' does not exist.")
+
+        return target_config_dir
+
+    @staticmethod
+    def try_get_valid_config_file(target_config_dir_or_file: Path):
+        if target_config_dir_or_file.is_dir():
+            target_config = target_config_dir_or_file.joinpath("cardanopy.yaml")
+        else:
+            target_config = target_config_dir_or_file
+
+        if not target_config.is_file():
+            raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
+
+        if not target_config.exists():
+            raise ValueError(f"Target file '{target_config}' does not exist.")
+
+        return target_config
+
     def substitute(self, config_str):
         substitutions = self.config.get('substitutions')
         if not substitutions or not config_str:
@@ -20,29 +52,21 @@ class CardanoPyConfig(object):
 
         return config_str
 
-    def load(self, target_config_dir: str):
-        target_config_dir = Path(target_config_dir)
+    def load(self, target_config_file: Path):
+        if not target_config_file.is_file():
+            raise ValueError(f"Target config '{target_config_file}' is not a file. e.g., 'cardanopy.yaml'")
 
-        if target_config_dir.is_dir():
-            target_config = target_config_dir.joinpath("cardanopy.yaml")
-        else:
-            target_config = target_config_dir
-            target_config_dir = target_config_dir.parent
-
-        if not target_config.is_file():
-            raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
-
-        if not target_config.exists():
-            raise ValueError(f"Target file '{target_config}' does not exist.")
+        if not target_config_file.exists():
+            raise ValueError(f"Target file '{target_config_file}' does not exist.")
 
         try:
-            with open(target_config, "r") as file:
+            with open(target_config_file, "r") as file:
                 config_str = file.read()
                 self.config = yaml.full_load(config_str)
                 config_resolved_str = self.substitute(config_str)
                 self.config_resolved = yaml.full_load(config_resolved_str)
         except Exception as ex:
-            raise ValueError(f"Failed to load config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to load config. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
         schema_file = Path(__file__).parent.joinpath("../data/schemas").absolute() / f"{self.apiVersion}.json"
 
@@ -50,12 +74,12 @@ class CardanoPyConfig(object):
             with open(schema_file, "r") as file:
                 schema = json.loads(file.read())
         except Exception as ex:
-            raise ValueError(f"Failed to load schema. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to load schema. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
         try:
             jsonschema.validate(instance=self.config_resolved, schema=schema)
         except Exception as ex:
-            raise ValueError(f"Failed to validate config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to validate config. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
     # def set(self, property_name: str, property_value):
     #     self.config[property_name] = property_value
@@ -64,14 +88,7 @@ class CardanoPyConfig(object):
     # def get(self, property_name: str):
     #     return self.config_resolved[property_name]
 
-    def save(self, target_config_dir: Path):
-        target_config_dir = Path(target_config_dir)
-
-        if target_config_dir.is_dir():
-            target_config = target_config_dir.joinpath("cardanopy.yaml")
-        else:
-            target_config = target_config_dir
-            target_config_dir = target_config_dir.parent
+    def save(self, target_config_file: Path):
 
         # if not target_config.is_file():
         #     raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")
@@ -84,18 +101,18 @@ class CardanoPyConfig(object):
             with open(schema_file, "r") as file:
                 schema = json.loads(file.read())
         except Exception as ex:
-            raise ValueError(f"Failed to load schema. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to load schema. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
         try:
             jsonschema.validate(instance=self.config_resolved, schema=schema)
         except Exception as ex:
-            raise ValueError(f"Failed to validate config. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to validate config. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
         try:
-            with open(target_config, "w") as file:
+            with open(target_config_file, "w") as file:
                 yaml.dump(self.config, file)
         except Exception as ex:
-            raise ValueError(f"Failed to save. '{target_config_dir}'. {type(ex).__name__} {ex.args}")
+            raise ValueError(f"Failed to save. '{target_config_file}'. {type(ex).__name__} {ex.args}")
 
     def get_api_version(self):
         return self.config_resolved.get('apiVersion')

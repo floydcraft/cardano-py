@@ -1,7 +1,7 @@
 import unittest
 from click.testing import CliRunner
 from ...create import create
-from ..run import run
+from ..run_cmd import run_cmd
 from pathlib import Path
 import tempfile
 import shutil
@@ -27,7 +27,7 @@ class TestDockerRun(unittest.TestCase):
                                                     'testnet',
                                                     app_dir])
         assert create_result.exit_code == 0
-        run_result = runner.invoke(run, ['--dry-run', app_dir])
+        run_result = runner.invoke(run_cmd, ['--dry-run', app_dir])
         assert run_result.exit_code == 0
         assert "DRY RUN - no mutable changes will be made." in run_result.output
         assert "docker run --name basic -d --env CARDANO_NODE_SOCKET_PATH=/app/node.socket --env CARDANO_NETWORK=testnet -p 3001:3001" in run_result.output

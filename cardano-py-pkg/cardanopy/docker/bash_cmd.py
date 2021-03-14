@@ -4,13 +4,13 @@ from pathlib import Path
 from ..core.cardanopy_config import CardanoPyConfig
 
 
-@click.command()
+@click.command("bash")
 @click.option('-p', '--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_config_dir', type=str)
 @click.pass_context
-def run(ctx, pull, dry_run, target_config_dir):
-    """Docker Run helper command"""
+def bash_cmd(ctx, pull, dry_run, target_config_dir):
+    """Docker Bash helper command"""
 
     if dry_run:
         print("#### DRY RUN - no mutable changes will be made. ####")
@@ -79,22 +79,14 @@ def run(ctx, pull, dry_run, target_config_dir):
                             "--env", f"CARDANO_NETWORK={cardanopy_config.network}",
                             "-p", f"{cardanopy_config.port}:{cardanopy_config.port}",
                             "-v", f"{target_config_dir.absolute()}:{cardanopy_config.docker.rootVolume}",
-                            cardanopy_config.docker.image,
-                            "run",
-                            "/app"]))
-
-        docker_exec_cmd = ["docker",
-                          "exec",
-                          "-it",
-                          cardanopy_config.docker.name,
-                          "bin/bash"]
+                            "-it",
+                            "--entrypoint", "bin/bash",
+                            cardanopy_config.docker.image]))
         if dry_run:
             print(" ".join(docker_run_cmd))
-            print(" ".join(docker_exec_cmd))
         else:
             try:
                 subprocess.run(docker_run_cmd, cwd=target_config_dir)
-                subprocess.run(docker_exec_cmd, cwd=target_config_dir)
             except Exception as ex:
                 ctx.fail(f"Unknown exception: {type(ex).__name__} {ex.args}")
                 return 1
