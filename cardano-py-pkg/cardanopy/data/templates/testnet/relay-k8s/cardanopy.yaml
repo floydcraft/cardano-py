@@ -1,8 +1,9 @@
 apiVersion: "cardanopy.node.config.v1"
 substitutions:
+  _APP_NAME: "relay-k8s"
+  _TARGET_TAG: "latest"
   _POD_ORDINAL: 0
   _TARGET_POD_ORDINAL: 1
-  _APP_NAME: "relay-k8s"
 network: "testnet"
 configPath: "/app/config.json"
 topologyPath: "/app/topology.json"
@@ -12,7 +13,7 @@ hostAddr: "0.0.0.0"
 port: 3001
 docker:
   name: "$_APP_NAME-$_POD_ORDINAL"
-  image: "floydcraft/cardano-py-slim:latest"
+  image: "floydcraft/cardano-py-slim:$_TARGET_TAG"
   rootVolume: "/app"
 k8s:
   namespace: "cardano-testnet"

@@ -1,6 +1,7 @@
 apiVersion: "cardanopy.node.config.v1"
 substitutions:
   _APP_NAME: "basic"
+  _TARGET_TAG: "latest"
 network: "mainnet"
 configPath: "/app/config.json"
 topologyPath: "/app/topology.json"
@@ -10,7 +11,7 @@ hostAddr: "0.0.0.0"
 port: 3001
 docker:
   name: "basic"
-  image: "floydcraft/cardano-py-slim:latest"
+  image: "floydcraft/cardano-py-slim:$_TARGET_TAG"
   rootVolume: "/app"
 k8s:
   namespace: "cardano-mainnet"

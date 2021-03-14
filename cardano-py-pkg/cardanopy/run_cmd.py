@@ -6,9 +6,10 @@ from .core.substitution import Substitution
 
 @click.command("run")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
-def run_cmd(ctx, dry_run, target_config_dir_or_file):
+def run_cmd(ctx, dry_run, subs, target_config_dir_or_file):
     """Run command"""
 
     try:
@@ -16,9 +17,9 @@ def run_cmd(ctx, dry_run, target_config_dir_or_file):
         target_config_file = CardanoPyConfig.try_get_valid_config_file(target_config_dir_or_file)
 
         cardanopy_config = CardanoPyConfig()
-        cardanopy_config.load(target_config_file)
+        cardanopy_config.load(target_config_file, subs)
 
-        Substitution.generate(dry_run, target_config_dir, cardanopy_config)
+        Substitution.generate(dry_run, target_config_dir, cardanopy_config, subs)
 
         cardano_node_cmd = ["cardano-node",
                             "run",

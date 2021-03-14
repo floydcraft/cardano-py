@@ -8,9 +8,10 @@ from .docker_helper import DockerHelper
 @click.option('-s', '--stop', 'stop', is_flag=True, help="stop and remove the docker image before running")
 @click.option('-b', '--bash', 'bash', is_flag=True, help="override docker image entrypoint with /bin/bash")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
-def run_cmd(ctx, pull, stop, bash, dry_run, target_config_dir_or_file):
+def run_cmd(ctx, pull, stop, bash, dry_run, subs, target_config_dir_or_file):
     """Docker Run helper command"""
 
     try:
@@ -18,7 +19,7 @@ def run_cmd(ctx, pull, stop, bash, dry_run, target_config_dir_or_file):
         target_config_file = CardanoPyConfig.try_get_valid_config_file(target_config_dir_or_file)
 
         cardanopy_config = CardanoPyConfig()
-        cardanopy_config.load(target_config_file)
+        cardanopy_config.load(target_config_file, subs)
 
         if pull:
             DockerHelper.pull_container(cardanopy_config.docker.image, dry_run)

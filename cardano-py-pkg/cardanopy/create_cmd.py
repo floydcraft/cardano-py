@@ -3,7 +3,6 @@ from pathlib import Path
 import shutil
 
 
-# @staticmethod
 def get_template_dir(network: str, template: str):
     return Path(__file__).parent.joinpath("data/templates").joinpath(network).joinpath(template)
 

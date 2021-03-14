@@ -7,7 +7,7 @@ import os
 class Substitution(object):
 
     @staticmethod
-    def generate(dry_run: bool, target_config_dir: Path, config: CardanoPyConfig):
+    def generate(dry_run: bool, target_config_dir: Path, config: CardanoPyConfig, subs: tuple = tuple()):
         for dir_name, subdirList, fileList in os.walk(target_config_dir):
             dir_path = Path(dir_name)
             for file_name in fileList:
@@ -25,7 +25,7 @@ class Substitution(object):
                                 f"Failed to load template. '{file_path}'. {type(ex).__name__} {ex.args}")
 
                         try:
-                            config_data_resolved_str = config.substitute(config_data_str)
+                            config_data_resolved_str = config.substitute(config_data_str, subs)
                         except Exception as ex:
                             raise ValueError(
                                 f"Failed to substitute template. '{file_path}'. {type(ex).__name__} {ex.args}")

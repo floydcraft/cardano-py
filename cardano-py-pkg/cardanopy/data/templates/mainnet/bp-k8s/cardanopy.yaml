@@ -1,7 +1,8 @@
 apiVersion: "cardanopy.node.config.v1"
 substitutions:
-  _BP_ENABLED: False
   _APP_NAME: "bp-k8s"
+  _TARGET_TAG: "latest"
+  _BP_ENABLED: False
 network: "mainnet"
 configPath: "/app/config.json"
 topologyPath: "/app/topology.json"
@@ -16,9 +17,7 @@ blockProducer:
   shelleyOperationalCertificate: "bp/node.cert"
 docker:
   name: "$_APP_NAME"
-  image: "floydcraft/cardano-py-slim:latest"
+  image: "floydcraft/cardano-py-slim:$_TARGET_TAG"
   rootVolume: "/app"
 k8s:
   namespace: "cardano-mainnet"
-
-

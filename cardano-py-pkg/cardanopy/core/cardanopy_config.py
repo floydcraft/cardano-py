@@ -46,10 +46,15 @@ class CardanoPyConfig(object):
 
         return target_config
 
-    def substitute(self, config_str):
+    def substitute(self, config_str, subs: tuple):
         substitutions = self.config.get('substitutions')
         if not substitutions or not config_str:
             return config_str
+
+        for sub_key, sub_value in subs:
+            # print(f"before\n{config_str}")
+            config_str = config_str.replace(f"${sub_key}", f"{sub_value}")
+            # print(f"after\n{config_str}")
 
         for sub_key, sub_value in substitutions.items():
             # print(f"before\n{config_str}")
@@ -58,7 +63,7 @@ class CardanoPyConfig(object):
 
         return config_str
 
-    def load(self, target_config_file):
+    def load(self, target_config_file, subs: tuple = tuple()):
         if isinstance(target_config_file, str):
             target_config_file = Path(target_config_file)
 
@@ -72,7 +77,7 @@ class CardanoPyConfig(object):
             with open(target_config_file, "r") as file:
                 config_str = file.read()
                 self.config = yaml.full_load(config_str)
-                config_resolved_str = self.substitute(config_str)
+                config_resolved_str = self.substitute(config_str, subs)
                 self.config_resolved = yaml.full_load(config_resolved_str)
         except Exception as ex:
             raise ValueError(f"Failed to load config. '{target_config_file}'. {type(ex).__name__} {ex.args}")

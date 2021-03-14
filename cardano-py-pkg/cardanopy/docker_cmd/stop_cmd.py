@@ -7,16 +7,17 @@ from .docker_helper import DockerHelper
 
 @click.command("stop")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
-def stop_cmd(ctx, dry_run, target_config_dir_or_file):
+def stop_cmd(ctx, dry_run, subs, target_config_dir_or_file):
     """Docker Stop helper command"""
 
     try:
         target_config_file = CardanoPyConfig.try_get_valid_config_file(target_config_dir_or_file)
 
         cardanopy_config = CardanoPyConfig()
-        cardanopy_config.load(target_config_file)
+        cardanopy_config.load(target_config_file, subs)
 
         if DockerHelper.is_container_running(cardanopy_config.docker.name, dry_run):
             DockerHelper.stop_container(cardanopy_config.docker.name, dry_run)
