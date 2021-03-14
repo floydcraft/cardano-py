@@ -26,6 +26,7 @@ COPY --from=base /opt/ /opt/
 RUN addgroup -gid 1000 ada \
     && mkdir -p /home/ada \
     && adduser --uid 1000 --disabled-password --shell /bin/bash --no-create-home --gecos '' --home /home/ada --ingroup ada ada \
+    && chgrp -R ada /home/ada/ \
     && apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
     && apt-get -y clean \
