@@ -4,7 +4,7 @@ from .core.substitution import Substitution
 
 
 @click.command("generate")
-@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
 def generate_cmd(ctx, dry_run, target_config_dir_or_file):

@@ -6,10 +6,11 @@ from .docker_helper import DockerHelper
 @click.command("run")
 @click.option('-p', '--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
 @click.option('-s', '--stop', 'stop', is_flag=True, help="stop and remove the docker image before running")
-@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-b', '--bash', 'bash', is_flag=True, help="override docker image entrypoint with /bin/bash")
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
-def run_cmd(ctx, pull, dry_run, stop, target_config_dir_or_file):
+def run_cmd(ctx, pull, stop, bash, dry_run, target_config_dir_or_file):
     """Docker Run helper command"""
 
     try:
@@ -41,10 +42,13 @@ def run_cmd(ctx, pull, dry_run, stop, target_config_dir_or_file):
                                       cardanopy_config.port,
                                       cardanopy_config.docker.rootVolume,
                                       cardanopy_config.docker.image,
-                                      False,
+                                      bash,
                                       dry_run)
 
-        DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
+        if not bash:
+            DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
     except Exception as ex:
-        ctx.fail(f"docker:run_cmd(pull={pull}, dry_run={dry_run}, target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
+        ctx.fail(f"docker:run_cmd(pull={pull}, "
+                 f"dry_run={dry_run}, "
+                 f"target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
         return 1

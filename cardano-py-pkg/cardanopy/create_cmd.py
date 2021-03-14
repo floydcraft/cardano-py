@@ -14,7 +14,7 @@ def get_template_dir(network: str, template: str):
               help='template type to create.')
 @click.option('-n', '--network', 'network', default="testnet",
               type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
-@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_dir', type=str)
 @click.pass_context
 def create_cmd(ctx, template, network, dry_run, target_dir):

@@ -11,7 +11,7 @@ def query_cmd(ctx):
 
 
 @query_cmd.command()
-@click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.pass_context
 def tip_cmd(ctx, dry_run):
     """Get the node's current tip (slot no, hash, block no)."""

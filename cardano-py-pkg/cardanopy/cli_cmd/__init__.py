@@ -5,7 +5,7 @@ from .address_cmd import address_cmd
 from .stake_address_cmd import stake_address_cmd
 
 
-@click.group()
+@click.group("cli")
 @click.pass_context
 def cli_cmd(ctx):
     """Cardano CLI command"""
