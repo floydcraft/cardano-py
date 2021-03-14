@@ -4,7 +4,7 @@ FROM floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION as base
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
-ARG _VERSION=0.1.6-dev9
+ARG _VERSION=0.1.6-dev10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
