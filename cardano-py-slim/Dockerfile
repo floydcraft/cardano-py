@@ -4,7 +4,7 @@ FROM floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION as base
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
-ARG _VERSION=0.1.6
+ARG _VERSION=0.1.7-dev1
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -23,12 +23,18 @@ COPY --from=base /usr/lib/x86_64-linux-gnu/liblz4.* /usr/lib/x86_64-linux-gnu/
 COPY --from=base /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu/
 COPY --from=base /opt/ /opt/
 
-RUN apt-get update \
+RUN addgroup -gid 1000 ada \
+    && mkdir -p /home/ada \
+    && adduser --uid 1000 --disabled-password --shell /bin/bash --no-create-home --gecos '' --home /home/ada --ingroup ada ada \
+    && apt-get update \
     && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
     && python -m pip install cardanopy==$_VERSION --no-cache-dir
+
+USER ada
+WORKDIR /home/ada
 
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "bin/bash" ]
