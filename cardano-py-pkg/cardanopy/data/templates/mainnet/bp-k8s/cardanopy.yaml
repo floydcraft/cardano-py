@@ -3,13 +3,14 @@ substitutions:
   _NAME: "bp-k8s"
   _IMAGE: "floydcraft/cardano-py-slim"
   _TAG: "latest"
+  _APP_DIR: "/home/ada/app"
   _MOUNT: True
   _BP_ENABLED: False
 network: "mainnet"
-configPath: "/app/config.json"
-topologyPath: "/app/topology.json"
-databasePath: "/app/db"
-socketPath: "/app/node.socket"
+configPath: "$_APP_DIR/config.json"
+topologyPath: "$_APP_DIR/topology.json"
+databasePath: "$_APP_DIR/db"
+socketPath: "$_APP_DIR/node.socket"
 hostAddr: "0.0.0.0"
 port: 3001
 blockProducer:
@@ -20,7 +21,7 @@ blockProducer:
 docker:
   name: "$_NAME"
   image: "$_IMAGE:$_TAG"
-  rootVolume: "/app"
+  rootVolume: "$_APP_DIR"
   mount: $_MOUNT
 k8s:
   namespace: "cardano-mainnet"

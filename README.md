@@ -1,6 +1,24 @@
 [![cardano-py Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/FyDz4Xrt4x)
 
+[![dockeri.co](https://dockeri.co/image/floydcraft/cardano-py-slim)](https://hub.docker.com/r/floydcraft/cardano-py-slim)
+
+[![GitHub issues](https://img.shields.io/github/issues/floydcraft/cardano-py/cardanopy.svg "GitHub issues")](https://github.com/floydcraft/cardano-py/issues)
+
 <img src="images/CardanoPyBlueSmall.png" alt="CardanoPy" width="150" height="150">
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Problem](#problem)
+- [Solution](#solution)
+- [Quickstart](#quickstart)
+  - [Use predefined docker image cardano-py-slim](#use-predefined-docker-image-cardano-py-slim)
+- [CardanoPy Examples](#cardanopy-examples)
+- [Roadmap](#roadmap)
+- [Core Docker Images](#core-docker-images)
+  - [CardanoPy](#cardanopy)
+  - [Cardano IOHK](#cardano-iohk)
+  - [Common](#common)
 
 > NOTE: THIS IS A PRE-RELEASE of cardanopy (until it reaches 1.0 in 2 months or so; currently 0.1.6 as of Pi Day (3/14/2021), but already with some cool features)
 
@@ -34,8 +52,7 @@ See Quickstart.
   `cardanopy docker run files/app`
 
   ```bash
-  7f1b51871e4f0be32e81c51d7e471a26ef282eb34bdb96295376421a14e6ad99
-  root@7f1b51871e4f:/#
+  ada@ce02f129e793:~$
   ```
 - Once your logged into the node, run:
 
@@ -60,7 +77,9 @@ See Quickstart.
 - (WIP) Kubernetes definitions for different deployments (relay, producer, relays, db sync, ...) (see `cardano-node`)
 - (TODO) cardanopy etl feature for db-sync providers
 
-# Core Docker Images on [dockerhub](https://hub.docker.com/u/floydcraft)
+# Core Docker Images
+Available on [floydcraft dockerhub](https://hub.docker.com/u/floydcraft)
+
 ## CardanoPy
 - [cardano-py-slim](https://github.com/floydcraft/cardano-py/tree/master/cardano-py-slim) - Runtime slim build of CardanoPy Cardano node. Preinstalls latest cardanopy package.
 ## Cardano IOHK
