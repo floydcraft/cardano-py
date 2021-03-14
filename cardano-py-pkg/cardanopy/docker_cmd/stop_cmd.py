@@ -7,7 +7,7 @@ from .docker_helper import DockerHelper
 
 @click.command("stop")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
+@click.option('-s', '--sub', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
 def stop_cmd(ctx, dry_run, subs, target_config_dir_or_file):

@@ -6,7 +6,7 @@ from .core.substitution import Substitution
 
 @click.command("run")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
+@click.option('-s', '--sub', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
 def run_cmd(ctx, dry_run, subs, target_config_dir_or_file):

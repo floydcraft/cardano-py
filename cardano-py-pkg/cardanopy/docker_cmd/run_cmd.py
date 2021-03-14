@@ -8,7 +8,7 @@ from .docker_helper import DockerHelper
 @click.option('-s', '--stop', 'stop', is_flag=True, help="stop and remove the docker image before running")
 @click.option('-b', '--bash', 'bash', is_flag=True, help="override docker image entrypoint with /bin/bash")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.option('-s', '--subs', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
+@click.option('-s', '--sub', 'subs', multiple=True, type=str, default=tuple(), help="Substitutions for configs")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
 def run_cmd(ctx, pull, stop, bash, dry_run, subs, target_config_dir_or_file):
