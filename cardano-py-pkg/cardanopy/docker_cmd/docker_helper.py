@@ -85,7 +85,7 @@ class DockerHelper(object):
                       "exec",
                       "-it",
                       container_name,
-                      "bin/bash"]
+                      "/bin/bash"]
         if dry_run:
             print(" ".join(docker_cmd))
         else:
