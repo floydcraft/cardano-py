@@ -4,13 +4,13 @@ from pathlib import Path
 import os
 
 
-@click.group()
+@click.group("query")
 @click.pass_context
 def query_cmd(ctx):
     """Node query commands. Will query the local node"""
 
 
-@query_cmd.command()
+@query_cmd.command("tip")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.pass_context
 def tip_cmd(ctx, dry_run):

@@ -3,7 +3,7 @@ import subprocess
 import os
 
 
-@click.group()
+@click.group("address")
 @click.pass_context
 def address_cmd(ctx):
     """Payment address commands"""
