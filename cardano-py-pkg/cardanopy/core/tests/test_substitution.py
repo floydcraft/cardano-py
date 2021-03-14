@@ -1,6 +1,6 @@
 import unittest
 from click.testing import CliRunner
-from ...create import create
+from ...create_cmd import create_cmd
 from core.substitution import Substitution
 from core.cardanopy_config import CardanoPyConfig
 from pathlib import Path
@@ -21,15 +21,19 @@ class TestSubstitution(unittest.TestCase):
 
     def test_substitution(self):
         app_dir = self.test_dir.joinpath('test-app')
+
         runner = CliRunner()
-        create_result = runner.invoke(create, ['--template',
+        create_result = runner.invoke(create_cmd, ['--template',
                                                     'basic',
                                                     '--network',
                                                     'testnet',
                                                     str(app_dir)])
         assert create_result.exit_code == 0
 
-        cardanopy_config = CardanoPyConfig()
-        cardanopy_config.load(app_dir)
+        target_config_dir = CardanoPyConfig.try_get_valid_config_dir(app_dir)
+        target_config_file = CardanoPyConfig.try_get_valid_config_file(app_dir)
 
-        Substitution.generate(False, app_dir, cardanopy_config)
+        cardanopy_config = CardanoPyConfig()
+        cardanopy_config.load(target_config_file)
+
+        Substitution.generate(False, target_config_dir, cardanopy_config)

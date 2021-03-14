@@ -4,12 +4,12 @@ __title__ = "cardanopy"
 
 import click
 
-from .run import run
-from .create import create
-from .cli import cli
-from .docker import docker
-from .k8s import k8s
-from .generate import generate_cmd
+from .run_cmd import run_cmd
+from .create_cmd import create_cmd
+from .cli_cmd import cli_cmd
+from .docker_cmd import docker_cmd
+from .k8s_cmd import k8s_cmd
+from .generate_cmd import generate_cmd
 # from .config import config
 
 @click.group()
@@ -20,11 +20,11 @@ def main(ctx):
 
 
 # export
-main.add_command(run)
-main.add_command(create)
-main.add_command(cli)
-main.add_command(docker)
-main.add_command(k8s)
+main.add_command(run_cmd)
+main.add_command(create_cmd)
+main.add_command(cli_cmd)
+main.add_command(docker_cmd)
+main.add_command(k8s_cmd)
 main.add_command(generate_cmd)
 # disable config cli for now (might remove)
 # main.add_command(config)
