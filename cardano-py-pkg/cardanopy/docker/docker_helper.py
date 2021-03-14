@@ -117,8 +117,8 @@ class DockerHelper(object):
                                 "-p", f"{port}:{port}",
                                 "-v", f"{target_config_dir.absolute()}:{docker_root_volume}",
                                 "-it" if bash else None,
-                                "--entrypoint" if bash else None,
-                                "/bin/bash" if bash else None,
+                                "--entrypoint",
+                                "/bin/bash" if bash else "cardanopy",
                                 docker_image,
                                 "run" if not bash else None,
                                 docker_root_volume if not bash else None]))
