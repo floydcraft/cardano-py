@@ -111,7 +111,7 @@ class DockerHelper(object):
                                 ["docker",
                                 "run",
                                 "--name", container_name,
-                                "-d",
+                                "-d" if not bash else None,
                                 "--env", f"CARDANO_NODE_SOCKET_PATH={socket_path}",
                                 "--env", f"CARDANO_NETWORK={network}",
                                 "-p", f"{port}:{port}",
