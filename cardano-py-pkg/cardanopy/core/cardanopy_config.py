@@ -51,10 +51,26 @@ class CardanoPyConfig(object):
         if not substitutions or not config_str:
             return config_str
 
-        for sub_key, sub_value in subs:
-            # print(f"before\n{config_str}")
-            config_str = config_str.replace(f"${sub_key}", f"{sub_value}")
-            # print(f"after\n{config_str}")
+        for sub in subs:
+            if "=" in sub:
+                sub_split = sub.split("=")
+                sub_key = sub_split[0] if len(sub_split) > 0 else None
+                sub_value = sub_split[1] if len(sub_split) > 1 else None
+                if sub_value and (sub_value.endswith('\'') or sub_value.endswith('\"')):
+                    sub_value = sub_value[:-1]
+                if sub_value and (sub_value.startswith('\'') or sub_value.startswith('\"')):
+                    sub_value = sub_value[1:]
+
+                if sub_key:
+                    config_str = config_str.replace(f"${sub_key}", f"{sub_value}")
+                else:
+                    raise ValueError(f"Substitutions invalid format: "
+                                     f"sub_key='{sub_key}' and  sub_value='{sub_value}'\n"
+                                     f"Should be: --sub _KEY_EXAMPLE='value_example'")
+            else:
+                raise ValueError(f"Substitutions invalid format: "
+                                 f"sub='{sub}'\n"
+                                 f"Should be: --sub _KEY_EXAMPLE='value_example'")
 
         for sub_key, sub_value in substitutions.items():
             # print(f"before\n{config_str}")
