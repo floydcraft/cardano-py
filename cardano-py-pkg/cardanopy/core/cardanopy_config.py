@@ -9,7 +9,10 @@ class CardanoPyConfig(object):
     config_resolved = None
 
     @staticmethod
-    def try_get_valid_config_dir(target_config_dir_or_file: Path):
+    def try_get_valid_config_dir(target_config_dir_or_file):
+        if isinstance(target_config_dir_or_file, str):
+            target_config_dir_or_file = Path(target_config_dir_or_file)
+
         if target_config_dir_or_file.is_dir():
             target_config = target_config_dir_or_file.joinpath("cardanopy.yaml")
             target_config_dir = target_config_dir_or_file
@@ -26,7 +29,10 @@ class CardanoPyConfig(object):
         return target_config_dir
 
     @staticmethod
-    def try_get_valid_config_file(target_config_dir_or_file: Path):
+    def try_get_valid_config_file(target_config_dir_or_file):
+        if isinstance(target_config_dir_or_file, str):
+            target_config_dir_or_file = Path(target_config_dir_or_file)
+
         if target_config_dir_or_file.is_dir():
             target_config = target_config_dir_or_file.joinpath("cardanopy.yaml")
         else:
@@ -52,7 +58,10 @@ class CardanoPyConfig(object):
 
         return config_str
 
-    def load(self, target_config_file: Path):
+    def load(self, target_config_file):
+        if isinstance(target_config_file, str):
+            target_config_file = Path(target_config_file)
+
         if not target_config_file.is_file():
             raise ValueError(f"Target config '{target_config_file}' is not a file. e.g., 'cardanopy.yaml'")
 
@@ -88,7 +97,9 @@ class CardanoPyConfig(object):
     # def get(self, property_name: str):
     #     return self.config_resolved[property_name]
 
-    def save(self, target_config_file: Path):
+    def save(self, target_config_file):
+        if isinstance(target_config_file, str):
+            target_config_file = Path(target_config_file)
 
         # if not target_config.is_file():
         #     raise ValueError(f"Target config '{target_config}' is not a file. e.g., 'cardanopy.yaml'")

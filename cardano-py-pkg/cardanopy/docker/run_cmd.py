@@ -7,26 +7,30 @@ from .docker_helper import DockerHelper
 @click.option('-p', '--pull', 'pull', is_flag=True, help="pull the docker image. Instead of using local docker image cache")
 @click.option('-s', '--stop', 'stop', is_flag=True, help="stop and remove the docker image before running")
 @click.option('-r', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
-@click.argument('target_config_dir', type=str)
+@click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
-def run_cmd(ctx, pull, dry_run, target_config_dir_or_file):
+def run_cmd(ctx, pull, dry_run, stop, target_config_dir_or_file):
     """Docker Run helper command"""
 
-    if dry_run:
-        print("#### DRY RUN - no mutable changes will be made. ####")
+    try:
+        target_config_dir = CardanoPyConfig.try_get_valid_config_dir(target_config_dir_or_file)
+        target_config_file = CardanoPyConfig.try_get_valid_config_file(target_config_dir_or_file)
 
-    target_config_dir = CardanoPyConfig.try_get_valid_config_dir(target_config_dir_or_file)
-    target_config_file = CardanoPyConfig.try_get_valid_config_file(target_config_dir_or_file)
+        cardanopy_config = CardanoPyConfig()
+        cardanopy_config.load(target_config_file)
 
-    cardanopy_config = CardanoPyConfig()
-    cardanopy_config.load(target_config_file)
+        if pull:
+            DockerHelper.pull_container(cardanopy_config.docker.image, dry_run)
 
-    if pull:
-        DockerHelper.pull(cardanopy_config.docker.image, dry_run)
+        is_container_running = DockerHelper.is_container_running(cardanopy_config.docker.name, dry_run)
 
-    if DockerHelper.is_container_running(cardanopy_config.docker.name, dry_run):
-        DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
-    else:
+        if is_container_running:
+            if stop:
+                DockerHelper.stop_container(cardanopy_config.docker.name, dry_run)
+            else:
+                DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
+                return 0
+
         if DockerHelper.is_container_exited(cardanopy_config.docker.name, dry_run):
             DockerHelper.remove_container(cardanopy_config.docker.name, dry_run)
 
@@ -40,3 +44,6 @@ def run_cmd(ctx, pull, dry_run, target_config_dir_or_file):
                                       dry_run)
 
         DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
+    except Exception as ex:
+        ctx.fail(f"docker:run_cmd(pull={pull}, dry_run={dry_run}, target_config_dir_or_file='{target_config_dir_or_file}') failed: {type(ex).__name__} {ex.args}")
+        return 1

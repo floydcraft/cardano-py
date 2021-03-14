@@ -38,8 +38,8 @@ class DockerHelper(object):
     @staticmethod
     def remove_container(container_name: str, dry_run=False):
         docker_cmd = ["docker",
-                       "container",
-                       "rm", container_name]
+                       "rm",
+                       container_name]
         if dry_run:
             print(" ".join(docker_cmd))
         else:
@@ -49,7 +49,21 @@ class DockerHelper(object):
                 raise ValueError(f"DockerHelper:remove_container('{container_name}') failed. {type(ex).__name__} {ex.args}")
 
     @staticmethod
-    def pull(docker_image: str, dry_run=False):
+    def stop_container(container_name: str, dry_run=False):
+        docker_cmd = ["docker",
+                      "stop",
+                      container_name]
+        if dry_run:
+            print(" ".join(docker_cmd))
+        else:
+            try:
+                subprocess.run(docker_cmd)
+            except Exception as ex:
+                raise ValueError(
+                    f"DockerHelper:stop_container('{container_name}') failed. {type(ex).__name__} {ex.args}")
+
+    @staticmethod
+    def pull_container(docker_image: str, dry_run=False):
         docker_cmd = ["docker",
                       "pull",
                       docker_image]
