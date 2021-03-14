@@ -34,6 +34,6 @@ class TestSubstitution(unittest.TestCase):
         target_config_file = CardanoPyConfig.try_get_valid_config_file(app_dir)
 
         cardanopy_config = CardanoPyConfig()
-        cardanopy_config.load(target_config_file, ("_APP_NAME=test_app", "_TARGET_TAG=test_tag"))
+        cardanopy_config.load(target_config_file, ("_NAME=test_app", "_TAG=test_tag"))
 
         Substitution.generate(False, target_config_dir, cardanopy_config)

@@ -102,6 +102,7 @@ class DockerHelper(object):
                          port: int,
                          docker_root_volume: str,
                          docker_image: str,
+                         docker_mount: bool = False,
                          bash=False,
                          dry_run=False):
 
@@ -115,7 +116,8 @@ class DockerHelper(object):
                                 "--env", f"CARDANO_NODE_SOCKET_PATH={socket_path}",
                                 "--env", f"CARDANO_NETWORK={network}",
                                 "-p", f"{port}:{port}",
-                                "-v", f"{target_config_dir.absolute()}:{docker_root_volume}",
+                                "-v" if docker_mount else None,
+                                f"{target_config_dir.absolute()}:{docker_root_volume}" if docker_mount else None,
                                 "-it" if bash else None,
                                 "--entrypoint",
                                 "/bin/bash" if bash else "cardanopy",

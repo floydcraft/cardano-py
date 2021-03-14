@@ -48,6 +48,7 @@ class TestCardanoPyConfig(unittest.TestCase):
         self.assertEqual(cardanopy_config.docker.name, "basic")
         self.assertEqual(cardanopy_config.docker.image, "floydcraft/cardano-py-slim:latest")
         self.assertEqual(cardanopy_config.docker.rootVolume, "/app")
+        self.assertEqual(cardanopy_config.docker.mount, True)
         self.assertEqual(cardanopy_config.k8s.namespace, "cardano-testnet")
 
         file_save = self.test_dir / file.name
@@ -67,6 +68,7 @@ class TestCardanoPyConfig(unittest.TestCase):
         self.assertEqual(cardanopy_config_v2.docker.name, cardanopy_config.docker.name)
         self.assertEqual(cardanopy_config_v2.docker.image, cardanopy_config.docker.image)
         self.assertEqual(cardanopy_config_v2.docker.rootVolume, cardanopy_config.docker.rootVolume)
+        self.assertEqual(cardanopy_config_v2.docker.mount, cardanopy_config.docker.mount)
         self.assertEqual(cardanopy_config_v2.k8s.namespace, cardanopy_config.k8s.namespace)
 
     def test_basic_config_subs(self):
@@ -86,4 +88,5 @@ class TestCardanoPyConfig(unittest.TestCase):
             self.assertIsInstance(cardanopy_config.docker.name, str)
             self.assertEqual(cardanopy_config.docker.image, "floydcraft/cardano-py-slim:latest")
             self.assertEqual(cardanopy_config.docker.rootVolume, "/app")
+            self.assertEqual(cardanopy_config.docker.mount, True)
             self.assertIsInstance(cardanopy_config.k8s.namespace, str)

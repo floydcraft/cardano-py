@@ -36,15 +36,16 @@ def run_cmd(ctx, pull, stop, bash, dry_run, subs, target_config_dir_or_file):
         if DockerHelper.is_container_exited(cardanopy_config.docker.name, dry_run):
             DockerHelper.remove_container(cardanopy_config.docker.name, dry_run)
 
-        DockerHelper.run_cardano_node(cardanopy_config.docker.name,
-                                      target_config_dir,
-                                      cardanopy_config.socketPath,
-                                      cardanopy_config.network,
-                                      cardanopy_config.port,
-                                      cardanopy_config.docker.rootVolume,
-                                      cardanopy_config.docker.image,
-                                      bash,
-                                      dry_run)
+        DockerHelper.run_cardano_node(container_name=cardanopy_config.docker.name,
+                                      target_config_dir=target_config_dir,
+                                      socket_path=cardanopy_config.socketPath,
+                                      network=cardanopy_config.network,
+                                      port=cardanopy_config.port,
+                                      docker_root_volume=cardanopy_config.docker.rootVolume,
+                                      docker_image=cardanopy_config.docker.image,
+                                      docker_mount=cardanopy_config.docker.mount,
+                                      bash=bash,
+                                      dry_run=dry_run)
 
         if not bash:
             DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)

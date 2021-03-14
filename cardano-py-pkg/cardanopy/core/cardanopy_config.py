@@ -56,19 +56,26 @@ class CardanoPyConfig(object):
                 sub_split = sub.split("=")
                 sub_key = sub_split[0] if len(sub_split) > 0 else None
                 sub_value = sub_split[1] if len(sub_split) > 1 else None
+                sub_key = sub_key.strip()
+                sub_value = sub_value.strip()
                 if sub_value and (sub_value.endswith('\'') or sub_value.endswith('\"')):
                     sub_value = sub_value[:-1]
                 if sub_value and (sub_value.startswith('\'') or sub_value.startswith('\"')):
                     sub_value = sub_value[1:]
 
+                if sub_key and not sub_key.startswith('_'):
+                    raise ValueError(f"Substitutions invalid format: prefix of underscore is required.\n"
+                                     f"sub_key='{sub_key}' and  sub_value='{sub_value}'\n"
+                                     f"Should be: --sub _KEY_EXAMPLE='value_example'.")
+
                 if sub_key:
                     config_str = config_str.replace(f"${sub_key}", f"{sub_value}")
                 else:
-                    raise ValueError(f"Substitutions invalid format: "
+                    raise ValueError(f"Substitutions invalid format: key shouldn't be None/null or Empty\n"
                                      f"sub_key='{sub_key}' and  sub_value='{sub_value}'\n"
                                      f"Should be: --sub _KEY_EXAMPLE='value_example'")
             else:
-                raise ValueError(f"Substitutions invalid format: "
+                raise ValueError(f"Substitutions invalid format: key=value should be seperated with an equal sign\n"
                                  f"sub='{sub}'\n"
                                  f"Should be: --sub _KEY_EXAMPLE='value_example'")
 
@@ -222,6 +229,11 @@ class DockerConfig(object):
         return self.config.get('rootVolume')
 
     rootVolume = property(get_root_volume)
+
+    def get_mount(self):
+        return self.config.get('mount', False)
+
+    mount = property(get_mount)
 
 
 class KubernetesConfig(object):

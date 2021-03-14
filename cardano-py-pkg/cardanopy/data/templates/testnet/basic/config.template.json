@@ -1,5 +1,5 @@
 {
-  "ApplicationName": "$_APP_NAME",
+  "ApplicationName": "$_NAME",
   "ApplicationVersion": 0,
   "ByronGenesisFile": "genesis-byron.json",
   "ByronGenesisHash": "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471",
