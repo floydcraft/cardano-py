@@ -18,6 +18,8 @@ ENV ENV=/etc/profile \
 USER root
 WORKDIR /
 
+ADD files/locale /etc/default/locale
+
 COPY --from=base /root/.cabal/bin/* /usr/local/bin/
 COPY --from=base /lib/x86_64-linux-gnu/lib* /lib/x86_64-linux-gnu/
 COPY --from=base /lib64/ld-linux-x86-64* /lib64/
@@ -27,12 +29,13 @@ COPY --from=base /usr/lib/x86_64-linux-gnu/libsodium.* /usr/lib/x86_64-linux-gnu
 COPY --from=base /opt/ /opt/
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
+    && apt-get install --no-install-recommends -y locales ca-certificates libcap2-bin ncurses-bin iproute2 curl wget xz-utils netbase sudo coreutils dnsutils net-tools procps tcptraceroute bc \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
+    && locale-gen en_US.UTF-8 \
+    && dpkg-reconfigure locales \
     && python -m pip install cardanopy==$_VERSION --no-cache-dir
 
 EXPOSE 3001 12798 12788
-ENTRYPOINT [ "cardanopy" ]
-CMD [ "--help" ]
+ENTRYPOINT [ "bin/bash" ]

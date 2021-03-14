@@ -3,9 +3,4 @@ set -e
 set -u
 set -o pipefail
 
-IMAGE=cardano-py-slim
-
-docker build \
-    --tag "floydcraft/$IMAGE:latest" \
-    "."
-
+docker build --tag "floydcraft/cardano-py-slim:latest" .
