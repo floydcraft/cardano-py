@@ -102,6 +102,7 @@ class DockerHelper(object):
                          port: int,
                          docker_root_volume: str,
                          docker_image: str,
+                         bash=False,
                          dry_run=False):
 
         target_config_dir = CardanoPyConfig.try_get_valid_config_dir(target_config_dir)
@@ -114,9 +115,12 @@ class DockerHelper(object):
                             "--env", f"CARDANO_NETWORK={network}",
                             "-p", f"{port}:{port}",
                             "-v", f"{target_config_dir.absolute()}:{docker_root_volume}",
+                            "-it" if bash else None,
+                            "--entrypoint" if bash else None,
+                            "/bin/bash" if bash else None,
                             docker_image,
-                            "run",
-                            docker_root_volume]))
+                            "run" if not bash else None,
+                            docker_root_volume if not bash else None]))
 
         if dry_run:
             print(" ".join(docker_cmd))

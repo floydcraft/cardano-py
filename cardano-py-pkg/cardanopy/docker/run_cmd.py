@@ -41,6 +41,7 @@ def run_cmd(ctx, pull, dry_run, stop, target_config_dir_or_file):
                                       cardanopy_config.port,
                                       cardanopy_config.docker.rootVolume,
                                       cardanopy_config.docker.image,
+                                      False,
                                       dry_run)
 
         DockerHelper.exec_bash(cardanopy_config.docker.name, target_config_dir, dry_run)
