@@ -4,7 +4,7 @@ from .core.cardanopy_config import CardanoPyConfig
 from .core.substitution import Substitution
 
 
-@click.command()
+@click.command("run")
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
 @click.argument('target_config_dir_or_file', type=str)
 @click.pass_context
