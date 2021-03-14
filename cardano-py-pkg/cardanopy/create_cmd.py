@@ -37,6 +37,9 @@ def create_cmd(ctx, template, network, dry_run, target_dir):
             print(f"copy 'template' directory from '{template_dir}' to '{target_dir}'")
         else:
             shutil.copytree(template_dir, target_dir)
+
+        if not dry_run:
+            print(f"Created cardano defaults from '{template}' template for network '{network}': '{target_dir}'")
     except Exception as ex:
         ctx.fail(f"create_cmd(template={template}, network={network}, dry_run={dry_run}, target_dir='{target_dir}') failed: {type(ex).__name__} {ex.args}")
         return 1
