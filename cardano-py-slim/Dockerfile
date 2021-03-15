@@ -31,10 +31,9 @@ RUN addgroup -gid 1000 ada \
     && apt-get -y clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
-    && setfacl -R -m user:ada:rwx  /home/ada \
+    && setfacl -Rdm group:ada:rwx  /home/ada \
     && python -m pip install cardanopy==$_VERSION --no-cache-dir
 
-USER ada
 WORKDIR /home/ada
 
 EXPOSE 3001 12798 12788
