@@ -18,20 +18,23 @@ spec:
     spec:
       containers:
         - name: producer-container
-          image: {{ .Values.cardanoImage }}
+          image: {{ .Values.cardanoNode.image | quote }}
           command: ["cardanopy"]
-          args: ["run", "/app"]
+          args: ["run",
+                "--sub",
+                {{ printf "_BP_ENABLED=%s" .Values.cardanoNode.bpEnabled | quote }},
+                {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
-              value: {{ .Values.cardano.network }}
+              value: {{ .Values.cardanoNode.network | quote  }}
             - name: CARDANO_NODE_SOCKET_PATH
-              value: {{ printf "/storage/%s/node.socket" .Values.cardano.network | quote }}
+              value: {{ .Values.cardanoNode.socketPath | quote }}
           ports:
             - containerPort: 3001
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-              - mountPath: /storage
+              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
                 name: producer-pvc
       nodeSelector:
         pool: default

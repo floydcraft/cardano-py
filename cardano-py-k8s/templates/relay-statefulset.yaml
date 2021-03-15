@@ -18,19 +18,25 @@ spec:
     spec:
       containers:
         - name: relay-container
-          image: {{ .Values.cardanoImage }}
-          args: ["run", "/app"]
+          image: {{ .Values.cardanoNode.image | quote }}
+          command: ["cardanopy"]
+          args: ["run",
+                "--sub",
+                {{ printf "_POD_ORDINAL=%s" .Values.cardanoNode.podOrdirnal | quote }},
+                "--sub",
+                {{ printf "_TARGET_POD_ORDINAL=%s" .Values.cardanoNode.targetPodOrdirnal | quote }},
+                {{ .Values.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
-              value: {{ .Values.cardano.network }}
+              value: {{ .Values.cardanoNode.network | quote }}
             - name: CARDANO_NODE_SOCKET_PATH
-              value: {{ printf "/storage/%s/node.socket" .Values.cardano.network | quote }}
+              value: {{ .Values.cardanoNode.socketPath | quote }}
           ports:
             - containerPort: 3001
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-              - mountPath: /storage
+              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
                 name: relay-pvc
       nodeSelector:
         pool: default
