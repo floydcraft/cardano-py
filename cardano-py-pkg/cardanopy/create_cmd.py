@@ -14,9 +14,10 @@ def get_template_dir(network: str, template: str):
 @click.option('-n', '--network', 'network', default="testnet",
               type=click.Choice(['testnet', 'mainnet'], case_sensitive=False), help='network type to create.')
 @click.option('-d', '--dry-run', 'dry_run', is_flag=True, help="print the mutable commands")
+@click.option('-q', '--quite', 'quite', is_flag=True, help="do not report warnings")
 @click.argument('target_dir', type=str)
 @click.pass_context
-def create_cmd(ctx, template, network, dry_run, target_dir):
+def create_cmd(ctx, template, network, dry_run, quite, target_dir):
     """Create command"""
 
     try:
@@ -26,8 +27,11 @@ def create_cmd(ctx, template, network, dry_run, target_dir):
         template_dir = get_template_dir(network, template)
 
         if target_dir.exists():
-            ctx.fail(f"Failed to create. Directory '{target_dir}' already exists.")
-            return 1
+            if not quite:
+                ctx.fail(f"Failed to create. Directory '{target_dir}' already exists.")
+                return 1
+            else:
+                return 0
 
         if not template_dir.is_dir() or not template_dir.exists():
             ctx.fail(f"Failed to create. Unable to locate template '{template}' for network '{network}'.")
