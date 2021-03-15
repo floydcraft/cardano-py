@@ -46,6 +46,9 @@ spec:
                      "--network",
                      {{ .Values.cardanoNode.network | quote  }},
                      {{ .Values.cardanoNode.appDir | quote }} ]
+          volumeMounts:
+              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
+                name: producer-pvc
       nodeSelector:
         pool: default
   volumeClaimTemplates:
