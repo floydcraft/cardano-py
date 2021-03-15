@@ -19,11 +19,11 @@ spec:
       containers:
         - name: producer-container
           image: {{ .Values.cardanoNode.image | quote }}
-          command: ["cardanopy"]
-          args: ["run",
-                "--sub",
-                {{ printf "_BP_ENABLED=%s" .Values.cardanoNode.bpEnabled | quote }},
-                {{ .Values.cardanoNode.appDir | quote }}]
+          command: ["cardanopy",
+                    "run",
+                    "--sub",
+                    {{ printf "_BP_ENABLED=%s" .Values.cardanoNode.bpEnabled | quote }},
+                    {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardanoNode.network | quote  }}
@@ -36,6 +36,16 @@ spec:
           volumeMounts:
               - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
                 name: producer-pvc
+      initContainers:
+        - name: init-producer-container
+          image: {{ .Values.cardanoNode.image | quote }}
+          command: [ "cardanopy",
+                     "create",
+                     "--template",
+                     "bp-k8s",
+                     "--network",
+                     {{ .Values.cardanoNode.network | quote  }},
+                     {{ .Values.cardanoNode.appDir | quote }} ]
       nodeSelector:
         pool: default
   volumeClaimTemplates:

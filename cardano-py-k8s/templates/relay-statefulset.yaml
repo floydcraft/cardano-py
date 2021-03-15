@@ -19,13 +19,13 @@ spec:
       containers:
         - name: relay-container
           image: {{ .Values.cardanoNode.image | quote }}
-          command: ["cardanopy"]
-          args: ["run",
-                "--sub",
-                {{ printf "_POD_ORDINAL=%s" .Values.cardanoNode.podOrdirnal | quote }},
-                "--sub",
-                {{ printf "_TARGET_POD_ORDINAL=%s" .Values.cardanoNode.targetPodOrdirnal | quote }},
-                {{ .Values.appDir | quote }}]
+          command: ["cardanopy",
+                    "run",
+                    "--sub",
+                    {{ printf "_POD_ORDINAL=%s" .Values.cardanoNode.podOrdirnal | quote }},
+                    "--sub",
+                    {{ printf "_TARGET_POD_ORDINAL=%s" .Values.cardanoNode.targetPodOrdirnal | quote }},
+                    {{ .Values.appDir | quote }} ]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardanoNode.network | quote }}
@@ -38,6 +38,16 @@ spec:
           volumeMounts:
               - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
                 name: relay-pvc
+      initContainers:
+        - name: init-producer-container
+          image: {{ .Values.cardanoNode.image | quote }}
+          command: [ "cardanopy",
+                     "create",
+                     "--template",
+                     "relay-k8s",
+                     "--network",
+                     {{ .Values.cardanoNode.network | quote  }},
+                     {{ .Values.cardanoNode.appDir | quote }} ]
       nodeSelector:
         pool: default
   volumeClaimTemplates:
