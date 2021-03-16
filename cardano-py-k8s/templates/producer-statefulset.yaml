@@ -23,12 +23,18 @@ spec:
                     "run",
                     "--sub",
                     {{ print "_BP_ENABLED=" .Values.cardanoNode.bpEnabled | quote }},
+                    "--sub",
+                    "_NAME=$CARDANO_NODE_NAME",
                     {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardanoNode.network | quote }}
             - name: CARDANO_NODE_SOCKET_PATH
               value: {{ .Values.cardanoNode.socketPath | quote }}
+            - name: CARDANO_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           ports:
             - containerPort: 3001
             - containerPort: 12798
