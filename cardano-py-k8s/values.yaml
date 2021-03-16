@@ -12,4 +12,4 @@ cardanoNode:
   podOrdinal: 0
   targetPodOrdinal: 1
   bpEnabled: False
-  databasePath: "/home/ada/db"
+  databasePath: "/home/ada/app/db"

@@ -35,8 +35,6 @@ spec:
             - containerPort: 12788
           volumeMounts:
             - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
-              name: temp-home-vc
-            - mountPath: {{ .Values.cardanoNode.databasePath | quote }}
               name: producer-pvc
       initContainers:
         - name: init-producer-container
@@ -51,10 +49,7 @@ spec:
                      {{ .Values.cardanoNode.appDir | quote }} ]
           volumeMounts:
             - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
-              name: temp-home-vc
-      volumes:
-        - name: temp-home-vc
-          emptyDir: {}
+              name: producer-pvc
   volumeClaimTemplates:
     - metadata:
         name: producer-pvc
