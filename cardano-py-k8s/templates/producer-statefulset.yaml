@@ -24,7 +24,7 @@ spec:
                     "--sub",
                     {{ print "_BP_ENABLED=" .Values.cardanoNode.bpEnabled | quote }},
                     "--sub",
-                    "_NAME=$CARDANO_NODE_NAME",
+                    "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK

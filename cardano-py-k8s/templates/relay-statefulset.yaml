@@ -22,7 +22,7 @@ spec:
           command: ["cardanopy",
                     "run",
                     "--sub",
-                    "_NAME=$CARDANO_NODE_NAME",
+                    "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
