@@ -6,8 +6,10 @@ namespace: cardano-testnet
 cardanoNode:
   image: "floydcraft/cardano-py-slim:92e58c0ac611ad933f557cecfd75443e2a9a16e6"
   network: "testnet"
+  homeDir: "/home/ada"
   appDir: "/home/ada/app"
-  notSocketPath: "/home/ada/app/node.socket"
-  podOrdirnal: 0
+  socketPath: "/home/ada/app/node.socket"
+  podOrdinal: 0
   targetPodOrdinal: 1
   bpEnabled: False
+  databasePath: "/home/ada/db"

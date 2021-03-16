@@ -22,10 +22,10 @@ spec:
           command: ["cardanopy",
                     "run",
                     "--sub",
-                    {{ printf "_POD_ORDINAL=%s" .Values.cardanoNode.podOrdirnal | quote }},
+                    {{ print "_POD_ORDINAL=" .Values.cardanoNode.podOrdinal | quote }},
                     "--sub",
-                    {{ printf "_TARGET_POD_ORDINAL=%s" .Values.cardanoNode.targetPodOrdirnal | quote }},
-                    {{ .Values.appDir | quote }} ]
+                    {{ print "_TARGET_POD_ORDINAL=" .Values.cardanoNode.targetPodOrdinal | quote }},
+                    {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardanoNode.network | quote }}
@@ -36,23 +36,27 @@ spec:
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
-                name: relay-pvc
+            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
+              name: temp-home-vc
+            - mountPath: {{ .Values.cardanoNode.databasePath | quote }}
+              name: relay-pvc
       initContainers:
         - name: init-producer-container
           image: {{ .Values.cardanoNode.image | quote }}
           command: [ "cardanopy",
                      "create",
+                     "--quite",
                      "--template",
                      "relay-k8s",
                      "--network",
-                     {{ .Values.cardanoNode.network | quote  }},
+                     {{ .Values.cardanoNode.network | quote }},
                      {{ .Values.cardanoNode.appDir | quote }} ]
           volumeMounts:
-             - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
-               name: relay-pvc
-      nodeSelector:
-        pool: default
+            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
+              name: temp-home-vc
+      volumes:
+        - name: temp-home-vc
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: relay-pvc

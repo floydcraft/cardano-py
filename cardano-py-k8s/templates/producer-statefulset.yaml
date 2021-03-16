@@ -22,11 +22,11 @@ spec:
           command: ["cardanopy",
                     "run",
                     "--sub",
-                    {{ printf "_BP_ENABLED=%s" .Values.cardanoNode.bpEnabled | quote }},
+                    {{ print "_BP_ENABLED=" .Values.cardanoNode.bpEnabled | quote }},
                     {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK
-              value: {{ .Values.cardanoNode.network | quote  }}
+              value: {{ .Values.cardanoNode.network | quote }}
             - name: CARDANO_NODE_SOCKET_PATH
               value: {{ .Values.cardanoNode.socketPath | quote }}
           ports:
@@ -34,23 +34,27 @@ spec:
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
-                name: producer-pvc
+            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
+              name: temp-home-vc
+            - mountPath: {{ .Values.cardanoNode.databasePath | quote }}
+              name: producer-pvc
       initContainers:
         - name: init-producer-container
           image: {{ .Values.cardanoNode.image | quote }}
           command: [ "cardanopy",
                      "create",
+                     "--quite",
                      "--template",
                      "bp-k8s",
                      "--network",
-                     {{ .Values.cardanoNode.network | quote  }},
+                     {{ .Values.cardanoNode.network | quote }},
                      {{ .Values.cardanoNode.appDir | quote }} ]
           volumeMounts:
-              - mountPath: {{ .Values.cardanoNode.appDir | quote  }}
-                name: producer-pvc
-      nodeSelector:
-        pool: default
+            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
+              name: temp-home-vc
+      volumes:
+        - name: temp-home-vc
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: producer-pvc
