@@ -21,10 +21,6 @@ spec:
           image: {{ .Values.cardanoNode.image | quote }}
           command: ["cardanopy",
                     "run",
-                    "--sub",
-                    {{ print "_POD_ORDINAL=" .Values.cardanoNode.podOrdinal | quote }},
-                    "--sub",
-                    {{ print "_TARGET_POD_ORDINAL=" .Values.cardanoNode.targetPodOrdinal | quote }},
                     {{ .Values.cardanoNode.appDir | quote }}]
           env:
             - name: CARDANO_NETWORK

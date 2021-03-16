@@ -6,7 +6,7 @@
             "valency": 1
         },
         {
-            "addr": "relay-statefulset-$_TARGET_POD_ORDINAL.relay-statefulset-lb.cardano-testnet.svc.cluster.local",
+            "addr": "relay-statefulset-lb.cardano-testnet.svc.cluster.local",
             "port": 3001,
             "valency": 1
         },

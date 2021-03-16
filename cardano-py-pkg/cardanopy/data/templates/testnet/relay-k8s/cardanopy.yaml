@@ -5,8 +5,6 @@ substitutions:
   _TAG: "latest"
   _APP_DIR: "/home/ada/app"
   _MOUNT: True
-  _POD_ORDINAL: 0
-  _TARGET_POD_ORDINAL: 1
 network: "testnet"
 configPath: "$_APP_DIR/config.json"
 topologyPath: "$_APP_DIR/topology.json"
@@ -15,7 +13,7 @@ socketPath: "$_APP_DIR/node.socket"
 hostAddr: "0.0.0.0"
 port: 3001
 docker:
-  name: "$_NAME-$_POD_ORDINAL"
+  name: "$_NAME"
   image: "$_IMAGE:$_TAG"
   rootVolume: "$_APP_DIR"
   mount: $_MOUNT
