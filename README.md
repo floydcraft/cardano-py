@@ -13,12 +13,21 @@
 - [Solution](#solution)
 - [Quickstart](#quickstart)
   - [Use predefined docker image cardano-py-slim](#use-predefined-docker-image-cardano-py-slim)
-- [CardanoPy Examples](#cardanopy-examples)
+- [Releases](#roadmap)
+  - [0.1.x](#0.1.x)
 - [Roadmap](#roadmap)
-- [Core Docker Images](#core-docker-images)
-  - [CardanoPy](#cardanopy)
-  - [Cardano IOHK](#cardano-iohk)
-  - [Common](#common)
+  - [0.2.x](#0.2.x)
+  - [0.3.x](#0.3.x)
+  - [0.4.x](#0.4.x)
+  - [0.5.x](#0.5.x)
+  - [0.6.x](#0.6.x)
+  - [0.7.x](#0.7.x)
+  - [1.0.x](#1.0.x)
+- [Resources](#resources)
+  - [Core Docker Images](#core-docker-images)
+    - [CardanoPy](#cardanopy)
+    - [Cardano IOHK](#cardano-iohk)
+    - [Common](#common)
 
 > NOTE: THIS IS A PRE-RELEASE of cardanopy (until it reaches 1.0 in 2 months or so; currently 0.1.6 as of Pi Day (3/14/2021), but already with some cool features)
 
@@ -68,14 +77,72 @@ See Quickstart.
   }
   ```
 
-# CardanoPy Examples
-  - [Cardano Node: Basic Example](https://github.com/floydcraft/cardano-py-examples/tree/master/basic-example)
-  - (TODO) Cardano Pool: Docker Compose Example
-  - (WIP) Cardano Pool: Kubernetes (k8s) Example
+# Releases
+> NOTE: you can use these features already!
+
+## 0.1.x
+3/14/2021 - MVP key capabilities / developer workflow
+- `cardanopy run` - executes cardano-node command using cardanopy.yaml config to generate *.template.json configs.
+- `cardanopy create` - creates a cardanopy app from a template ('basic, producer-k8s, relay-k8s'). e.g., cardanopy.yaml, config.template.json, ...
+- `cardanopy generate` - generates configs from cardanopy app using cardanopy.yaml
+- `cardanopy docker run` - runs or attaches to docker container by name using cardanopy.yaml docker.* configs.
+- `cardanopy docker stop` - stops docker container by name using cardanopy.yaml docker.name config.
+- `cardanopy cli address` - same as cardano-cli except automaticaly provides cardano network param (testnet/mainnet)
+- `cardanopy cli stake-address` - same as cardano-cli except automaticaly provides cardano network param (testnet/mainnet)
+- `cardanopy cli query` - same as cardano-cli except automaticaly provides cardano network param (testnet/mainnet)
+- `-d, --dry-run` - flag to print without mutation what would be executed. useful for most commands like docker and kubernetes.
+- substitutions - core capability of cardanopy. cardanopy.yaml can both in memory and write to disk substitutions to configs before running a cardano-node. e.g., _BP_ENABLED=True or _BP_ENABLED=False to enable / disable a blocker producer.
+- `-s KEY=VALUE, --sub KEY=VALUE` - optional override to substitutions defaults in cardanpy.yaml config.
+- [Cardano Node: Basic Example](https://github.com/floydcraft/cardano-py-examples/tree/master/basic-example)
+- YouTube: CardanoPy - Overview + Examples
 
 # Roadmap
-- (WIP) Kubernetes definitions for different deployments (relay, producer, relays, db sync, ...) (see `cardano-node`)
-- (TODO) cardanopy etl feature for db-sync providers
+Prioritized, but open to feedback!
+
+## 0.2.0
+March - Kubernetes capabilities
+> NOTE: WIP now. Already have testnet working. See [CardanoPy](https://github.com/floydcraft/cardano-py) GitHub
+
+- `cardanopy k8s apply/*` - full node pool capabilities for both local kubernetes and GCP / GKE kubernetes.
+- [Cardano Node: Kubernetes Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube Overview + Examples
+
+## 0.3.0
+April - Cardano CLI capabilities
+- `cardanopy cli *` - more core cli capabilities
+- `cardanopy cli native-tokens`
+- [Cardano Node: Native Token Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube: Docker compose - Overview + Examples
+
+## 0.4.0
+April - docker capabilities
+- `cardanopy docker run/stop` - add additional support for python docker (instead of requiring external dependency of docker)
+- `cardanopy docker-compose up/*`
+- [Cardano Node: Docker compose Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube: Docker compose - Overview + Examples
+
+## 0.5.0
+May - Wallet capabilities
+- `cardanopy wallet *`
+- [Cardano Node: Wallet Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube: Wallet - Overview + Examples
+
+## 0.6.0
+June - db-sync capabilities (postgres)
+- `cardanopy db-sync *`
+- [Cardano Node: Postgres Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube: Postgres - Overview + Examples
+
+## 0.7.0
+July through August - data exports to json delimited, csv, GCP PubSub, and BigQuery.
+- `cardanopy data *` - export capabilities like db-sync. except to useful formats for python data engineering, data science, and data exploration/insights. Includes JSON delimited, CSV, PubSub, and BigQuery.
+- [Cardano Node: Json / BigQuery Example](https://github.com/floydcraft/cardano-py-examples)
+- YouTube: Json / BigQuery - Overview + Examples
+
+## 1.0.0
+September - Official Release
+- bug fixes and improvements to all features 0.1.x - 0.7.x and documentation
+- YouTube Official Release
 
 # Core Docker Images
 Available on [floydcraft dockerhub](https://hub.docker.com/u/floydcraft)
