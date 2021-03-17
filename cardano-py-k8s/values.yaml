@@ -1,10 +1,10 @@
-buildId: 516e2459-f1e7-4365-be10-45185b9ca6ca
-version: 0.1.7-dev8
-commitSha: 214d03e1539ab355fe4e5a6b1efca0db4c2597c4
+buildId: 5a2637d6-6fe3-41e9-a9fe-0d75712557e9
+version: 0.1.7-dev9
+commitSha: f0e404c9c741006c364a6f381488329e74a65cd0
 branchName: master
 namespace: cardano-testnet
 cardanoNode:
-  image: "floydcraft/cardano-py-slim:214d03e1539ab355fe4e5a6b1efca0db4c2597c4"
+  image: "floydcraft/cardano-py-slim:f0e404c9c741006c364a6f381488329e74a65cd0"
   network: "testnet"
   homeDir: "/home/ada"
   appDir: "/home/ada/app"
