@@ -7,8 +7,8 @@ def network_cmd():
     """Node network commands. Helpers."""
 
 
-@network_cmd.command("option")
-def option_cmd():
-    """Get the command line option for the Cardano network. Useful helper"""
+@network_cmd.command("param")
+def param_cmd():
+    """Get the command line param for the Cardano network CLI. Useful helper"""
 
-    print(CardanoNodeHelpers.get_cli_network_args())
+    print(" ".join(CardanoNodeHelpers.get_cli_network_args()))
