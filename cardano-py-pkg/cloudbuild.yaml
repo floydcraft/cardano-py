@@ -37,12 +37,14 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
+           '--build-arg', 'BUILD_ID=$BUILD_ID',
+           '--build-arg', 'BRANCH_NAME=$BRANCH_NAME',
+           '--build-arg', 'COMMIT_SHA=$COMMIT_SHA',
            '--build-arg', '_VERSION=$_VERSION',
            '--build-arg', '_CARDANO_NODE_VERSION=$_CARDANO_NODE_VERSION',
-           '--cache-from', 'floydcraft/$_CONTAINER:$_CARDANO_NODE_VERSION',
+           '--cache-from', 'floydcraft/$_CONTAINER:latest',
            '-t', 'floydcraft/$_CONTAINER:$COMMIT_SHA',
            '-t', 'floydcraft/$_CONTAINER:$_VERSION',
-           '-t', 'floydcraft/$_CONTAINER:$_CARDANO_NODE_VERSION',
            '-t', 'floydcraft/$_CONTAINER:latest',
            '$_CONTAINER']
 
