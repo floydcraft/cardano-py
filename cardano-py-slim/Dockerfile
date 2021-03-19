@@ -36,7 +36,7 @@ RUN addgroup -gid 1000 ada \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* \
     && setfacl -Rdm group:ada:rwx  /home/ada \
-    && print "BUILD_ID/$BUILD_ID\nBRANCH_NAME$BRANCH_NAME\nCOMMIT_SHA=$COMMIT_SHA\n_VERSION=$_VERSION\n_CARDANO_NODE_VERSION=$_CARDANO_NODE_VERSION\n" > BUILD_INFO.txt \
+    && printf "BUILD_ID/$BUILD_ID\nBRANCH_NAME$BRANCH_NAME\nCOMMIT_SHA=$COMMIT_SHA\n_VERSION=$_VERSION\n_CARDANO_NODE_VERSION=$_CARDANO_NODE_VERSION\n" > BUILD_INFO.txt \
     && python -m pip install cardanopy==$_VERSION --no-cache-dir
 
 WORKDIR /home/ada
