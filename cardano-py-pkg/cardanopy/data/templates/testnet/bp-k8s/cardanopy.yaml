@@ -2,7 +2,7 @@ apiVersion: cardanopy.node.config.v1
 substitutions:
   _NAME: "bp-k8s"
   _IMAGE: "floydcraft/cardano-py-slim"
-  _TAG: "latest"
+  _TAG: "1.25.1"
   _APP_DIR: "/home/ada/app"
   _MOUNT: True
   _BP_ENABLED: False

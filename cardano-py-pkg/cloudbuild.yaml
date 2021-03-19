@@ -1,6 +1,7 @@
 # https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/pypi-tools/examples/cleartext-cloudbuild.yaml
-substitutions:
-  _VERSION: 0.1.7-dev10 # default value
+substitutions: # default values
+  _VERSION: 0.1.7-dev10
+  _CARDANO_NODE_VERSION: 1.25.1
   _CONTAINER: "cardano-py-slim"
 steps:
   - name: 'us.gcr.io/$PROJECT_ID/python'
@@ -37,20 +38,16 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
            '--build-arg', '_VERSION=$_VERSION',
-           '--cache-from', 'floydcraft/$_CONTAINER:latest',
+           '--build-arg', '_CARDANO_NODE_VERSION=$_CARDANO_NODE_VERSION',
+           '--cache-from', 'floydcraft/$_CONTAINER:$_CARDANO_NODE_VERSION',
            '-t', 'floydcraft/$_CONTAINER:$COMMIT_SHA',
            '-t', 'floydcraft/$_CONTAINER:$_VERSION',
+           '-t', 'floydcraft/$_CONTAINER:$_CARDANO_NODE_VERSION',
            '-t', 'floydcraft/$_CONTAINER:latest',
            '$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', 'floydcraft/$_CONTAINER:latest']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', 'floydcraft/$_CONTAINER:$COMMIT_SHA']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['image', 'push', 'floydcraft/$_CONTAINER:$_VERSION']
+    args: ['image', 'push', 'floydcraft/$_CONTAINER']
 
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'

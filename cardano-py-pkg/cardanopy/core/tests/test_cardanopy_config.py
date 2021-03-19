@@ -37,6 +37,8 @@ class TestCardanoPyConfig(unittest.TestCase):
         cardanopy_config = CardanoPyConfig()
         cardanopy_config.load(file)
 
+        cardano_version = "1.25.1"
+
         self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
         self.assertEqual(cardanopy_config.network, "testnet")
         self.assertEqual(cardanopy_config.configPath, "/home/ada/app/config.json")
@@ -46,7 +48,7 @@ class TestCardanoPyConfig(unittest.TestCase):
         self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")
         self.assertEqual(cardanopy_config.port, 3001)
         self.assertEqual(cardanopy_config.docker.name, "basic")
-        self.assertEqual(cardanopy_config.docker.image, "floydcraft/cardano-py-slim:latest")
+        self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{cardano_version}")
         self.assertEqual(cardanopy_config.docker.rootVolume, "/home/ada/app")
         self.assertEqual(cardanopy_config.docker.mount, True)
         self.assertEqual(cardanopy_config.k8s.namespace, "cardano-testnet")
@@ -77,6 +79,8 @@ class TestCardanoPyConfig(unittest.TestCase):
             cardanopy_config = CardanoPyConfig()
             cardanopy_config.load(file)
 
+            cardano_version = "1.25.1"
+
             self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
             self.assertIsInstance(cardanopy_config.network, str)
             self.assertEqual(cardanopy_config.configPath, "/home/ada/app/config.json")
@@ -86,7 +90,7 @@ class TestCardanoPyConfig(unittest.TestCase):
             self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")
             self.assertEqual(cardanopy_config.port, 3001)
             self.assertIsInstance(cardanopy_config.docker.name, str)
-            self.assertEqual(cardanopy_config.docker.image, "floydcraft/cardano-py-slim:latest")
+            self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{cardano_version}")
             self.assertEqual(cardanopy_config.docker.rootVolume, "/home/ada/app")
             self.assertEqual(cardanopy_config.docker.mount, True)
             self.assertIsInstance(cardanopy_config.k8s.namespace, str)
