@@ -2,7 +2,7 @@ apiVersion: "cardanopy.node.config.v1"
 substitutions:
   _NAME: "relay-k8s"
   _IMAGE: "floydcraft/cardano-py-slim"
-  _TAG: "0.1.7-dev15"
+  _TAG: "0.1.7-dev16"
   _APP_DIR: "/home/ada/app"
   _MOUNT: True
 network: "testnet"
