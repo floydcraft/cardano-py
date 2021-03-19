@@ -22,7 +22,11 @@ class CardanoNodeHelpers(object):
 
     @staticmethod
     def get_cli_network_args():
+        return ["--mainnet"] if CardanoNodeHelpers.get_cli_network() == "mainnet" else ["--testnet-magic", "1097911063"]
+
+    @staticmethod
+    def get_cli_network():
         cardano_network = os.getenv('CARDANO_NETWORK')
         if not cardano_network:
             cardano_network = "testnet"
-        return ["--mainnet"] if cardano_network == "mainnet" else ["--testnet-magic", "1097911063"]
+        return cardano_network
