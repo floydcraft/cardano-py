@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-backend-deployment
+  labels:
+    app: web-backend-deployment
+  namespace: {{ .Values.namespace | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-backend-deployment
+  template:
+    metadata:
+      labels:
+        app: web-backend-deployment
+    spec:
+      containers:
+        - name: relay-container
+          image: {{ .Values.CardanoPyWebBackend.image | quote }}
+          ports:
+            - containerPort: 8080
