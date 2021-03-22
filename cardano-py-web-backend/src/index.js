@@ -7,6 +7,10 @@ const server_addr = multiaddr("/ip4/0.0.0.0/tcp/8080");
 
 var app = express();
 
+app.get('/', function (req, res) {
+    res.redirect('https://github.com/floydcraft/cardano-py');
+});
+
 app.get('/api/stakepool/metadata', function (req, res) {
     let data = {
         "name": "CardanoPy🥧",
