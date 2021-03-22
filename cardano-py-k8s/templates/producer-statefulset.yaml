@@ -31,10 +31,10 @@ spec:
               command: ["cardanopy",
                         "healthcheck",
                         "--timeout",
-                        "60",
+                        "5",
                         {{ .Values.cardanoNode.appDir | quote }}]
             initialDelaySeconds: 60
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             periodSeconds: 60
           env:
             - name: CARDANO_NETWORK
