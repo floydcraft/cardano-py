@@ -11,6 +11,7 @@ from .docker_cmd import docker_cmd
 from .k8s_cmd import k8s_cmd
 from .generate_cmd import generate_cmd
 from .network_cmd import network_cmd
+from .healthcheck_cmd import healthcheck_cmd
 
 @click.group()
 @click.version_option(version=__version__)
@@ -27,5 +28,6 @@ main.add_command(docker_cmd)
 main.add_command(k8s_cmd)
 main.add_command(generate_cmd)
 main.add_command(network_cmd)
+main.add_command(healthcheck_cmd)
 # disable config cli for now (might remove)
 # main.add_command(config)

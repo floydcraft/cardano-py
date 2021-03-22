@@ -1,15 +1,13 @@
-buildId: 5b5bd75f-caec-4af8-9a58-aa82a127e8aa
-version: 0.1.7-dev16
-commitSha: 4a32dfbb58beddafeec72ed23791262ff313bf75
-branchName: master
-namespace: cardano-testnet
+buildId: "5b5bd75f-caec-4af8-9a58-aa82a127e8aa"
+version: "0.1.7-dev16"
+commitSha: "4a32dfbb58beddafeec72ed23791262ff313bf75"
+branchName: "master"
+namespace: "cardano-testnet"
 cardanoNode:
   image: "floydcraft/cardano-py-slim:4a32dfbb58beddafeec72ed23791262ff313bf75"
   network: "testnet"
   homeDir: "/home/ada"
   appDir: "/home/ada/app"
   socketPath: "/home/ada/app/node.socket"
-  podOrdinal: 0
-  targetPodOrdinal: 1
   bpEnabled: False
   databasePath: "/home/ada/app/db"

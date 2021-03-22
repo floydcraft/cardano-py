@@ -4,9 +4,10 @@
 #set -o pipefail
 
 IMAGE=cardano-py-slim
+IMAGE_TAG=0.1.7-dev16
 
 if [[ "$1" == "pull" ]]; then
-  docker pull floydcraft/$IMAGE:latest
+  docker pull floydcraft/$IMAGE:$IMAGE_TAG
 fi
 
 printf "IMAGE=$IMAGE\n"
@@ -16,10 +17,11 @@ if [[ "$( docker container inspect -f '{{.State.Running}}' "$IMAGE" )" == "true"
   docker exec -it "$IMAGE" bash
 else
   printf "NO ACTIVE CONTAINER found for: $IMAGE\ncleaning containers and creating new container via run\n"
-  docker container rm "$IMAGE"
-  docker run --name "$IMAGE" -it \
+  docker rm "$IMAGE"
+  docker run --name "$IMAGE" -d \
     --env "CARDANO_NODE_SOCKET_PATH=/storage/node.socket" \
-    --entrypoint bash "floydcraft/$IMAGE:latest"
+    "floydcraft/$IMAGE:$IMAGE_TAG"
+  docker exec -it "$IMAGE" bash
 fi
 
 

@@ -1,15 +1,12 @@
-buildId: BUILD_ID
-version: VERSION
-commitSha: COMMIT_SHA
-branchName: BRANCH_NAME
-namespace: cardano-testnet
+buildId: "BUILD_ID"
+version: "VERSION"
+commitSha: "COMMIT_SHA"
+branchName: "BRANCH_NAME"
 cardanoNode:
   image: "floydcraft/cardano-py-slim:COMMIT_SHA"
   network: "testnet"
   homeDir: "/home/ada"
   appDir: "/home/ada/app"
   socketPath: "/home/ada/app/node.socket"
-  podOrdinal: 0
-  targetPodOrdinal: 1
   bpEnabled: False
   databasePath: "/home/ada/app/db"

@@ -41,5 +41,7 @@ RUN addgroup -gid 1000 ada \
 
 WORKDIR /home/ada
 
+# HEALTHCHECK --start-period=5m --interval=5m --timeout=100s CMD cardanopy healthcheck --timeout 60
+
 EXPOSE 3001 12798 12788
 ENTRYPOINT [ "bin/bash" ]
