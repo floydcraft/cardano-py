@@ -1,0 +1,23 @@
+# https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/pypi-tools/examples/cleartext-cloudbuild.yaml
+substitutions: # default values
+  _CONTAINER: "cardano-py-web-backend"
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker login --username=chbfiv --password=$$DOCKER_API_KEY']
+    secretEnv: ['DOCKER_API_KEY']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build',
+           '--cache-from', 'floydcraft/$_CONTAINER:latest',
+           '-t', 'floydcraft/$_CONTAINER:$COMMIT_SHA',
+           '-t', 'floydcraft/$_CONTAINER:latest',
+           '$_CONTAINER']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['image', 'push', 'floydcraft/$_CONTAINER']
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/cardano-etl/secrets/docker-chbfiv/versions/1
+      env: 'DOCKER_API_KEY'
