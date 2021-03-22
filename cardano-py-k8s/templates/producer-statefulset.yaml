@@ -26,6 +26,15 @@ spec:
                     "--sub",
                     "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]
+          livenessProbe:
+            exec:
+              command: ["cardanopy",
+                        "healthcheck",
+                        "--timeout",
+                        60,
+                        {{ .Values.cardanoNode.appDir | quote }}]
+            initialDelaySeconds: 60
+            periodSeconds: 60
           env:
             - name: CARDANO_NETWORK
               value: {{ .Values.cardanoNode.network | quote }}

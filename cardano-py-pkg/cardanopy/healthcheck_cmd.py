@@ -25,8 +25,7 @@ def healthcheck_cmd(ctx, dry_run, subs, timeout, target_dir):
             print(" ".join(query_tip_cmd))
         else:
             result = subprocess.run(query_tip_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
-            print(f"result:{result}")
-            if len(result) > 0:
+            if len(result) > 0 and "blockNo" in result:
                 return 0
 
         time.sleep(timeout)
@@ -35,8 +34,7 @@ def healthcheck_cmd(ctx, dry_run, subs, timeout, target_dir):
             print(" ".join(query_tip_cmd))
         else:
             result = subprocess.run(query_tip_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
-            print(f"result2:{result}")
-            if len(result) > 0:
+            if len(result) > 0 and "blockNo" in result:
                 return 0
 
     except Exception as ex:
