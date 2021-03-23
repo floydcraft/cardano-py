@@ -11,6 +11,15 @@ app.get('/', function (req, res) {
     res.redirect('https://github.com/floydcraft/cardano-py');
 });
 
+app.get('/api/healthcheck', function (req, res) {
+    let data = {
+        "success": true
+    }
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(data));
+});
+
 app.get('/api/stakepool/metadata', function (req, res) {
     let data = {
         "name": "CardanoPy🥧",
