@@ -4,12 +4,12 @@ metadata:
   name: web-backend-deployment-lb
   namespace: {{ .Values.namespace | quote }}
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-neg"}}}'
 spec:
   type: ClusterIP
   selector:
     app: web-backend-deployment
   ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
       targetPort: 8080

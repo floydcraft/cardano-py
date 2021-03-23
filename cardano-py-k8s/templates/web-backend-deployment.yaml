@@ -20,3 +20,4 @@ spec:
           image: {{ .Values.CardanoPyWebBackend.image | quote }}
           ports:
             - containerPort: 8080
+              protocol: TCP
