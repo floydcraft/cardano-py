@@ -4,7 +4,11 @@ metadata:
   name: web-backend-deployment-lb
   namespace: {{ .Values.namespace | quote }}
   annotations:
-    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-neg"}}}'
+  {{- if eq .Values.cardanoNode.network "testnet" }}
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-testnet-neg"}}}'
+  {{- else }}
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-mainnet-neg"}}}'
+  {{- end }}
 spec:
   type: ClusterIP
   selector:
@@ -13,3 +17,4 @@ spec:
     - port: 80
       protocol: TCP
       targetPort: 8080
+      name: "http"

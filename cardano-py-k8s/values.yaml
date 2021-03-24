@@ -11,4 +11,4 @@ cardanoNode:
   bpEnabled: False
   databasePath: "/home/ada/app/db"
 CardanoPyWebBackend:
-    image: "floydcraft/cardano-py-web-backend:5191ee8fdc9b099451bbaa8d6287ef2ddc085ced"
+    image: "floydcraft/cardano-py-web-backend:4f3bfa7309faa0f32dfd6c085a74df8db8bdc2e9"

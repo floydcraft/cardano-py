@@ -16,7 +16,7 @@ spec:
         app: web-backend-deployment
     spec:
       containers:
-        - name: relay-container
+        - name: web-backend-container
           image: {{ .Values.CardanoPyWebBackend.image | quote }}
           ports:
             - containerPort: 8080
