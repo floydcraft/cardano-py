@@ -7,7 +7,7 @@ WORKDIR /home/ada/app
 COPY src src
 COPY package.* .
 
-RUN npm install
+RUN npm install --only=production
 
 EXPOSE 8080
 CMD ["node", "src/index.js"]
