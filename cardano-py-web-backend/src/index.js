@@ -30,7 +30,7 @@ app.get('/api/stakepool/metadata', function (req, res) {
     }
     let data = {
         "name": name,
-        "description": "pip3 install --upgrade cardanopy # Cardano python3 CLI -> profit!",
+        "description": "pip3 install --upgrade cardanopy # Cardano python3 CLI -> Cardano dApp and ETL tools!",
         "ticker": "₳Py🥧",
         "homepage": "https://cardanopy.com/?utm_source=" + process.env.CARDANO_NETWORK + "&utm_medium=metadata&utm_campaign=v1"
     }
