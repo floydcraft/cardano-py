@@ -32,7 +32,7 @@ app.get('/api/stakepool/metadata', function (req, res) {
         "name": name,
         "description": "pip3 install --upgrade cardanopy # Cardano python3 CLI -> profit!",
         "ticker": "₳Py🥧",
-        "homepage": "https://cardanopy.com/?utm_source=stakepool-metadata&cardano-network=" + process.env.CARDANO_NETWORK
+        "homepage": "https://cardanopy.com/?utm_source=" + process.env.CARDANO_NETWORK + "&utm_medium=metadata&utm_campaign=v1"
     }
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
