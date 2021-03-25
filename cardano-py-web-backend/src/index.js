@@ -20,7 +20,7 @@ app.get('/api/healthcheck', function (req, res) {
     }
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(data));
+    res.send(JSON.stringify(data, null, '\t'));
 });
 
 app.get('/api/stakepool/metadata', function (req, res) {
@@ -36,7 +36,7 @@ app.get('/api/stakepool/metadata', function (req, res) {
     }
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(data));
+    res.send(JSON.stringify(data, null, '\t'));
 });
 
 app.listen(server_addr.nodeAddress().port, server_addr.nodeAddress().address, () => {
