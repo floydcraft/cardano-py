@@ -1,5 +1,6 @@
 import unittest
 from core.cardanopy_config import CardanoPyConfig
+from core.cardanopy_common import CardanoPyCommon
 from pathlib import Path
 import tempfile
 import shutil
@@ -37,8 +38,6 @@ class TestCardanoPyConfig(unittest.TestCase):
         cardanopy_config = CardanoPyConfig()
         cardanopy_config.load(file)
 
-        cardano_version = "1.25.1"
-
         self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
         self.assertEqual(cardanopy_config.network, "testnet")
         self.assertEqual(cardanopy_config.configPath, "/home/ada/app/config.json")
@@ -48,7 +47,7 @@ class TestCardanoPyConfig(unittest.TestCase):
         self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")
         self.assertEqual(cardanopy_config.port, 3001)
         self.assertEqual(cardanopy_config.docker.name, "basic")
-        self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{cardano_version}")
+        self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{CardanoPyCommon.get_version()}")
         self.assertEqual(cardanopy_config.docker.rootVolume, "/home/ada/app")
         self.assertEqual(cardanopy_config.docker.mount, True)
         self.assertEqual(cardanopy_config.k8s.namespace, "cardano-testnet")
@@ -79,8 +78,6 @@ class TestCardanoPyConfig(unittest.TestCase):
             cardanopy_config = CardanoPyConfig()
             cardanopy_config.load(file)
 
-            cardano_version = "1.25.1"
-
             self.assertEqual(cardanopy_config.apiVersion, "cardanopy.node.config.v1")
             self.assertIsInstance(cardanopy_config.network, str)
             self.assertEqual(cardanopy_config.configPath, "/home/ada/app/config.json")
@@ -89,8 +86,11 @@ class TestCardanoPyConfig(unittest.TestCase):
             self.assertEqual(cardanopy_config.socketPath, "/home/ada/app/node.socket")
             self.assertEqual(cardanopy_config.hostAddr, "0.0.0.0")
             self.assertEqual(cardanopy_config.port, 3001)
+            # self.assertEqual(cardanopy_config.shelleyKesKey, "/home/ada/app/bp/kes.skey")
+            # self.assertEqual(cardanopy_config.shelleyVrfKey, "/home/ada/app/bp/vrf.skey")
+            # self.assertEqual(cardanopy_config.shelleyOperationalCertificate, "/home/ada/app/bp/node.cert")
             self.assertIsInstance(cardanopy_config.docker.name, str)
-            self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{cardano_version}")
+            self.assertEqual(cardanopy_config.docker.image, f"floydcraft/cardano-py-slim:{CardanoPyCommon.get_version()}")
             self.assertEqual(cardanopy_config.docker.rootVolume, "/home/ada/app")
             self.assertEqual(cardanopy_config.docker.mount, True)
             self.assertIsInstance(cardanopy_config.k8s.namespace, str)

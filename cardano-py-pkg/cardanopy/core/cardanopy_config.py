@@ -198,6 +198,21 @@ class CardanoPyConfig(object):
 
     socketPath = property(get_socket_path)
 
+    def get_shelley_kes_key(self):
+        return self.config_resolved.get('shelleyKesKey')
+
+    shelleyKesKey = property(get_shelley_kes_key)
+
+    def get_shelley_vrf_key(self):
+        return self.config_resolved.get('shelleyVrfKey')
+
+    shelleyVrfKey = property(get_shelley_vrf_key)
+
+    def get_shelley_operational_certificate(self):
+        return self.config_resolved.get('shelleyOperationalCertificate')
+
+    shelleyOperationalCertificate = property(get_shelley_operational_certificate)
+
     def get_docker(self):
         return DockerConfig(self.config_resolved.get('docker'))
 
