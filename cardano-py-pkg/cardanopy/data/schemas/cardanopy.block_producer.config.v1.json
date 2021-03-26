@@ -4,7 +4,7 @@
     "apiVersion" : {
       "description": "The api version of this cardanopy config",
       "type" : "string",
-      "enum": ["cardanopy.node.config.v1"]
+      "enum": ["cardanopy.block_producer.config.v1"]
     },
     "network" : {
       "description": "The network for the Cardano node",
@@ -82,7 +82,10 @@
     "databasePath",
     "socketPath",
     "hostAddr",
-    "port"
+    "port",
+    "shelleyKesKey",
+    "shelleyVrfKey",
+    "shelleyOperationalCertificate"
   ]
 }
 
