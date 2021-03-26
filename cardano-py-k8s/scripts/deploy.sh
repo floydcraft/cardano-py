@@ -11,5 +11,5 @@ helm template --set namespace="cardano-mainnet" \
 helm template --set namespace="cardano-testnet" \
   --set cardanoNode.relayIpv4="34.68.36.180" \
   --set cardanoNode.network="testnet" . > bin/testnet.yaml
-kubectl apply -n cardano-mainnet -f bin/mainnet.yaml
+#kubectl apply -n cardano-mainnet -f bin/mainnet.yaml
 kubectl apply -n cardano-testnet -f bin/testnet.yaml

@@ -21,8 +21,7 @@ spec:
           image: {{ .Values.cardanoNode.image | quote }}
           command: ["cardanopy",
                     "run",
-                    "--sub",
-                    {{ print "_BP_ENABLED=" .Values.cardanoNode.bpEnabled | quote }},
+                    "--block-producer",
                     "--sub",
                     "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]
