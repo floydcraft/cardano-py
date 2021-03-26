@@ -10,4 +10,4 @@ cardanoNode:
   socketPath: "/home/ada/app/node.socket"
   databasePath: "/home/ada/app/db"
 CardanoPyWebBackend:
-    image: "floydcraft/cardano-py-web-backend:latest"
+    image: "floydcraft/cardano-py-web-backend:75d42819d3a40b0a9db7037c62f053615a2dd9d4"
