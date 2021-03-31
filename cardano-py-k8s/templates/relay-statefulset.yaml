@@ -16,6 +16,8 @@ spec:
       labels:
         app: relay-statefulset
     spec:
+      nodeSelector:
+        pool: n2-pool
       containers:
         - name: relay-container
           image: {{ .Values.cardanoNode.image | quote }}
@@ -50,6 +52,9 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
               name: relay-pvc
+          resources:
+            requests:
+              memory: {{ .Values.cardanoNode.memoryRequest | quote }}
       initContainers:
         - name: init-producer-container
           image: {{ .Values.cardanoNode.image | quote }}
@@ -73,4 +78,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.cardanoNode.storageRequest | quote }}

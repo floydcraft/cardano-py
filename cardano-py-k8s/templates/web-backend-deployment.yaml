@@ -15,6 +15,8 @@ spec:
       labels:
         app: web-backend-deployment
     spec:
+      nodeSelector:
+        pool: n2-pool
       containers:
         - name: web-backend-container
           image: {{ .Values.CardanoPyWebBackend.image | quote }}

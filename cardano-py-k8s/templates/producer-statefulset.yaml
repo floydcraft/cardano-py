@@ -16,12 +16,13 @@ spec:
       labels:
         app: producer-statefulset
     spec:
+      nodeSelector:
+        pool: n2-pool
       containers:
         - name: producer-container
           image: {{ .Values.cardanoNode.image | quote }}
           command: ["cardanopy",
                     "run",
-                    "--block-producer",
                     "--sub",
                     "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]
@@ -51,6 +52,9 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
               name: producer-pvc
+          resources:
+            requests:
+              memory: {{ .Values.cardanoNode.memoryRequest | quote }}
       initContainers:
         - name: init-producer-container
           image: {{ .Values.cardanoNode.image | quote }}
@@ -74,4 +78,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.cardanoNode.storageRequest | quote }}

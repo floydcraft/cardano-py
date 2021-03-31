@@ -7,7 +7,7 @@ IMAGE=cardano-py-slim
 IMAGE_TAG=0.1.7-dev19
 
 if [[ "$1" == "pull" ]]; then
-  docker pull floydcraft/$IMAGE:$IMAGE_TAG
+  docker pull "floydcraft/$IMAGE:$IMAGE_TAG"
 fi
 
 printf "IMAGE=$IMAGE\n"
