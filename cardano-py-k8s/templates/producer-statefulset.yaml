@@ -23,6 +23,7 @@ spec:
           image: {{ .Values.cardanoNode.image | quote }}
           command: ["cardanopy",
                     "run",
+                    "--block-producer",
                     "--sub",
                     "_NAME=$(CARDANO_NODE_NAME)",
                     {{ .Values.cardanoNode.appDir | quote }}]

@@ -5,6 +5,7 @@ substitutions:
   _TAG: "0.1.7-dev19"
   _APP_DIR: "/home/ada/app"
   _MOUNT: True
+  _RELAY_ADDR: "relay-statefulset-lb.cardano-testnet.svc.cluster.local"
 network: "testnet"
 configPath: "$_APP_DIR/config.json"
 topologyPath: "$_APP_DIR/topology.json"

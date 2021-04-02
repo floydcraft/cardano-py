@@ -6,9 +6,9 @@
             "valency": 1
         },
         {
-            "addr": "relay-statefulset-lb.cardano-mainnet.svc.cluster.local",
+            "addr": "$_RELAY_ADDR",
             "port": 3001,
-            "valency": 1
+            "valency": 2
         },
         {
             "addr": "relays-new.cardano-mainnet.iohk.io",
