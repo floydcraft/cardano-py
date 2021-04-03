@@ -26,7 +26,7 @@ spec:
                     "--sub",
                     "_NAME=$(CARDANO_NODE_NAME)",
                     "--sub",
-                    "_RELAY_ADDR=mainnet-relays.cardanopy.com",
+                    "_RELAY_ADDR={{ .Values.cardanoNode.relayDns }}",
                     {{ .Values.cardanoNode.appDir | quote }}]
           livenessProbe:
             exec:
