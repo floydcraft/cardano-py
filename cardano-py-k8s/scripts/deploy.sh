@@ -16,4 +16,4 @@ helm template --set namespace="cardano-testnet" \
   --set cardanoNode.storageRequest="2Gi" \
   --set cardanoNode.network="testnet" . > bin/testnet.yaml
 kubectl apply -n cardano-mainnet -f bin/mainnet.yaml
-#kubectl apply -n cardano-testnet -f bin/testnet.yaml
+kubectl apply -n cardano-testnet -f bin/testnet.yaml
