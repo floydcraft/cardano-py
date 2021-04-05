@@ -27,7 +27,7 @@ class CardanoCli(NamedTuple):
             if include_network:
                 cmd = cmd + CardanoNodeHelpers.get_cli_network_args()
 
-            BaseCli.run(dry_run, cmd)
+            BaseCli.run(cmd=cmd, dry_run=dry_run)
         except BaseCliError as bce:
             raise CardanoCliError(bce.message, bce.return_code)
         except ValueError as ve:
