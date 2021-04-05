@@ -19,7 +19,7 @@ class BaseCliResponse(NamedTuple):
 class BaseCli(NamedTuple):
 
     @staticmethod
-    def run(dry_run: bool, cmd: list):
+    def run(cmd: list, dry_run: bool = False):
         try:
             if dry_run:
                 print(" ".join(cmd))

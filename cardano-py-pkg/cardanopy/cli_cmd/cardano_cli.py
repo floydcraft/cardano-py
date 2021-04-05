@@ -20,7 +20,7 @@ class CardanoCliResponse(NamedTuple):
 class CardanoCli(NamedTuple):
 
     @staticmethod
-    def run(dry_run: bool, cmd: list, include_network: bool = False, include_era: bool = False):
+    def run(cmd: list, dry_run: bool = False, include_network: bool = False, include_era: bool = False):
         try:
             CardanoNodeHelpers.validate_environment()
 
