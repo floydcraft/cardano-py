@@ -1,8 +1,5 @@
 import click
-import subprocess
-from pathlib import Path
-import os
-from ..core.cardano_node_helpers import CardanoNodeHelpers
+from .cardano_cli import CardanoCli, CardanoCliError
 
 
 @click.group("query")
@@ -18,17 +15,10 @@ def tip_cmd(ctx, dry_run):
     """Get the node's current tip (slot no, hash, block no)."""
 
     try:
-        CardanoNodeHelpers.validate_environment()
-
-        query_tip_cmd = ["cardano-cli", "query", "tip"] + CardanoNodeHelpers.get_cli_network_args()
-        if dry_run:
-            print(" ".join(query_tip_cmd))
-        else:
-            subprocess.run(query_tip_cmd)
-    except Exception as ex:
-        ctx.fail(f"cli:query_cmd:tip_cmd(dry_run={dry_run}) failed: {type(ex).__name__} {ex.args}")
-        return 1
-
+        CardanoCli.run(dry_run=dry_run, cmd=["cardano-cli", "query", "tip"], include_network=True)
+    except CardanoCliError as cce:
+        ctx.fail(cce.message)
+        return cce.return_code
 
 
 @query_cmd.command("utxo")
@@ -38,14 +28,8 @@ def utxo_cmd(ctx, dry_run):
     """Get the node's current UTxO with the option of filtering by address(es)"""
 
     try:
-        CardanoNodeHelpers.validate_environment()
-
-        query_tip_cmd = ["cardano-cli", "query", "utxo"] + CardanoNodeHelpers.get_cli_network_args()
-        if dry_run:
-            print(" ".join(query_tip_cmd))
-        else:
-            subprocess.run(query_tip_cmd)
-    except Exception as ex:
-        ctx.fail(f"cli:query_cmd:tip_cmd(dry_run={dry_run}) failed: {type(ex).__name__} {ex.args}")
-        return 1
+        CardanoCli.run(dry_run=dry_run, cmd=["cardano-cli", "query", "utxo"], include_network=True)
+    except CardanoCliError as cce:
+        ctx.fail(cce.message)
+        return cce.return_code
 
