@@ -18,6 +18,11 @@ spec:
     spec:
       nodeSelector:
         pool: n2-pool
+      volumes:
+        - name: block-producer-credentials
+          secret:
+            secretName: block-producer-credentials
+            defaultMode: 0400
       containers:
         - name: producer-container
           image: {{ .Values.cardanoNode.image | quote }}
@@ -51,8 +56,11 @@ spec:
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
-              name: producer-pvc
+            - name: producer-pvc
+              mountPath: {{ .Values.cardanoNode.homeDir | quote }}
+            - name: block-producer-credentials
+              mountPath: "{{ .Values.cardanoNode.appDir }}/bp"
+              readOnly: true
           resources:
             requests:
               memory: {{ .Values.cardanoNode.memoryRequest | quote }}

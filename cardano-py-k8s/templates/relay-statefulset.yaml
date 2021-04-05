@@ -52,8 +52,8 @@ spec:
             - containerPort: 12798
             - containerPort: 12788
           volumeMounts:
-            - mountPath: {{ .Values.cardanoNode.homeDir | quote }}
-              name: relay-pvc
+            - name: relay-pvc
+              mountPath: {{ .Values.cardanoNode.homeDir | quote }}
           resources:
             requests:
               memory: {{ .Values.cardanoNode.memoryRequest | quote }}
