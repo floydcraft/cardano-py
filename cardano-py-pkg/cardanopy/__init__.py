@@ -6,7 +6,7 @@ import click
 
 from .run_cmd import run_cmd
 from .create_cmd import create_cmd
-from .cli_cmd import cli_cmd
+from .node import node_cmd
 from .docker_cmd import docker_cmd
 from .k8s_cmd import k8s_cmd
 from .generate_cmd import generate_cmd
@@ -23,7 +23,7 @@ def main(ctx):
 # export
 main.add_command(run_cmd)
 main.add_command(create_cmd)
-main.add_command(cli_cmd)
+main.add_command(node_cmd)
 main.add_command(docker_cmd)
 main.add_command(k8s_cmd)
 main.add_command(generate_cmd)

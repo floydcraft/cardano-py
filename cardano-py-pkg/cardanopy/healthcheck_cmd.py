@@ -1,7 +1,6 @@
 import click
 import time
-import subprocess
-from .core.cardano_node_helpers import CardanoNodeHelpers
+from .node.query import query_tip
 from .core.cardanopy_config import CardanoPyConfig
 
 
@@ -20,22 +19,15 @@ def healthcheck_cmd(ctx, dry_run, subs, timeout, target_dir):
         cardanopy_config = CardanoPyConfig()
         cardanopy_config.load(target_config_file, subs)
 
-        query_tip_cmd = ["cardano-cli", "query", "tip"] + CardanoNodeHelpers.get_cli_network_args()
-        if dry_run:
-            print(" ".join(query_tip_cmd))
-        else:
-            result = subprocess.run(query_tip_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
-            if len(result) > 0 and "blockNo" in result:
-                return 0
+        tip = query_tip(dry_run)
+        if len(tip) > 0 and "blockNo" in tip:
+            return 0
 
         time.sleep(timeout)
 
-        if dry_run:
-            print(" ".join(query_tip_cmd))
-        else:
-            result = subprocess.run(query_tip_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
-            if len(result) > 0 and "blockNo" in result:
-                return 0
+        tip = query_tip(dry_run)
+        if len(tip) > 0 and "blockNo" in tip:
+            return 0
 
     except Exception as ex:
         ctx.fail(f"healthcheck_cmd(dry_run={dry_run}, timeout={timeout}, target_dir='{target_dir}') failed: {type(ex).__name__} {ex.args}")
