@@ -17,7 +17,7 @@ spec:
         app: relay-statefulset
     spec:
       nodeSelector:
-        pool: n2-pool
+        pool: e2-pool
       containers:
         - name: relay-container
           image: {{ .Values.cardanoNode.image | quote }}

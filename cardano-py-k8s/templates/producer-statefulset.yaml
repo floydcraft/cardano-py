@@ -17,7 +17,7 @@ spec:
         app: producer-statefulset
     spec:
       nodeSelector:
-        pool: n2-pool
+        pool: e2-pool
       volumes:
         - name: block-producer-credentials
           secret:
