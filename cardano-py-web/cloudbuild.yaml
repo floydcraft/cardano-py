@@ -1,6 +1,6 @@
 # https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/pypi-tools/examples/cleartext-cloudbuild.yaml
 substitutions: # default values
-  _CONTAINER: "cardano-py-web-backend"
+  _CONTAINER: "cardano-py-web"
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
