@@ -10,10 +10,10 @@ var app = express();
 app.get('/', function (req, res) {
     const queryObject = url.parse(req.url, true).query;
     console.log(JSON.stringify(queryObject, null, '\t'));
-    res.sendFile("index.html", {root: './dist/cardano-py-web'});
+    res.sendFile("index.html", {root: '../frontend/public'});
 });
 
-app.use(express.static('./dist/cardano-py-web'));
+app.use(express.static('../frontend/public'));
 
 app.get('/api/healthcheck', function (req, res) {
     let data = {
