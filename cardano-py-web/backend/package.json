@@ -1,6 +1,6 @@
 {
   "name": "cardano-py-web-backend",
-  "version": "0.1.7-dev26",
+  "version": "0.1.7-dev27",
   "description": "pip3 install --upgrade cardanopy # Cardano python3 CLI -> profit!",
   "main": "src/index.js",
   "repository": "https://github.com/floydcraft/cardano-py",
