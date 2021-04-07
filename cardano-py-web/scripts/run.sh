@@ -3,7 +3,7 @@
 #set -u
 #set -o pipefail
 
-IMAGE=cardano-py-web-backend
+IMAGE=cardano-py-web
 
 if [[ "$1" == "pull" ]]; then
   docker pull floydcraft/$IMAGE:latest
