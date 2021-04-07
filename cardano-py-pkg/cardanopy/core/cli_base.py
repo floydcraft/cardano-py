@@ -6,12 +6,23 @@ from .cardanopy_error import CardanoPyError
 class CliResult(NamedTuple):
     stdout: bytes
     stderr: bytes
+    encoding: str = "utf-8"
+
+    def get_stdout_str(self):
+        return self.stdout.decode(self.encoding) if self.stdout else None
+
+    stdout_str = property(get_stdout_str)
+
+    def get_stderr_str(self):
+        return self.stderr.decode(self.encoding) if self.stdout else None
+
+    stderr_str = property(get_stderr_str)
 
 
 class CliBase(NamedTuple):
 
     @staticmethod
-    def execute(cmd: list, dry_run: bool = False):
+    def execute(cmd: list, dry_run: bool = False, encoding: str = "utf-8"):
         try:
             if dry_run:
                 print(" ".join(cmd))
@@ -27,5 +38,5 @@ class CliBase(NamedTuple):
         except Exception as ex:
             raise CardanoPyError(f"{' '.join(cmd)} failed: {type(ex).__name__} {ex.args}", 1)
 
-        return CliResult(stdout or b"", stderr or b"")
+        return CliResult(stdout=stdout or b"", stderr=stderr or b"", encoding=encoding)
 

@@ -21,15 +21,15 @@ def tip_cmd(ctx, dry_run):
         return cpe.return_code
 
 
-def query_tip(dry_run):
+def query_tip(dry_run) -> str:
     """Get the node's current tip (slot no, hash, block no)."""
     result = CardanoCli.execute(cmd=["cardano-cli", "query", "tip"], dry_run=dry_run, include_network=True)
-    if result.stderr:
-        raise CardanoPyError(result.stderr.decode())
-    elif not result.stdout:
+    if result.stderr_str:
+        raise CardanoPyError(result.stderr_str)
+    elif not result.stdout_str:
         raise CardanoPyError("null result for query tip")
     else:
-        return result.stdout.decode()
+        return result.stdout_str
 
 
 @query_cmd.command("utxo")
