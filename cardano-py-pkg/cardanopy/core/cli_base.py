@@ -26,17 +26,18 @@ class CliBase(NamedTuple):
         try:
             if dry_run:
                 print(" ".join(cmd))
+                stdout, stderr = b""
             else:
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = p.communicate()
 
                 if p.returncode != 0:
-                    raise CardanoPyError(f" {stderr.decode()}", p.returncode)
+                    raise CardanoPyError(f" {stderr.decode(encoding)}", p.returncode)
 
         except subprocess.CalledProcessError as cpe:
             raise CardanoPyError(f"{' '.join(cmd)} failed: {cpe.returncode} {cpe.output}", cpe.returncode)
         except Exception as ex:
             raise CardanoPyError(f"{' '.join(cmd)} failed: {type(ex).__name__} {ex.args}", 1)
 
-        return CliResult(stdout=stdout or b"", stderr=stderr or b"", encoding=encoding)
+        return CliResult(stdout=stdout, stderr=stderr, encoding=encoding)
 
