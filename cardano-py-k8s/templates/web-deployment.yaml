@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-backend-deployment
+  name: web-deployment
   labels:
-    app: web-backend-deployment
+    app: web-deployment
   namespace: {{ .Values.namespace | quote }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-backend-deployment
+      app: web-deployment
   template:
     metadata:
       labels:
-        app: web-backend-deployment
+        app: web-deployment
     spec:
       nodeSelector:
         pool: e2-pool
       containers:
-        - name: web-backend-container
+        - name: container
           image: {{ .Values.CardanoPyWebBackend.image | quote }}
           ports:
             - containerPort: 8080

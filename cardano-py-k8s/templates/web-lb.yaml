@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-backend-deployment-lb
+  name: web-lb
   namespace: {{ .Values.namespace | quote }}
   annotations:
   {{- if eq .Values.cardanoNode.network "testnet" }}
-    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-testnet-neg"}}}'
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-testnet-neg"}}}'
   {{- else }}
-    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-backend-deployment-mainnet-neg"}}}'
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "web-mainnet-neg"}}}'
   {{- end }}
 spec:
   type: ClusterIP
   selector:
-    app: web-backend-deployment
+    app: web-deployment
   ports:
     - port: 80
       protocol: TCP
