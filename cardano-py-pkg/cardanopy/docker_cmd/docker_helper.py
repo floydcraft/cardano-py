@@ -10,7 +10,7 @@ class DockerHelper(object):
         docker_cmd = ["docker",
                      "ps",
                      "-q",
-                     "-f", f"name={container_name}"]
+                     "-f", f"name=^/{container_name}$"]
         if dry_run:
             print(" ".join(docker_cmd))
 
@@ -25,7 +25,7 @@ class DockerHelper(object):
         docker_cmd = ["docker",
                      "ps",
                      "-aq",
-                     "-f", f"name={container_name}"]
+                     "-f", f"name=^/{container_name}$"]
         if dry_run:
             print(" ".join(docker_cmd))
 
