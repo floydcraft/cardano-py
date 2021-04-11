@@ -1,11 +1,11 @@
-ARG _CARDANO_NODE_VERSION=1.25.1
+ARG _CARDANO_NODE_VERSION=1.26.1
 FROM floydcraft/cardano-node-iohk-dev:$_CARDANO_NODE_VERSION as base
 
 FROM python:3.9-slim
 LABEL maintainer="chbfiv@floydcraft.com"
 
 ARG _VERSION=0.1.7-dev28
-ARG _CARDANO_NODE_VERSION=1.25.1
+ARG _CARDANO_NODE_VERSION=1.26.1
 ARG BUILD_ID=unknown
 ARG BRANCH_NAME=unknown
 ARG COMMIT_SHA=unknown
