@@ -1,6 +1,6 @@
 {
   "name": "cardano-py-web",
-  "version": "0.1.7-dev28",
+  "version": "0.1.7-dev29",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
