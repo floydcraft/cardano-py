@@ -6,6 +6,6 @@ class CardanoPyCommon(object):
 
     @staticmethod
     def get_version():
-        return "0.1.7-dev30"
+        return "0.1.7-dev31"
 
 
