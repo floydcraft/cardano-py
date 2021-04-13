@@ -15,7 +15,7 @@ def query_cmd(ctx):
 def tip_cmd(ctx, dry_run):
     """Get the node's current tip (slot no, hash, block no)."""
     try:
-        print(query_tip(dry_run))
+        print(query_tip(dry_run), end="")
     except CardanoPyError as cpe:
         ctx.fail(cpe.message)
         return cpe.return_code
