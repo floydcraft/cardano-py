@@ -4,7 +4,7 @@
 #set -o pipefail
 
 IMAGE=cardano-py-slim
-IMAGE_TAG=0.1.7-dev31
+IMAGE_TAG=0.1.7-dev32
 
 if [[ "$1" == "pull" ]]; then
   docker pull "floydcraft/$IMAGE:$IMAGE_TAG"
