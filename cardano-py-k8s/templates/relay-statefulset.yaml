@@ -35,7 +35,7 @@ spec:
                          "--timeout",
                          "5",
                          {{ .Values.cardanoNode.appDir | quote }}]
-            initialDelaySeconds: 60
+            initialDelaySeconds: 1000
             timeoutSeconds: 10
             periodSeconds: 60
           env:
