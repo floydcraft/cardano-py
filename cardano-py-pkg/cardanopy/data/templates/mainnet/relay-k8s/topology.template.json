@@ -8,7 +8,7 @@
         {
             "addr": "$_RELAY_ADDR",
             "port": 3001,
-            "valency": 2
+            "valency": 1
         },
         {
             "addr": "relays-new.cardano-mainnet.iohk.io",
