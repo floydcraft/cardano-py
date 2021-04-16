@@ -26,7 +26,7 @@
 > - Lack documentation
 > - Differ greatly between iterations
 > - Disorient, overload and inspire
-~~~~~~~~
+
 # Overview
 > NOTE: Please visit the Cardano Idealscale link and provide this project Kudos and/or provide feedback!
 
