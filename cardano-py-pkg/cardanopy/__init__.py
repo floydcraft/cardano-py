@@ -1,4 +1,4 @@
-__version__ = "0.1.7"
+__version__ = "0.1.8-dev1"
 __license__ = "Apache-2.0 License"
 __title__ = "cardanopy"
 
