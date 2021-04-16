@@ -1,5 +1,6 @@
 # CLI for cardano-py
 > NOTE: requires python3 to be installed to use.
+
 > NOTE: Docker is OPTIONAL if you want to run locally. You can run the docker container on remote machines as well.
 
 ## CLI
@@ -52,11 +53,8 @@
 
 
 - `cardanopy k8s *` - In Active Development for 0.2.0
-    - `-t, --template [basic|bp-k8s|relay-k8s]` - template type to create *[required]*
-    - `-n, --network [testnet|mainnet]` - network type to create
     - `-d, --dry-run` - print the mutable commands
     - `-q, --quite` - do not report warnings
-    - `--help` - show help message
     
 
 - `cardanopy cli *` - Obsolete in 0.1.7! Moved to `cardanopy node *`
