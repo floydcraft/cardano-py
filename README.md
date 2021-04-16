@@ -34,7 +34,7 @@
 
 Checkout the [Project Catalyst - Fund 4 Proposal](https://cardano.ideascale.com/a/dtd/CardanoPy-5-min-extensible-node/341045-48088) and [Project Catalyst - Fund 5 Proposal](https://cardano.ideascale.com/a/dtd/CardanoPy-python-dApp-passive-node/351323-48088). 
 
-Also see [ROADMAP.md](ROADMAP.md#100) and [CHANGELOG.md](CHANGELOG.md#017).
+Also see  [CLI.md](CLI.md), [ROADMAP.md](ROADMAP.md), and [CHANGELOG.md](CHANGELOG.md).
 
 # Problem
 Cardano nodes are complex and really should be SIMPLE to bootstrap / extend with your own features / projects using docker / python.
