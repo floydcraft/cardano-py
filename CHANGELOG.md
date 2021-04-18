@@ -2,10 +2,11 @@
 > See [README.md](README.md#how-to-upgrade) for how to upgrade
 
 # Table of Contents
+- [0.1.9](#019)
 - [0.1.7](#017)
 - [0.1.6](#016)
 
-## 0.1.8
+## 0.1.9
 > 4/18/2021
 This point release is a recommended upgrade for all stake pool operators. It is not required for relays or other passive nodes. It ensures that block producing nodes do not unnecessarily re-evaluate the stake distribution at the epoch boundary.
 
