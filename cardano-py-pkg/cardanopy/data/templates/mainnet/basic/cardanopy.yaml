@@ -2,7 +2,7 @@ apiVersion: "cardanopy.node.config.v1"
 substitutions:
   _NAME: "basic"
   _IMAGE: "floydcraft/cardano-py-slim"
-  _TAG: "0.1.9-dev3"
+  _TAG: "0.1.9"
   _APP_DIR: "/home/ada/app"
   _MOUNT: True
 network: "mainnet"
