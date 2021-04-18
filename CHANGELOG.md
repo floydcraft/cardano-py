@@ -5,13 +5,20 @@
 - [0.1.7](#017)
 - [0.1.6](#016)
 
+## 0.1.8
+> 4/18/2021
+This point release is a recommended upgrade for all stake pool operators. It is not required for relays or other passive nodes. It ensures that block producing nodes do not unnecessarily re-evaluate the stake distribution at the epoch boundary.
+
+### Cardano Node
+- Upgrade to [1.26.2](https://github.com/input-output-hk/cardano-node/releases/tag/1.26.2)
+
 ## 0.1.7 
 > 4/15/2021
 
 MVP kubernetes implementation. Still needs to be added to the CLI (0.2.0), but is being used in production for APy🥧 Cardano Node.
 
 ### Cardano Node
-- Upgrade to 1.26.1
+- Upgrade to [1.26.1](https://github.com/input-output-hk/cardano-node/releases/tag/1.26.1)
 
 ### CLI
 - `create --quite` - new flag to suppress error prompt when the director exists
