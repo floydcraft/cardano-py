@@ -10,16 +10,16 @@ Prioritized, but open to feedback!
 - [0.6.0](#060)
 - [0.7.0](#070)
 - [1.0.0](#100)
-    
+
 ## 0.2.0
-> March through April - Kubernetes capabilities
+> ALMOST DONE - Kubernetes capabilities
 
 - `cardanopy k8s apply/*` - full node pool capabilities for both local kubernetes and GCP / GKE kubernetes.
 - [Cardano Node: Kubernetes Example](https://github.com/floydcraft/cardano-py-examples)
 - YouTube Overview + Examples
 
 ## 0.3.0
-> April through May - Cardano CLI capabilities
+> 2 Months - Cardano CLI capabilities
 
 - `cardanopy cli *` - more core cli capabilities
 - `cardanopy cli native-tokens`
@@ -27,7 +27,7 @@ Prioritized, but open to feedback!
 - YouTube: Docker compose - Overview + Examples
 
 ## 0.4.0
-> April - docker capabilities
+> 1 Month - docker capabilities
 
 - `cardanopy docker run/stop` - add additional support for python docker (instead of requiring external dependency of docker)
 - `cardanopy docker-compose up/*`
@@ -35,28 +35,28 @@ Prioritized, but open to feedback!
 - YouTube: Docker compose - Overview + Examples
 
 ## 0.5.0
-> May - Wallet capabilities
+> 1 Month - Wallet capabilities
 
 - `cardanopy wallet *`
 - [Cardano Node: Wallet Example](https://github.com/floydcraft/cardano-py-examples)
 - YouTube: Wallet - Overview + Examples
 
 ## 0.6.0
-> June - db-sync capabilities (postgres)
+> 1 Month - db-sync capabilities (postgres)
 
 - `cardanopy db-sync *`
 - [Cardano Node: Postgres Example](https://github.com/floydcraft/cardano-py-examples)
 - YouTube: Postgres - Overview + Examples
 
 ## 0.7.0
-> July through August - data exports to json delimited, csv, GCP PubSub, and BigQuery.
+> 2 Months - data exports to json delimited, csv, GCP PubSub, and BigQuery.
 
 - `cardanopy data *` - export capabilities like db-sync. except to useful formats for python data engineering, data science, and data exploration/insights. Includes JSON delimited, CSV, PubSub, and BigQuery.
 - [Cardano Node: Json / BigQuery Example](https://github.com/floydcraft/cardano-py-examples)
 - YouTube: Json / BigQuery - Overview + Examples
 
 ## 1.0.0
-> September - Official Release
+> 1 Month - Official Release
 
 - bug fixes and improvements to all features 0.1.x - 0.7.x and documentation
 - YouTube Official Release
