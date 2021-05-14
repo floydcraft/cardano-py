@@ -18,7 +18,7 @@ LABEL maintainer="chbfiv@floydcraft.com"
 USER root
 WORKDIR /home/ada
 
-COPY --from=base /home/ada/frontend/public frontend
+COPY --from=base /home/ada/frontend/dist frontend
 COPY --from=base /home/ada/backend backend
 COPY --from=base /home/ada/backend/package.json /home/ada/backend/package-lock.json backend
 
