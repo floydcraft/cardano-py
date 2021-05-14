@@ -10,10 +10,10 @@ var app = express();
 app.get('/', function (req, res) {
     const queryObject = url.parse(req.url, true).query;
     console.log(JSON.stringify(queryObject, null, '\t'));
-    res.sendFile("index.html", {root: '../frontend/public'});
+    res.sendFile("index.html", {root: '../frontend/dist'});
 });
 
-app.use(express.static('../frontend/public'));
+app.use(express.static('../frontend/dist'));
 
 app.get('/api/healthcheck', function (req, res) {
     let data = {
