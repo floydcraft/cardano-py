@@ -2,9 +2,16 @@
 > See [README.md](README.md#how-to-upgrade) for how to upgrade
 
 # Table of Contents
+- [0.1.10](#0110)
 - [0.1.9](#019)
 - [0.1.7](#017)
 - [0.1.6](#016)
+
+## 0.1.10
+> 5/13/2021
+
+### Cardano Node
+- Upgrade to [1.27.0](https://github.com/input-output-hk/cardano-node/releases/tag/1.27.0)
 
 ## 0.1.9
 > 4/18/2021

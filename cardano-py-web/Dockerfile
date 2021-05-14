@@ -1,20 +1,26 @@
 FROM node:12.14.0 as base
 
-WORKDIR /home/ada/frontend
+WORKDIR /home/ada
+COPY frontend frontend
+COPY backend backend
 
-COPY frontend .
-
-RUN npm install -g @angular/cli \
+RUN cd /home/ada/frontend \
+    && npm install -g @angular/cli \
     && npm install \
-    && ng build --prod
+    && ng build --prod \
+    && cd /home/ada/backend \
+    && npm build
 
 FROM node:14.16.0-alpine
 LABEL maintainer="chbfiv@floydcraft.com"
 
 USER root
-WORKDIR /home/ada/frontend
+WORKDIR /home/ada
 
-COPY --from=base /home/ada/frontend/public public
+COPY --from=base /home/ada/frontend/dist frontend
+COPY --from=base /home/ada/backend/dist backend
+COPY --from=base /home/ada/backend/package.json /home/ada/backend/package.json.lock backend
+
 
 WORKDIR /home/ada/backend
 COPY backend .
