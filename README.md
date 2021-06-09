@@ -1,4 +1,8 @@
-[![cardano-py Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/FyDz4Xrt4x)
+# ORPHANED PROEJCT - DO NOT NOT USE
+> though maybe an ok reference
+
+I'm officially stopping my work on this project. It was a lot of fun, but for quite a number of reasons (some personal, others learned) I'll be moving on to work on some new projects (dApps). Thank you to everyone who provided feedback and supported me along the way!
+
 
 [![dockeri.co](https://dockeri.co/image/floydcraft/cardano-py-slim)](https://hub.docker.com/r/floydcraft/cardano-py-slim)
 
